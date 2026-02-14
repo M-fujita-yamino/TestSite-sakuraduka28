@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>桜塚高校第28期同期会 編集確認ページ</title>
+    <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { opacity: 0; transition: opacity 0.5s; }
@@ -54,40 +54,20 @@
 
         @media (max-width: 800px) { .side-img, .bg-credit { display: none; } }
 
-        /* 🚧 工事中風ヘッダースタイル */
         header { 
             text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px;
-            background: repeating-linear-gradient(
-                45deg,
-                #ffd700,
-                #ffd700 30px,
-                #333 30px,
-                #333 60px
-            );
-            border-bottom: 5px solid #000;
-            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+            background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .header-title { 
-            color: #fff; 
-            font-size: 2.1em; 
-            margin: 0; 
-            font-weight: 700; 
-            letter-spacing: 0.05em;
-            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 5px 20px;
-            border-radius: 10px;
-        }
+        .header-title { color: #ffffff; font-size: 2.4em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
 
         .music-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .music-btn {
-            background: rgba(0, 0, 0, 0.7); border: 2px solid #ffd700; color: #ffd700;
+            background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff;
             padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700;
             transition: all 0.3s; display: flex; align-items: center; gap: 5px;
         }
-        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; color: #fff; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
+        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
 
         .info-box {
             margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
@@ -194,7 +174,7 @@
 
 <div class="container">
     <header id="page-top">
-        <h1 class="header-title">桜塚高校第28期同期会 編集確認ページ</h1>
+        <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
         <div class="music-controls">
             <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
             <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
@@ -310,7 +290,7 @@
                 {no:"08", title:"2年クラス歓談", time:"13:33〜", url:"https://youtu.be/n2e0zfEq1BI"},
                 {no:"09", title:"2年クラス歓談", time:"13:35〜", url:"https://youtu.be/dHItCfY9Hxw"},
                 {no:"10", title:"3年クラス歓談・エンタメ", time:"14:22〜", url:"https://youtu.be/egTtcC_cE8w"},
-                {no:"11", title:"エンタメフォー研", time:"14:30〜", url:"https://youtu.be/BY6I7QpYyMY"},
+                {no:"11", title:"エンタメフォー研", time:"14:30〜", url:"https://youtu.be/BY6I7QyYyMY"},
                 {no:"12", title:"エンタメ木田君・金ヶ江君", time:"14:38〜", url:"https://youtu.be/HiBOH3Cg3CQ"},
                 {no:"13", title:"エンタメ金ヶ江君", time:"14:42〜", url:"https://youtu.be/fsGqOCG7vGM"},
                 {no:"14", title:"伊丹君挨拶_閉会", time:"15:12〜", url:"https://youtu.be/RS3-GnjuuPw"},
@@ -493,7 +473,8 @@
                 if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
                 buttonsHtml += '</div>';
                 const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
-                const mailLink = `mailto:?subject=${subject}`;
+                const body = encodeURIComponent(`管理者様\n\n訂正をお願いします。対象：${m.name}`);
+                const mailLink = `mailto:?subject=${subject}&body=${body}`;
                 const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
                 div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>${fixBtn}</div>${buttonsHtml}`;
                 searchResult.appendChild(div);
