@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>桜塚高校第28期同期会ページ</title>
+    <title>桜塚高校第28期同期会 編集確認ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { opacity: 0; transition: opacity 0.5s; }
@@ -54,20 +54,55 @@
 
         @media (max-width: 800px) { .side-img, .bg-credit { display: none; } }
 
+        /* 🚧 工事中風ヘッダースタイル */
         header { 
             text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px;
-            background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffd700,
+                #ffd700 30px,
+                #333 30px,
+                #333 60px
+            );
+            border-bottom: 5px solid #000;
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .header-title { color: #ffffff; font-size: 2.4em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
+        .header-title { 
+            color: #fff; 
+            font-size: 2.1em; 
+            margin: 0; 
+            font-weight: 700; 
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 20px;
+            border-radius: 10px;
+        }
 
         .music-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .music-btn {
-            background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff;
+            background: rgba(0, 0, 0, 0.7); border: 2px solid #ffd700; color: #ffd700;
             padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700;
             transition: all 0.3s; display: flex; align-items: center; gap: 5px;
         }
-        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
+        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; color: #fff; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
+
+        .info-box {
+            margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
+            background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
+            position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.2);
+        }
+        .info-box::before {
+            content: "50th Anniversary"; position: absolute; top: 18px; right: -38px;
+            background: #ff8da1; color: #fff; padding: 5px 45px;
+            transform: rotate(35deg); font-weight: bold; font-size: 11px; letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
+        .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
+        .info-table th { width: 75px; color: #d65f82; font-weight: bold; vertical-align: top; text-align: left; padding: 10px 0; border-bottom: 1px solid #fff0f5; }
+        .info-table td { padding: 10px 0; color: #444; border-bottom: 1px solid #fff0f5; }
 
         .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
         .contents-index h2 { font-size: 18px; color: #d65f82; border-bottom: 2px solid #ffeef5; margin-top: 0; }
@@ -93,7 +128,6 @@
         .back-to-index:hover { background-color: #ffb7c5; color: #fff; }
         .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; }
 
-        /* 検索ボックススタイル */
         .search-area {
             background: #fff; padding: 25px; border-radius: 20px;
             border: 2px solid #ffb7c5; margin-bottom: 30px;
@@ -108,43 +142,20 @@
         
         .search-result { margin-top: 20px; }
         
-        /* ▼▼▼ コンパクト表示のためのスタイル変更 ▼▼▼ */
         .result-item {
-            background: #fdfdfd; 
-            padding: 8px 12px; /* 余白を削減 */
-            margin-bottom: 6px; /* 下のマージンを削減 */
-            border-radius: 8px; /* 角丸を少し小さく */
-            border: 1px solid #eee; 
-            border-left: 4px solid #87ceeb; /* 左の線も少し細く */
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-            display: flex; /* 横並びにする */
-            align-items: center; /* 上下中央揃え */
-            justify-content: space-between; /* 両端揃え */
-            flex-wrap: wrap; /* スマホで狭いときは折り返し */
-            gap: 5px;
+            background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #eee; 
+            border-left: 4px solid #87ceeb; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
         }
-        .result-name { 
-            font-weight: 700; 
-            font-size: 1.1em; /* 少し文字サイズ調整 */
-            color: #333; 
-            margin: 0; /* マージン削除 */
-            line-height: 1.2;
-        }
+        .result-name { font-weight: 700; font-size: 1.1em; color: #333; margin: 0; line-height: 1.2; }
         
-        /* クラスボタン */
         .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
         .class-btn {
-            background: #87ceeb; color: white; text-decoration: none;
-            padding: 3px 10px; /* ボタンもコンパクトに */
-            border-radius: 15px; 
-            font-size: 11px; /* 文字サイズ小さく */
-            font-weight: 700;
-            display: inline-flex; align-items: center; gap: 3px;
-            transition: all 0.2s;
+            background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; 
+            font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; transition: all 0.2s;
         }
         .class-btn:hover { background: #5dafcf; transform: translateY(-1px); }
         .class-btn::before { content: "📸"; font-size: 1.0em; }
-        /* ▲▲▲ 変更ここまで ▲▲▲ */
 
         .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
         .video-item {
@@ -183,12 +194,60 @@
 
 <div class="container">
     <header id="page-top">
-        <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
+        <h1 class="header-title">桜塚高校第28期同期会 編集確認ページ</h1>
         <div class="music-controls">
             <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
             <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
         </div>
     </header>
+
+    <section class="info-box">
+        <h2 style="margin-bottom: 20px;">🌸 桜塚高校 28 期卒業50周年記念同期会 お知らせ</h2>
+        <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555; line-height: 1.8;">
+            みなさまいかがお過ごしですか。<br>
+            早速ですが下記のように同期会を企画しています。ご参加お待ちしています！
+        </p>
+        
+        <table class="info-table">
+            <tr>
+                <th>日時</th>
+                <td><strong>2026年5月24日(日)</strong><br>12:00 ～ 14:30（受付開始 11:30）</td>
+            </tr>
+            <tr>
+                <th>場所</th>
+                <td>
+                    <strong>リストランテ翔 21</strong><br>
+                    大阪梅田 OITタワー 21 階<br>
+                    <span style="font-size: 0.85em; color: #777;">(大阪市北区茶屋町1-45 TEL: 06-6147-6269)</span>
+                </td>
+            </tr>
+            <tr>
+                <th>費用</th>
+                <td>8,000円 (当日払い) [cite: 8]</td>
+            </tr>
+            <tr>
+                <th>内容</th>
+                [cite_start]<td>飲み放題・バイキング形式 [cite: 9]</td>
+            </tr>
+        </table>
+
+        <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+            [cite_start]<p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.1em;">📮 4月20日までに返信用はがきをご投函下さい [cite: 10]</p>
+            <p style="font-size: 0.9em; margin-top: 15px; line-height: 1.7; color: #666;">
+                [cite_start]当日は幹事担当が楽しい会にすべく鋭意努力し、盛り上げたいと思います！ [cite: 11]<br>
+                [cite_start]お問い合わせ：<a href="mailto:antoinetterose1789@gmail.com" style="color: #d65f82; font-weight: bold; text-decoration: underline;">antoinetterose1789@gmail.com</a> [cite: 13]
+            </p>
+            <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 15px 0;">
+            <p style="font-size: 0.95em; color: #d65f82; font-weight: 700; margin: 0;">
+                📸 また当日の楽しい写真やビデオは本HPにて順次公開いたします。<br>
+                思い出を鮮やかなデジタルアーカイブで共有しましょう。<br><br>
+                皆様でまたお楽しみください！
+            </p>
+            <p style="text-align: right; margin: 20px 0 0 0; font-size: 12px; color: #bbb; font-style: italic;">
+                Writer: 同窓会幹事 さやか
+            </p>
+        </div>
+    </section>
 
     <nav id="top-index" class="contents-index">
         <h2>目次一覧</h2>
@@ -382,10 +441,7 @@
         else { other.pause(); otherBtn.classList.remove('playing'); target.play().catch(e => console.log(e)); btns[type].classList.add('playing'); }
     }
 
-    // ==========================================
-    // 🔍 検索機能（クラス選択 + 名前検索）
-    // ==========================================
-    
+    // 🔍 検索機能
     const classSelect = document.getElementById('classSelect');
     const searchInput = document.getElementById('searchInput');
     const searchResult = document.getElementById('searchResult');
@@ -402,7 +458,7 @@
         }
 
         if (typeof memberData === 'undefined') {
-            searchResult.innerHTML = '<div style="color:red; padding:10px;">データ読込エラー<br>member_data.jsが見つかりません</div>';
+            searchResult.innerHTML = '<div style="color:red; padding:10px;">データ読込エラー</div>';
             return;
         }
 
@@ -411,14 +467,12 @@
             if (selectedClass) {
                 classMatch = (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass);
             }
-
             let nameMatch = true;
             if (query) {
                 const cleanName = m.name.replace(/\s+/g, '');
                 const cleanKana = m.kana.replace(/\s+/g, '');
                 nameMatch = cleanName.includes(query) || cleanKana.includes(query);
             }
-
             return classMatch && nameMatch;
         });
 
@@ -433,33 +487,21 @@
             filtered.forEach(m => {
                 const div = document.createElement('div');
                 div.className = 'result-item';
-                
                 let buttonsHtml = '<div class="class-btn-container">';
                 if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
                 if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
                 if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
                 buttonsHtml += '</div>';
-
                 const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
-                const body = encodeURIComponent(`管理者様\n\n以下のデータの訂正をお願いします。\n\n対象者：${m.name} (${m.kana})`);
-                const mailLink = `mailto:?subject=${subject}&body=${body}`;
-                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline; white-space:nowrap;">⚠️ 訂正依頼</a>`;
-
-                div.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>
-                        ${fixBtn}
-                    </div>
-                    ${buttonsHtml}
-                `;
+                const mailLink = `mailto:?subject=${subject}`;
+                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
+                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>${fixBtn}</div>${buttonsHtml}`;
                 searchResult.appendChild(div);
             });
         }
     }
-
     classSelect.addEventListener('change', performSearch);
     searchInput.addEventListener('input', performSearch);
-
     document.addEventListener('DOMContentLoaded', () => {
         document.body.style.opacity = "1";
         window.scrollTo(0, 0);
@@ -467,4 +509,3 @@
 </script>
 </body>
 </html>
-
