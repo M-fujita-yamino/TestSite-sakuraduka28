@@ -6,7 +6,8 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { opacity: 0; transition: opacity 0.5s; }
+        /* 強力な開始位置制御：読み込み完了まで非表示にする */
+        body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
 
         body {
@@ -69,6 +70,7 @@
         }
         .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
 
+        /* 🌸 お知らせセクションのスタイル */
         .info-box {
             margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
@@ -107,35 +109,6 @@
         .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
         .back-to-index:hover { background-color: #ffb7c5; color: #fff; }
         .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; }
-
-        .search-area {
-            background: #fff; padding: 25px; border-radius: 20px;
-            border: 2px solid #ffb7c5; margin-bottom: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .search-box {
-            padding: 12px 15px; border: 1px solid #ccc;
-            border-radius: 30px; font-size: 16px; box-sizing: border-box;
-            background-color: #fffafa; transition: border-color 0.3s;
-        }
-        .search-box:focus { outline: none; border-color: #ff8da1; background-color: #fff; }
-        
-        .search-result { margin-top: 20px; }
-        
-        .result-item {
-            background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #eee; 
-            border-left: 4px solid #87ceeb; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
-        }
-        .result-name { font-weight: 700; font-size: 1.1em; color: #333; margin: 0; line-height: 1.2; }
-        
-        .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
-        .class-btn {
-            background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; 
-            font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; transition: all 0.2s;
-        }
-        .class-btn:hover { background: #5dafcf; transform: translateY(-1px); }
-        .class-btn::before { content: "📸"; font-size: 1.0em; }
 
         .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
         .video-item {
@@ -258,6 +231,21 @@
         </li>
     </ul>
 
+    <div id="section_vol8_360" class="section-header">
+        <div class="oval-wrapper">
+            <div class="oval-title">第8回 同期会　2023年 9月 23日（土）<br>於 梅田 リストランテ・クロノス 360°動画 アーカイブ</div>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        </div>
+        <a href="#howto" class="howto-link-btn">▼ 360°動画の楽しみ方はこちら</a>
+    </div>
+
+    <div id="howto" class="howto-box">
+        <h2>📱 360°動画の楽しみ方</h2>
+        <div class="howto-step"><div class="step-num">1</div><div><strong>「再生」ボタンを押す</strong><br>YouTubeアプリが起動します。</div></div>
+        <div class="howto-step"><div class="step-num">2</div><div><strong>スマホを動かしてみる</strong><br>スマホの動きに合わせて映像のアングルが変わります。</div></div>
+        <div class="howto-step"><div class="step-num">3</div><div><strong>画質を上げる</strong><br>⚙️マークから「画質」→「高い画質」を選んでください。</div></div>
+    </div>
+
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
 </div>
 
@@ -290,10 +278,26 @@
         else { other.pause(); otherBtn.classList.remove('playing'); target.play().catch(e => console.log(e)); btns[type].classList.add('playing'); }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.body.style.opacity = "1";
+    // 強力な開始位置制御
+    function resetToTop() {
         window.scrollTo(0, 0);
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        resetToTop();
+        // 50ミリ秒後にもう一度強制スクロール
+        setTimeout(() => {
+            resetToTop();
+            document.body.style.opacity = "1";
+        }, 50);
     });
+
+    window.onbeforeunload = function() {
+        resetToTop();
+    };
 </script>
 </body>
 </html>
