@@ -2,126 +2,133 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>【逐次更新】名簿メンテナンスツール</title>
+    <title>名簿管理：逐次更新エディタ</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; padding: 20px; }
+        body { font-family: sans-serif; margin: 0; background: #f0f2f5; padding: 20px; }
         .header { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .status { font-size: 12px; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-left: 15px; }
+        .status-bar { font-size: 12px; padding: 5px 15px; border-radius: 4px; display: inline-block; margin-left: 10px; }
         .sync-ok { background: #e6ffed; color: #22863a; }
         .sync-loading { background: #fff8c5; color: #735c0f; }
         .btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; }
         .btn-add { background: #4285f4; }
-        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; table-layout: fixed; }
-        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; font-size: 12px; position: sticky; top: 120px; }
-        td { padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; cursor: pointer; font-size: 12px; position: sticky; top: 110px; }
+        th:hover { background: #eee; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
         .editable { background: #fffde7; cursor: text; }
         .editable:focus { background: #fff; outline: 2px solid #4285f4; }
-        .gender-tag { padding: 2px 6px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .gender-m { background: #e3f2fd; color: #1e88e5; }
-        .gender-f { background: #fce4ec; color: #d81b60; }
+        .gender-tag { padding: 2px 8px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .gender-男 { background: #e3f2fd; color: #1e88e5; }
+        .gender-女 { background: #fce4ec; color: #d81b60; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div style="display:flex; align-items:center; justify-content:space-between;">
-        <h2 style="margin:0; color:#1a73e8;">名簿メンテナンス（逐次更新版）</h2>
-        <div id="syncStatus" class="status sync-ok">スプレッドシートと同期中</div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="margin:0; color:#1a73e8;">🏓 同期会名簿マスター管理</h2>
+        <div id="status" class="status-bar sync-ok">スプレッドシートと同期済み</div>
     </div>
-    <div style="margin-top:15px;">
+    <div style="margin-top:15px; display:flex; gap:10px;">
         <button class="btn btn-add" onclick="addMember()">＋ 新規メンバー追加</button>
-        <input type="text" id="q" placeholder="名前で絞り込み..." style="padding:8px; width:200px; margin-left:10px;">
+        <input type="text" id="searchInput" placeholder="名前・フリガナで検索..." style="padding:10px; width:250px; border:1px solid #ddd; border-radius:4px;">
     </div>
 </div>
 
-<table id="tbl">
+<table id="mainTable">
     <thead>
         <tr>
-            <th style="width:40px;">No</th>
-            <th style="width:100px;">氏名</th>
-            <th style="width:120px;">フリガナ</th>
-            <th style="width:50px;">性別</th>
-            <th style="width:70px;">1年組</th>
-            <th style="width:70px;">2年組</th>
-            <th>1年写真URL</th>
-            <th>2年写真URL</th>
+            <th onclick="sortData('name')">氏名 ▲▼</th>
+            <th onclick="sortData('kana')">フリガナ ▲▼</th>
+            <th onclick="sortData('gender')">性別 ▲▼</th>
+            <th onclick="sortData('c1')">1年組 ▲▼</th>
+            <th onclick="sortData('c2')">2年組 ▲▼</th>
+            <th>操作</th>
         </tr>
     </thead>
-    <tbody id="out"></tbody>
+    <tbody id="tableBody"></tbody>
 </table>
 
 <script>
-    // 🌸 公開用CSVのURL
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    
-    // 🌸 ステップ1で取得したURLをここに貼ってください
-    const GAS_URL = "デプロイを更新しました。
-バージョン 2（2026/02/15 21:58）
-デプロイ ID
-AKfycbx0BmJaG7FQ1W007d54_gIOOdiASmrD0_zBAU9FpEZvZW3pRjpgzWp936FcbpIb9bjJMg
-ウェブアプリ
-URL
-https://script.google.com/macros/s/AKfycbx0BmJaG7FQ1W007d54_gIOOdiASmrD0_zBAU9FpEZvZW3pRjpgzWp936FcbpIb9bjJMg/exec";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwuLHUojj-LibhzLrRap-JO9AES2xnQ8ufQAUtzVyFkwCeRYa-Z7uveX_BwOEV-fVFYig/exec";
 
-    let data = [];
+    let memberData = [];
+    let sortKey = 'kana';
+    let sortAsc = true;
 
     async function load() {
-        const res = await fetch(SHEET_URL);
+        const res = await fetch(CSV_URL);
         const txt = await res.text();
-        const rows = txt.replace(/\r/g, '').split('\n').filter(r => r.trim() !== "");
-        data = rows.slice(1).map(row => {
-            const c = row.split(',');
+        const rows = txt.split(/\r?\n/).slice(1);
+        memberData = rows.map(r => {
+            const c = r.split(',');
             return { name: c[0]||"", kana: c[1]||"", c1: c[2]||"", l1: c[3]||"", c2: c[4]||"", l2: c[5]||"", gen: c[8]||"男" };
         }).filter(m => m.name);
         render();
     }
 
     function render() {
-        const out = document.getElementById('out');
-        const q = document.getElementById('q').value;
-        out.innerHTML = "";
-        data.filter(m => m.name.includes(q)).forEach((m, i) => {
+        const body = document.getElementById('tableBody');
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        body.innerHTML = "";
+
+        const filtered = memberData.filter(m => m.name.includes(q) || m.kana.includes(q));
+
+        filtered.forEach((m, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td style="text-align:center; color:#999;">${i+1}</td>
                 <td>${m.name}</td>
                 <td class="editable" contenteditable="true" onblur="sync('${m.name}','フリガナ',this.innerText)">${m.kana}</td>
-                <td style="text-align:center;"><span class="gender-tag ${m.gen==='女'?'gender-f':'gender-m'}" onclick="toggleG(this,'${m.name}')">${m.gen}</span></td>
+                <td><span class="gender-tag gender-${m.gen}" onclick="toggleG(this,'${m.name}')">${m.gen}</span></td>
                 <td class="editable" contenteditable="true" onblur="sync('${m.name}','1年組',this.innerText)">${m.c1}</td>
                 <td class="editable" contenteditable="true" onblur="sync('${m.name}','2年組',this.innerText)">${m.c2}</td>
-                <td class="editable" contenteditable="true" onblur="sync('${m.name}','1年写真URL',this.innerText)">${m.l1}</td>
-                <td class="editable" contenteditable="true" onblur="sync('${m.name}','2年写真URL',this.innerText)">${m.l2}</td>
+                <td><button onclick="deleteMember('${m.name}')" style="color:red; background:none; border:none; cursor:pointer;">削除</button></td>
             `;
-            out.appendChild(tr);
+            body.appendChild(tr);
         });
     }
 
     async function sync(name, col, val) {
-        const st = document.getElementById('syncStatus');
-        st.innerText = "スプレッドシートを更新中...";
-        st.className = "status sync-loading";
+        const st = document.getElementById('status');
+        st.innerText = "同期中...";
+        st.className = "status-bar sync-loading";
         try {
             await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ name: name, column: col, value: val }) });
             st.innerText = "同期完了（最新）";
-            st.className = "status sync-ok";
+            st.className = "status-bar sync-ok";
         } catch (e) { st.innerText = "同期エラー"; }
     }
 
     function toggleG(el, name) {
-        const newVal = el.innerText === '男' ? '女' : '男';
-        el.innerText = newVal;
-        el.className = `gender-tag ${newVal==='女'?'gender-f':'gender-m'}`;
-        sync(name, '性別', newVal);
+        const next = el.innerText === '男' ? '女' : '男';
+        el.innerText = next;
+        el.className = `gender-tag gender-${next}`;
+        sync(name, '性別', next);
     }
 
     function addMember() {
-        const n = prompt("追加する氏名を入力してください");
-        if(n) { data.unshift({name:n, kana:"", c1:"", l1:"", c2:"", l2:"", gen:"男"}); render(); sync(n, "名前", n); }
+        const n = prompt("名前を入力");
+        if(n) { memberData.unshift({name:n, kana:"", c1:"", l1:"", c2:"", l2:"", gen:"男"}); render(); sync(n, "名前", n); }
     }
 
-    document.getElementById('q').oninput = render;
+    async function deleteMember(name) {
+        if(confirm(name + "さんを削除しますか？")) {
+            await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
+            memberData = memberData.filter(m => m.name !== name);
+            render();
+        }
+    }
+
+    function sortData(key) {
+        sortAsc = (sortKey === key) ? !sortAsc : true;
+        sortKey = key;
+        memberData.sort((a, b) => (a[key] < b[key] ? -1 : 1) * (sortAsc ? 1 : -1));
+        render();
+    }
+
+    document.getElementById('searchInput').oninput = render;
     load();
 </script>
 </body>
 </html>
-
