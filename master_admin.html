@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>名簿マスター管理（逐次同期版）</title>
+    <title>名簿管理：逐次同期エディタ（クラス集中版）</title>
     <style>
         body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; padding: 10px; }
         .header { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
@@ -12,30 +12,28 @@
         .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; font-size: 13px; }
         .btn-add { background: #1a73e8; }
         
-        /* 検索・フィルタエリアの省スペース化 */
         .controls { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
         input[type="text"] { padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
         
         table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; table-layout: fixed; }
-        th { background: #f8f9fa; padding: 8px; text-align: left; border: 1px solid #dee2e6; cursor: pointer; font-size: 11px; position: sticky; top: 105px; white-space: nowrap; }
+        th { background: #f8f9fa; padding: 8px; text-align: left; border: 1px solid #dee2e6; cursor: pointer; font-size: 12px; position: sticky; top: 105px; }
         th:hover { background: #eee; }
-        td { padding: 5px 8px; border: 1px solid #eee; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        td { padding: 8px; border: 1px solid #eee; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
-        /* フィールドごとの幅指定 */
-        .col-no { width: 30px; text-align: center; color: #999; }
-        .col-name { width: 90px; font-weight: bold; }
-        .col-kana { width: 110px; }
-        .col-gen { width: 40px; text-align: center; }
-        .col-class { width: 55px; text-align: center; }
-        .col-url { width: auto; color: #888; font-size: 10px; }
-        .col-act { width: 50px; text-align: center; }
+        /* 列幅の最適化（URLを消した分、各項目を広く） */
+        .col-no { width: 40px; text-align: center; color: #999; }
+        .col-name { width: 120px; font-weight: bold; }
+        .col-kana { width: 150px; }
+        .col-gen { width: 60px; text-align: center; }
+        .col-class { width: 80px; text-align: center; }
+        .col-act { width: 60px; text-align: center; }
 
         .editable { background: #fffde7; cursor: text; transition: 0.2s; }
         .editable:focus { background: #fff; outline: 2px solid #1a73e8; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
-        .gender-tag { padding: 2px 5px; border-radius: 10px; font-size: 10px; font-weight: bold; cursor: pointer; user-select: none; }
+        .gender-tag { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; cursor: pointer; user-select: none; }
         .gender-男 { background: #e3f2fd; color: #1e88e5; }
         .gender-女 { background: #fce4ec; color: #d81b60; }
-        .del-link { color: #ea4335; text-decoration: none; font-size: 11px; cursor: pointer; }
+        .del-link { color: #ea4335; text-decoration: none; font-size: 12px; cursor: pointer; }
         .del-link:hover { text-decoration: underline; }
     </style>
 </head>
@@ -43,14 +41,14 @@
 
 <div class="header">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="margin:0; font-size:18px; color:#1a73e8;">🏓 逐次同期エディタ</h2>
+        <h2 style="margin:0; font-size:18px; color:#1a73e8;">🏓 名簿・逐次同期エディタ</h2>
         <div id="status" class="status-bar sync-ok">同期済み</div>
     </div>
     <div class="controls">
-        <button class="btn btn-add" onclick="addMember()">＋ 追加</button>
-        <input type="text" id="searchInput" placeholder="氏名・カナ検索..." style="width:180px;">
+        <button class="btn btn-add" onclick="addMember()">＋ 新規追加</button>
+        <input type="text" id="searchInput" placeholder="氏名・フリガナで検索..." style="width:200px;">
         <span style="font-size:11px; color:#888;">※書き換えて枠外をクリックで即時保存</span>
-        <div style="margin-left:auto; font-size:12px; font-weight:bold;">計 <span id="count">0</span> 名</div>
+        <div style="margin-left:auto; font-size:13px; font-weight:bold;">計 <span id="count">0</span> 名</div>
     </div>
 </div>
 
@@ -60,12 +58,11 @@
             <th class="col-no">No</th>
             <th class="col-name" onclick="sortData('name')">氏名 ▲▼</th>
             <th class="col-kana" onclick="sortData('kana')">フリガナ ▲▼</th>
-            <th class="col-gen" onclick="sortData('gen')">性 ▲▼</th>
-            <th class="col-class" onclick="sortData('c1')">1年 ▲▼</th>
-            <th class="col-class" onclick="sortData('c2')">2年 ▲▼</th>
-            <th onclick="sortData('l1')">1年写真URL ▲▼</th>
-            <th onclick="sortData('l2')">2年写真URL ▲▼</th>
-            <th class="col-act">消去</th>
+            <th class="col-gen" onclick="sortData('gen')">性別 ▲▼</th>
+            <th class="col-class" onclick="sortData('c1')">1年組 ▲▼</th>
+            <th class="col-class" onclick="sortData('c2')">2年組 ▲▼</th>
+            <th class="col-class" onclick="sortData('c3')">3年組 ▲▼</th>
+            <th class="col-act">操作</th>
         </tr>
     </thead>
     <tbody id="tableBody"></tbody>
@@ -73,7 +70,9 @@
 
 <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyuPNFvfRMWL56IkVLCQHUGkgfiMuWBI3lTOb1DrnK9Lq-ktT8-Z-tcwwcWw6Ub-0pz/exec";
+    
+    // 🌸 ステップ1で取得したウェブアプリURLに書き換えてください
+    const GAS_URL = "ここにGASのウェブアプリURLを貼り付ける";
 
     let memberData = [];
     let sortKey = 'kana';
@@ -86,7 +85,14 @@
             const rows = txt.replace(/\r/g, '').split('\n').slice(1);
             memberData = rows.map(r => {
                 const c = r.split(',');
-                return { name: c[0]||"", kana: c[1]||"", c1: c[2]||"", l1: c[3]||"", c2: c[4]||"", l2: c[5]||"", gen: c[8]||"男" };
+                return { 
+                    name: (c[0]||"").trim(), 
+                    kana: (c[1]||"").trim(), 
+                    c1: (c[2]||"").trim(), 
+                    c2: (c[4]||"").trim(), 
+                    c3: (c[6]||"").trim(), 
+                    gen: (c[8]||"男").trim() 
+                };
             }).filter(m => m.name);
             render();
         } catch (e) { alert("読込失敗"); }
@@ -108,8 +114,7 @@
                 <td class="col-gen"><span class="gender-tag gender-${m.gen}" onclick="toggleG(this,'${m.name}')">${m.gen}</span></td>
                 <td class="col-class editable" contenteditable="true" onblur="sync('${m.name}','1年組',this.innerText)">${m.c1}</td>
                 <td class="col-class editable" contenteditable="true" onblur="sync('${m.name}','2年組',this.innerText)">${m.c2}</td>
-                <td class="col-url editable" contenteditable="true" onblur="sync('${m.name}','1年写真URL',this.innerText)">${m.l1}</td>
-                <td class="col-url editable" contenteditable="true" onblur="sync('${m.name}','2年写真URL',this.innerText)">${m.l2}</td>
+                <td class="col-class editable" contenteditable="true" onblur="sync('${m.name}','3年組',this.innerText)">${m.c3}</td>
                 <td class="col-act"><span class="del-link" onclick="deleteMember('${m.name}')">削除</span></td>
             `;
             body.appendChild(tr);
@@ -119,13 +124,16 @@
 
     async function sync(name, col, val) {
         const st = document.getElementById('status');
-        st.innerText = "書き込み中...";
+        st.innerText = "同期中...";
         st.className = "status-bar sync-loading";
         try {
             await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ name: name, column: col, value: val }) });
             st.innerText = "同期完了";
             st.className = "status-bar sync-ok";
-        } catch (e) { st.innerText = "同期エラー"; }
+        } catch (e) { 
+            st.innerText = "同期失敗"; 
+            console.error(e);
+        }
     }
 
     function toggleG(el, name) {
@@ -136,8 +144,12 @@
     }
 
     function addMember() {
-        const n = prompt("追加する氏名を入力（この名前が保存キーになります）");
-        if(n) { memberData.unshift({name:n, kana:"", c1:"", l1:"", c2:"", l2:"", gen:"男"}); render(); sync(n, "名前", n); }
+        const n = prompt("名前を入力（保存のキーになります）");
+        if(n) { 
+            memberData.unshift({name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); 
+            render(); 
+            sync(n, "名前", n); 
+        }
     }
 
     async function deleteMember(name) {
