@@ -2,125 +2,115 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>桜塚28期：名簿管理エディタ</title>
+    <title>桜塚28期：名簿マスター管理</title>
     <style>
-        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; padding: 10px; }
+        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; padding: 10px; font-size: 13px; }
         .header { 
-            background: rgba(255, 255, 255, 0.9); padding: 12px 20px; border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.1); position: sticky; top: 0; z-index: 100;
-            border: 1px solid #ffc0cb; display: flex; align-items: center; gap: 15px;
+            background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1); position: sticky; top: 0; z-index: 100;
+            border: 1px solid #ffc0cb; display: flex; align-items: center; gap: 10px;
         }
-        h2 { margin: 0; font-size: 16px; color: #d81b60; white-space: nowrap; }
-        
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
-        .sync-ok { background: #fff; color: #2ecc71; border: 1px solid #2ecc71; }
-        .sync-loading { background: #fff; color: #f1c40f; border: 1px solid #f1c40f; }
+        h2 { margin: 0; font-size: 15px; color: #d81b60; white-space: nowrap; }
+        .status { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
+        .syncing { border-color: #f1c40f; color: #f1c40f; }
 
-        .controls { display: flex; gap: 10px; align-items: center; margin-left: auto; }
-        input[type="text"] { 
-            padding: 6px 12px; border: 1px solid #ffc0cb; border-radius: 20px; 
-            font-size: 13px; outline: none; background: #fff; width: 150px;
-        }
-        .btn-add { 
-            background: #d81b60; color: white; border: none; padding: 6px 15px; 
-            border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; 
-        }
+        .controls { display: flex; gap: 5px; align-items: center; margin-left: auto; }
+        .search-input { padding: 5px 10px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 130px; }
+        .filter-select { padding: 4px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; }
+        .btn-add { background: #d81b60; color: white; border: none; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 10px; border-radius: 10px; overflow: hidden; table-layout: fixed; }
-        th { background: #a51d4d; color: white; padding: 8px 4px; font-size: 11px; text-align: left; position: sticky; top: 75px; border: 1px solid #8e153e; }
-        td { padding: 4px 6px; border-bottom: 1px solid #ffeef5; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 8px; table-layout: fixed; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        th { background: #a51d4d; color: white; padding: 6px 2px; font-size: 11px; cursor: pointer; position: sticky; top: 65px; border: 1px solid #8e153e; }
+        th:hover { background: #c2185b; }
+        td { padding: 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
         
-        /* フィールド幅を極限まで詰める */
-        .w-no { width: 25px; text-align: center; color: #bbb; font-size: 10px; }
-        .w-name { width: 85px; font-weight: bold; }
-        .w-kana { width: 100px; color: #888; }
-        .w-gen { width: 35px; text-align: center; }
-        .w-cls { width: 40px; text-align: center; font-weight: bold; color: #d81b60; }
-        .w-act { width: 40px; text-align: center; }
+        /* 横幅の最適化 */
+        .w-no { width: 25px; color: #bbb; font-size: 10px; }
+        .w-name { width: 80px; font-weight: bold; text-align: left; padding-left: 8px; }
+        .w-kana { width: 90px; color: #888; text-align: left; }
+        .w-gen { width: 30px; }
+        .w-cls { width: 35px; font-weight: bold; color: #d81b60; }
+        .w-act { width: 35px; }
 
-        .editable { background: #fffafc; cursor: text; border-radius: 4px; }
-        .editable:focus { background: #fff; outline: 1px solid #ff8da1; box-shadow: inset 0 0 5px rgba(255,141,161,0.2); }
-        
-        .gender-tag { padding: 2px 4px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
+        .editable { background: #fffafc; cursor: text; }
+        .editable:focus { background: #fff; outline: 1px solid #ff8da1; }
+        .gender-tag { padding: 1px 4px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
         .gender-男 { background: #e3f2fd; color: #1e88e5; }
         .gender-女 { background: #fce4ec; color: #d81b60; }
-        
-        .del-link { color: #ccc; font-size: 10px; cursor: pointer; text-decoration: none; }
+        .del-link { color: #ccc; font-size: 10px; cursor: pointer; }
         .del-link:hover { color: #ea4335; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2>🌸 28期名簿メンテ</h2>
-    <div id="status" class="status-badge sync-ok">同期済み</div>
+    <h2>🌸 28期名簿管理</h2>
+    <div id="status" class="status">同期済み</div>
     <div class="controls">
-        <input type="text" id="searchInput" placeholder="検索...">
-        <button class="btn-add" onclick="addMember()">＋ 追加</button>
-        <div style="font-size:11px; font-weight:bold;">計 <span id="count">0</span> 名</div>
+        <input type="text" id="q" class="search-input" placeholder="氏名・カナ検索...">
+        <select id="fGen" class="filter-select"><option value="">性別</option><option value="男">男</option><option value="女">女</option></select>
+        <select id="fC1" class="filter-select"><option value="">1年</option></select>
+        <button class="btn-add" onclick="addM()">＋追加</button>
+        <span style="font-size:11px; font-weight:bold; min-width:30px;">[<span id="cnt">0</span>]</span>
     </div>
 </div>
 
-<table id="mainTable">
+<table id="tbl">
     <thead>
         <tr>
             <th class="w-no">No</th>
-            <th class="w-name">氏名</th>
-            <th class="w-kana">フリガナ</th>
-            <th class="w-gen">性</th>
-            <th class="w-cls">1年</th>
-            <th class="w-cls">2年</th>
-            <th class="w-cls">3年</th>
-            <th class="w-act">操作</th>
+            <th class="w-name" onclick="srt('name')">氏名▼</th>
+            <th class="w-kana" onclick="srt('kana')">カナ▼</th>
+            <th class="w-gen" onclick="srt('gen')">性▼</th>
+            <th class="w-cls" onclick="srt('c1')">1年▼</th>
+            <th class="w-cls" onclick="srt('c2')">2年▼</th>
+            <th class="w-cls" onclick="srt('c3')">3年▼</th>
+            <th class="w-act">消</th>
         </tr>
     </thead>
-    <tbody id="tableBody"></tbody>
+    <tbody id="out"></tbody>
 </table>
 
 <script>
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    
-    // 🌸 以前取得したGASのウェブアプリURLをここに貼り付けてください
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzVaByOSHIiCD7b0B4PiKL1003bc2jqJ34kJvVYgl1s4icuqUGw-VaUgfAQcJomExPddA/exec";
+    const CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
+    const GAS = "https://script.google.com/macros/s/AKfycbz0D_iO4VT3YTQH-THnVjOrZC0G4NajnXMLpQOMa3QYDZ53ZbvdQQK-23NP9KbNAtgsAg/exec"; // ★必ずGASのURLを貼ってください
 
-    let memberData = [];
+    let data = [];
+    let sK = 'kana';
+    let sA = true;
 
-    // クラス名から数字だけを抽出する関数 (1-2 や 1月2日 を 2 に変換)
-    function extractGroup(val) {
-        if (!val) return "";
-        let str = String(val).trim();
-        let match = str.match(/(\d+)[-月](\d+)/); // 1-2 や 1月2日
-        if (match) return match[2]; 
-        let singleMatch = str.match(/\d+/); // 単なる数字
-        return singleMatch ? singleMatch[0] : str;
+    function getG(v) {
+        if(!v) return "";
+        let m = String(v).match(/(\d+)[-月](\d+)/);
+        return m ? m[2] : (String(v).match(/\d+/) ? String(v).match(/\d+/)[0] : v);
     }
 
     async function load() {
-        try {
-            const res = await fetch(SHEET_URL);
-            const txt = await res.text();
-            const rows = txt.replace(/\r/g, '').split('\n').slice(1);
-            memberData = rows.map(r => {
-                const c = r.split(',');
-                return { 
-                    name: (c[0]||"").trim(), 
-                    kana: (c[1]||"").trim(), 
-                    c1: extractGroup(c[2]), 
-                    c2: extractGroup(c[4]), 
-                    c3: extractGroup(c[6]), 
-                    gen: (c[8]||"男").trim() 
-                };
-            }).filter(m => m.name);
-            render();
-        } catch (e) { console.error(e); }
+        const res = await fetch(CSV);
+        const txt = await res.text();
+        const rows = txt.replace(/\r/g, '').split('\n').slice(1);
+        data = rows.map(r => {
+            const c = r.split(',');
+            return { name: c[0]||"", kana: c[1]||"", c1: getG(c[2]), c2: getG(c[4]), c3: getG(c[6]), gen: (c[8]||"男").trim() };
+        }).filter(m => m.name);
+        
+        // クラスフィルターの動的生成
+        const c1s = [...new Set(data.map(m => m.c1))].sort((a,b)=>a-b);
+        c1s.forEach(c => { if(c) document.getElementById('fC1').innerHTML += `<option value="${c}">${c}組</option>`; });
+        
+        render();
     }
 
     function render() {
-        const body = document.getElementById('tableBody');
-        const q = document.getElementById('searchInput').value.toLowerCase();
+        const body = document.getElementById('out');
+        const q = document.getElementById('q').value.toLowerCase();
+        const fg = document.getElementById('fGen').value;
+        const fc = document.getElementById('fC1').value;
         body.innerHTML = "";
 
-        const filtered = memberData.filter(m => m.name.includes(q) || m.kana.includes(q));
+        const filtered = data.filter(m => 
+            (m.name.includes(q) || m.kana.includes(q)) && (!fg || m.gen === fg) && (!fc || m.c1 === fc)
+        );
 
         filtered.forEach((m, i) => {
             const tr = document.createElement('tr');
@@ -128,61 +118,55 @@
                 <td class="w-no">${i+1}</td>
                 <td class="w-name">${m.name}</td>
                 <td class="w-kana editable" contenteditable="true" onblur="sync('${m.name}','フリガナ',this.innerText)">${m.kana}</td>
-                <td class="w-gen"><span class="gender-tag gender-${m.gen}" onclick="toggleG(this,'${m.name}')">${m.gen}</span></td>
+                <td class="w-gen"><span class="gender-tag gender-${m.gen}" onclick="tglG(this,'${m.name}')">${m.gen}</span></td>
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','1年組',this.innerText)">${m.c1}</td>
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','2年組',this.innerText)">${m.c2}</td>
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','3年組',this.innerText)">${m.c3}</td>
-                <td class="w-act"><span class="del-link" onclick="deleteMember('${m.name}')">削除</span></td>
+                <td class="w-act"><span class="del-link" onclick="delM('${m.name}')">×</span></td>
             `;
             body.appendChild(tr);
         });
-        document.getElementById('count').innerText = filtered.length;
+        document.getElementById('cnt').innerText = filtered.length;
     }
 
     async function sync(name, col, val) {
         const st = document.getElementById('status');
-        st.innerText = "同期中...";
-        st.className = "status-badge sync-loading";
-        
-        // シート側には「1-n」の形式で保存するために整形
-        let saveValue = val;
-        if(col.includes('組') && val && !val.includes('-')) {
-            let year = col.charAt(0); // "1年組" -> "1"
-            saveValue = year + "-" + val;
-        }
-
+        st.innerText = "同期中..."; st.classList.add('syncing');
+        let sv = val;
+        if(col.includes('組') && val && !val.includes('-')) sv = col.charAt(0) + "-" + val;
         try {
-            await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ name: name, column: col, value: saveValue }) });
-            st.innerText = "同期済み";
-            st.className = "status-badge sync-ok";
+            await fetch(GAS, { method: "POST", body: JSON.stringify({ name: name, column: col, value: sv }) });
+            st.innerText = "同期済み"; st.classList.remove('syncing');
         } catch (e) { st.innerText = "エラー"; }
     }
 
-    function toggleG(el, name) {
-        const next = el.innerText === '男' ? '女' : '男';
-        el.innerText = next;
-        el.className = `gender-tag gender-${next}`;
-        sync(name, '性別', next);
+    function tglG(el, name) {
+        const nxt = el.innerText === '男' ? '女' : '男';
+        el.innerText = nxt; el.className = `gender-tag gender-${nxt}`;
+        sync(name, '性別', nxt);
     }
 
-    function addMember() {
+    function addM() {
         const n = prompt("名前を入力");
-        if(n) { 
-            memberData.unshift({name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); 
-            render(); 
-            sync(n, "名前", n); 
+        if(n) { data.unshift({name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); render(); sync(n, "名前", n); }
+    }
+
+    async function delM(name) {
+        if(confirm(name + "を削除？")) {
+            await fetch(GAS, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
+            data = data.filter(m => m.name !== name); render();
         }
     }
 
-    async function deleteMember(name) {
-        if(confirm(name + "さんを削除しますか？")) {
-            await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
-            memberData = memberData.filter(m => m.name !== name);
-            render();
-        }
+    function srt(k) {
+        sA = (sK === k) ? !sA : true; sK = k;
+        data.sort((a, b) => (a[k] < b[k] ? -1 : 1) * (sA ? 1 : -1));
+        render();
     }
 
-    document.getElementById('searchInput').oninput = render;
+    document.getElementById('q').oninput = render;
+    document.getElementById('fGen').onchange = render;
+    document.getElementById('fC1').onchange = render;
     load();
 </script>
 </body>
