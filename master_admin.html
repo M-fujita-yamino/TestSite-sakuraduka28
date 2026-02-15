@@ -2,97 +2,118 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>【逐次更新】名簿マスターメンテナンス</title>
+    <title>【逐次更新】名簿メンテナンスツール</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #f0f2f5; padding: 20px; }
+        body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; padding: 20px; }
         .header { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .status-badge { font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-left: 10px; }
+        .status { font-size: 12px; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-left: 15px; }
         .sync-ok { background: #e6ffed; color: #22863a; }
         .sync-loading { background: #fff8c5; color: #735c0f; }
-        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
-        th, td { padding: 10px; border: 1px solid #ddd; font-size: 13px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; }
+        .btn-add { background: #4285f4; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; table-layout: fixed; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; font-size: 12px; position: sticky; top: 120px; }
+        td { padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .editable { background: #fffde7; cursor: text; }
-        .editable:focus { background: #fff; outline: 2px solid #1a73e8; }
+        .editable:focus { background: #fff; outline: 2px solid #4285f4; }
+        .gender-tag { padding: 2px 6px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .gender-m { background: #e3f2fd; color: #1e88e5; }
+        .gender-f { background: #fce4ec; color: #d81b60; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div style="display:flex; align-items:center;">
-        <h2 style="margin:0;">🏓 逐次更新エディタ</h2>
-        <span id="syncStatus" class="status-badge sync-ok">同期中（最新）</span>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+        <h2 style="margin:0; color:#1a73e8;">名簿メンテナンス（逐次更新版）</h2>
+        <div id="syncStatus" class="status sync-ok">スプレッドシートと同期中</div>
     </div>
-    <p style="font-size:12px; color:#666;">※文字を書き換えて枠の外をクリックした瞬間にスプレッドシートが自動更新されます。</p>
+    <div style="margin-top:15px;">
+        <button class="btn btn-add" onclick="addMember()">＋ 新規メンバー追加</button>
+        <input type="text" id="q" placeholder="名前で絞り込み..." style="padding:8px; width:200px; margin-left:10px;">
+    </div>
 </div>
 
 <table id="tbl">
     <thead>
-        <tr><th>氏名</th><th>フリガナ</th><th>1年組</th><th>2年組</th><th>性別</th></tr>
+        <tr>
+            <th style="width:40px;">No</th>
+            <th style="width:100px;">氏名</th>
+            <th style="width:120px;">フリガナ</th>
+            <th style="width:50px;">性別</th>
+            <th style="width:70px;">1年組</th>
+            <th style="width:70px;">2年組</th>
+            <th>1年写真URL</th>
+            <th>2年写真URL</th>
+        </tr>
     </thead>
     <tbody id="out"></tbody>
 </table>
 
 <script>
-    // 🌸 取得用URL
+    // 🌸 公開用CSVのURL
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     
-    // 🌸 ステップ1で取得したGASのURLをここに貼り付けてください
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbx9I0zjtscDn6MdqDp82N2eq0l9_O_yCI5LSvNYPQMUhE2Nkj8HaSGg7OkPu6mAeA5fMw/exec";
+    // 🌸 ステップ1で取得したURLをここに貼ってください
+    const GAS_URL = "ここにウェブアプリURLを貼る";
 
-    let memberData = [];
+    let data = [];
 
     async function load() {
         const res = await fetch(SHEET_URL);
         const txt = await res.text();
-        const rows = txt.split(/\r?\n/).slice(1);
-        memberData = rows.map(r => {
-            const c = r.split(',');
-            return { name: c[0]||"", kana: c[1]||"", c1: c[2]||"", c2: c[4]||"", gen: c[8]||"男" };
+        const rows = txt.replace(/\r/g, '').split('\n').filter(r => r.trim() !== "");
+        data = rows.slice(1).map(row => {
+            const c = row.split(',');
+            return { name: c[0]||"", kana: c[1]||"", c1: c[2]||"", l1: c[3]||"", c2: c[4]||"", l2: c[5]||"", gen: c[8]||"男" };
         }).filter(m => m.name);
         render();
     }
 
     function render() {
         const out = document.getElementById('out');
+        const q = document.getElementById('q').value;
         out.innerHTML = "";
-        memberData.forEach((m, i) => {
+        data.filter(m => m.name.includes(q)).forEach((m, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
+                <td style="text-align:center; color:#999;">${i+1}</td>
                 <td>${m.name}</td>
-                <td class="editable" contenteditable="true" onblur="sync('${m.name}', 'フリガナ', this.innerText)">${m.kana}</td>
-                <td class="editable" contenteditable="true" onblur="sync('${m.name}', '1年組', this.innerText)">${m.c1}</td>
-                <td class="editable" contenteditable="true" onblur="sync('${m.name}', '2年組', this.innerText)">${m.c2}</td>
-                <td style="cursor:pointer;" onclick="toggleG(this, '${m.name}')">${m.gen}</td>
+                <td class="editable" contenteditable="true" onblur="sync('${m.name}','フリガナ',this.innerText)">${m.kana}</td>
+                <td style="text-align:center;"><span class="gender-tag ${m.gen==='女'?'gender-f':'gender-m'}" onclick="toggleG(this,'${m.name}')">${m.gen}</span></td>
+                <td class="editable" contenteditable="true" onblur="sync('${m.name}','1年組',this.innerText)">${m.c1}</td>
+                <td class="editable" contenteditable="true" onblur="sync('${m.name}','2年組',this.innerText)">${m.c2}</td>
+                <td class="editable" contenteditable="true" onblur="sync('${m.name}','1年写真URL',this.innerText)">${m.l1}</td>
+                <td class="editable" contenteditable="true" onblur="sync('${m.name}','2年写真URL',this.innerText)">${m.l2}</td>
             `;
             out.appendChild(tr);
         });
     }
 
-    // 🌸 これが逐次更新の核心部です
-    async function sync(name, column, value) {
-        const badge = document.getElementById('syncStatus');
-        badge.innerText = "書き込み中...";
-        badge.className = "status-badge sync-loading";
-
+    async function sync(name, col, val) {
+        const st = document.getElementById('syncStatus');
+        st.innerText = "スプレッドシートを更新中...";
+        st.className = "status sync-loading";
         try {
-            await fetch(GAS_URL, {
-                method: "POST",
-                body: JSON.stringify({ name: name, column: column, value: value })
-            });
-            badge.innerText = "同期完了";
-            badge.className = "status-badge sync-ok";
-        } catch (e) {
-            badge.innerText = "同期失敗";
-            alert("保存に失敗しました。ネット接続を確認してください。");
-        }
+            await fetch(GAS_URL, { method: "POST", body: JSON.stringify({ name: name, column: col, value: val }) });
+            st.innerText = "同期完了（最新）";
+            st.className = "status sync-ok";
+        } catch (e) { st.innerText = "同期エラー"; }
     }
 
     function toggleG(el, name) {
         const newVal = el.innerText === '男' ? '女' : '男';
         el.innerText = newVal;
+        el.className = `gender-tag ${newVal==='女'?'gender-f':'gender-m'}`;
         sync(name, '性別', newVal);
     }
 
+    function addMember() {
+        const n = prompt("追加する氏名を入力してください");
+        if(n) { data.unshift({name:n, kana:"", c1:"", l1:"", c2:"", l2:"", gen:"男"}); render(); sync(n, "名前", n); }
+    }
+
+    document.getElementById('q').oninput = render;
     load();
 </script>
 </body>
