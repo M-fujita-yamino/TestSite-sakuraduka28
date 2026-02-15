@@ -2,222 +2,160 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>【高度管理用】名簿メンテナンス・エディタ</title>
+    <title>【最終版】名簿メンテナンスツール</title>
     <style>
         body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; padding: 20px; }
         .header { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
         .controls { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; align-items: center; }
         input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-        
         .btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; color: white; }
-        .btn-add { background: #4285f4; } /* 青 */
-        .btn-save { background: #0f9d58; } /* 緑 */
-        .btn-del { background: #ea4335; padding: 5px 10px; font-size: 12px; } /* 赤 */
-        
+        .btn-add { background: #4285f4; }
+        .btn-save { background: #0f9d58; }
+        .btn-del { background: #ea4335; padding: 5px 10px; font-size: 12px; }
         table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; table-layout: fixed; }
-        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; position: sticky; top: 125px; z-index: 90; cursor: pointer; font-size: 13px; }
-        th:hover { background: #e9ecef; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; position: sticky; top: 125px; z-index: 90; cursor: pointer; font-size: 12px; }
         td { padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         tr:hover { background: #f1f3f4; }
-        
         .editable { background: #fffde7; cursor: text; }
-        .editable:focus { background: #fff; outline: 2px solid #4285f4; }
-        
         .gender-tag { padding: 2px 6px; border-radius: 10px; font-size: 11px; font-weight: bold; }
         .gender-m { background: #e3f2fd; color: #1e88e5; }
         .gender-f { background: #fce4ec; color: #d81b60; }
-        
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 1001; width: 400px; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="margin:0; color:#1a73e8;">名簿マスターメンテナンス (v2)</h2>
+        <h2 style="margin:0; color:#1a73e8;">名簿マスターメンテナンス</h2>
         <div>
-            <button class="btn btn-add" onclick="showAddModal()">＋ 新規追加</button>
-            <button class="btn btn-save" onclick="exportToCSV()">修正済みデータを保存(CSV)</button>
+            <button class="btn btn-add" onclick="addMember()">＋ 行を最後に追加</button>
+            <button class="btn btn-save" onclick="exportCSV()">CSV保存（シート貼り付け用）</button>
         </div>
     </div>
     
     <div class="controls">
-        <input type="text" id="searchInput" placeholder="名前・カナ・組で検索..." style="width:200px;">
-        <select id="genderFilter">
-            <option value="">男女すべて</option>
-            <option value="男">男</option>
-            <option value="女">女</option>
-        </select>
-        <select id="classFilter">
-            <option value="">全てのクラス</option>
+        <input type="text" id="q" placeholder="名前・カナ・組で検索..." style="width:200px;">
+        <select id="gf"><option value="">男女すべて</option><option value="男">男</option><option value="女">女</option></select>
+        <select id="cf">
+            <option value="">全クラス</option>
             <optgroup label="2年生">
                 <option value="2-1">2-1</option><option value="2-2">2-2</option><option value="2-3">2-3</option>
                 <option value="2-4">2-4</option><option value="2-5">2-5</option><option value="2-6">2-6</option>
+                <option value="2-7">2-7</option><option value="2-8">2-8</option><option value="2-9">2-9</option><option value="2-10">2-10</option>
             </optgroup>
         </select>
-        <div style="margin-left:auto; font-size:14px; font-weight:bold;">表示: <span id="matchCount">0</span> 名</div>
+        <div style="margin-left:auto; font-weight:bold;">表示: <span id="count">0</span> 名</div>
     </div>
 </div>
 
-<table id="adminTable">
+<table id="tbl">
     <thead>
         <tr>
             <th style="width:40px;">No</th>
-            <th style="width:100px;" onclick="sortData('name')">氏名 ▲▼</th>
-            <th style="width:120px;" onclick="sortData('kana')">フリガナ ▲▼</th>
-            <th style="width:60px;" onclick="sortData('gender')">性別 ▲▼</th>
-            <th style="width:70px;" onclick="sortData('c1')">1年組 ▲▼</th>
-            <th style="width:70px;" onclick="sortData('c2')">2年組 ▲▼</th>
-            <th>リンク (1年/2年)</th>
+            <th style="width:100px;" onclick="sort('name')">氏名 ▲▼</th>
+            <th style="width:130px;" onclick="sort('kana')">フリガナ ▲▼</th>
+            <th style="width:50px;" onclick="sort('gender')">性別 ▲▼</th>
+            <th style="width:70px;" onclick="sort('c1')">1年 ▲▼</th>
+            <th style="width:70px;" onclick="sort('c2')">2年 ▲▼</th>
+            <th>1年写真URL</th>
+            <th>2年写真URL</th>
             <th style="width:60px;">操作</th>
         </tr>
     </thead>
-    <tbody id="tableBody"></tbody>
+    <tbody id="out"></tbody>
 </table>
 
-<div class="overlay" id="overlay" onclick="closeModal()"></div>
-<div class="modal" id="addModal">
-    <h3>新規メンバー追加</h3>
-    <input type="text" id="newName" placeholder="氏名" style="width:100%; margin-bottom:10px;">
-    <input type="text" id="newKana" placeholder="フリガナ" style="width:100%; margin-bottom:10px;">
-    <select id="newGender" style="width:100%; margin-bottom:10px;">
-        <option value="男">男</option>
-        <option value="女">女</option>
-    </select>
-    <input type="text" id="newC1" placeholder="1年組 (例: 1-1)" style="width:48%;">
-    <input type="text" id="newC2" placeholder="2年組 (例: 2-1)" style="width:48%; margin-bottom:10px;">
-    <button class="btn btn-save" style="width:100%;" onclick="addMember()">名簿に追加</button>
-</div>
-
 <script>
-    //https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pubhtml?gid=0&single=true
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    
-    let memberData = [];
-    let sortKey = 'kana';
+    const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
+    let data = [];
+    let sortKey = '';
     let sortAsc = true;
 
-    async function init() {
+    async function load() {
         try {
-            const res = await fetch(SHEET_URL);
-            const text = await res.text();
-            const rows = text.split(/\r?\n/).slice(1);
-            const fmt = (v) => v ? v.replace('月','-').replace('日','').trim() : "";
-
-            memberData = rows.map(row => {
+            const res = await fetch(URL);
+            const txt = await res.text();
+            const rows = txt.split(/\r?\n/).filter(r => r.trim() !== "");
+            
+            data = rows.slice(1).map(row => {
                 const c = row.split(',');
+                const fmt = (v) => v ? v.replace('月','-').replace('日','').trim() : "";
                 return {
-                    name: c[0] || "",
-                    kana: c[1] || "",
-                    gender: c[2] || "男",
-                    c1: fmt(c[3]),
-                    link1: c[4] || "",
-                    c2: fmt(c[5]),
-                    link2: c[6] || "",
-                    c3: fmt(c[7]),
-                    link3: c[8] || ""
+                    name: (c[0] || "").trim(),
+                    kana: (c[1] || "").trim(),
+                    c1: fmt(c[2]),
+                    link1: (c[3] || "").trim(),
+                    c2: fmt(c[4]),
+                    link2: (c[5] || "").trim(),
+                    c3: fmt(c[6]),
+                    link3: (c[7] || "").trim(),
+                    gender: (c[8] || "男").trim()
                 };
-            }).filter(m => m.name);
+            });
             render();
         } catch (e) { alert("読込失敗。URLを確認してください。"); }
     }
 
     function render() {
-        const tbody = document.getElementById('tableBody');
-        const q = document.getElementById('searchInput').value.toLowerCase();
-        const gf = document.getElementById('genderFilter').value;
-        const cf = document.getElementById('classFilter').value;
-        tbody.innerHTML = "";
+        const out = document.getElementById('out');
+        const q = document.getElementById('q').value.toLowerCase();
+        const gf = document.getElementById('gf').value;
+        const cf = document.getElementById('cf').value;
+        out.innerHTML = "";
 
-        const filtered = memberData.filter(m => {
+        const filtered = data.filter(m => {
             const matchTxt = m.name.includes(q) || m.kana.includes(q);
             const matchGen = !gf || m.gender === gf;
-            const matchCls = !cf || m.c1 === cf || m.c2 === cf;
+            const matchCls = !cf || m.c1 === cf || m.c2 === cf || m.c3 === cf;
             return matchTxt && matchGen && matchCls;
         });
 
-        filtered.forEach((m, idx) => {
+        filtered.forEach((m, i) => {
             const tr = document.createElement('tr');
-            const gClass = m.gender === '女' ? 'gender-f' : 'gender-m';
             tr.innerHTML = `
-                <td style="text-align:center; color:#999;">${idx+1}</td>
-                <td class="editable" contenteditable="true" onblur="update(${idx},'name',this)">${m.name}</td>
-                <td class="editable" contenteditable="true" onblur="update(${idx},'kana',this)">${m.kana}</td>
-                <td style="text-align:center;"><span class="gender-tag ${gClass}">${m.gender}</span></td>
-                <td class="editable" contenteditable="true" onblur="update(${idx},'c1',this)">${m.c1}</td>
-                <td class="editable" contenteditable="true" onblur="update(${idx},'c2',this)">${m.c2}</td>
-                <td style="font-size:10px; color:#666;">L1: ${m.link1.substring(0,20)}...<br>L2: ${m.link2.substring(0,20)}...</td>
-                <td style="text-align:center;"><button class="btn btn-del" onclick="deleteMember(${idx})">削除</button></td>
+                <td style="text-align:center; color:#999;">${i+1}</td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'name',this)">${m.name}</td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'kana',this)">${m.kana}</td>
+                <td style="text-align:center;"><span class="gender-tag ${m.gender==='女'?'gender-f':'gender-m'}" onclick="tg(${i})" style="cursor:pointer;">${m.gender}</span></td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'c1',this)">${m.c1}</td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'c2',this)">${m.c2}</td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'link1',this)">${m.link1}</td>
+                <td class="editable" contenteditable="true" onblur="u(${i},'link2',this)">${m.link2}</td>
+                <td><button class="btn btn-del" onclick="del(${i})">削除</button></td>
             `;
-            tbody.appendChild(tr);
+            out.appendChild(tr);
         });
-        document.getElementById('matchCount').innerText = filtered.length;
+        document.getElementById('count').innerText = filtered.length;
     }
 
-    function update(idx, key, el) { memberData[idx][key] = el.innerText.trim(); }
+    function u(i, k, el) { data[i][k] = el.innerText.trim(); }
+    function tg(i) { data[i].gender = data[i].gender === '男' ? '女' : '男'; render(); }
+    function del(i) { if(confirm("削除しますか？")) { data.splice(i, 1); render(); } }
+    function addMember() { data.push({name:"新規", kana:"", gender:"男", c1:"", link1:"", c2:"", link2:"", c3:"", link3:""}); render(); }
 
-    function deleteMember(idx) {
-        if(confirm(memberData[idx].name + "さんを削除しますか？")) {
-            memberData.splice(idx, 1);
-            render();
-        }
-    }
-
-    function sortData(key) {
-        sortAsc = (sortKey === key) ? !sortAsc : true;
-        sortKey = key;
-        memberData.sort((a, b) => {
-            if (a[key] < b[key]) return sortAsc ? -1 : 1;
-            if (a[key] > b[key]) return sortAsc ? 1 : -1;
-            return 0;
-        });
+    function sort(k) {
+        sortAsc = (sortKey === k) ? !sortAsc : true;
+        sortKey = k;
+        data.sort((a, b) => (a[k] < b[k] ? -1 : 1) * (sortAsc ? 1 : -1));
         render();
     }
 
-    // 新規追加
-    function showAddModal() {
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('addModal').style.display = 'block';
-    }
-    function closeModal() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('addModal').style.display = 'none';
-    }
-    function addMember() {
-        const name = document.getElementById('newName').value;
-        if(!name) return alert("氏名は必須です");
-        memberData.unshift({
-            name: name,
-            kana: document.getElementById('newKana').value,
-            gender: document.getElementById('newGender').value,
-            c1: document.getElementById('newC1').value,
-            c2: document.getElementById('newC2').value,
-            link1: "", link2: "", c3: "", link3: ""
+    function exportCSV() {
+        let csv = "名前,フリガナ,1年組,1年写真URL,2年組,2年写真URL,3年組,3年写真URL,性別\n";
+        data.forEach(m => {
+            csv += `"${m.name}","${m.kana}","${m.c1}","${m.link1}","${m.c2}","${m.link2}","${m.c3}","${m.link3}","${m.gender}"\n`;
         });
-        closeModal();
-        render();
-    }
-
-    // CSVとして書き出し（スプレッドシートに貼り直す用）
-    function exportToCSV() {
-        let csv = "name,kana,gender,c1,link1,c2,link2,c3,link3\n";
-        memberData.forEach(m => {
-            csv += `"${m.name}","${m.kana}","${m.gender}","${m.c1}","${m.link1}","${m.c2}","${m.link2}","${m.c3}","${m.link3}"\n`;
-        });
-        const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'meibo_updated.csv';
+        a.download = 'meibo_update.csv';
         a.click();
-        alert("修正した名簿をCSVで保存しました。\nこのファイルを開いて全選択(Ctrl+A)し、Googleスプレッドシートに上書き貼り付けしてください。");
     }
 
-    document.getElementById('searchInput').addEventListener('input', render);
-    document.getElementById('genderFilter').addEventListener('change', render);
-    document.getElementById('classFilter').addEventListener('change', render);
-
-    init();
+    document.getElementById('q').oninput = render;
+    document.getElementById('gf').onchange = render;
+    document.getElementById('cf').onchange = render;
+    load();
 </script>
 </body>
 </html>
