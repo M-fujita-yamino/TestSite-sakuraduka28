@@ -2,238 +2,138 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>桜塚28期：名簿マスター管理（固定ヘッダー版）</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; font-size: 13px; overflow: hidden; /* 全体スクロール禁止 */ }
-        
-        /* 操作パネル（最上部） */
-        .header-panel { 
-            background: rgba(255, 255, 255, 0.98); padding: 10px 15px; 
-            box-shadow: 0 2px 10px rgba(233, 30, 99, 0.1); position: relative; z-index: 200;
-            border-bottom: 1px solid #ffc0cb; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+        /* 強力な開始位置制御：読み込み完了まで非表示にし、ガタつきを防ぐ */
+        body { opacity: 0; transition: opacity 0.8s ease-in; }
+        html { scroll-behavior: auto !important; }
+        body {
+            font-family: 'Zen Maru Gothic', "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+            background-color: #ffeef5;
+            background-image: radial-gradient(#ffdde1 15%, transparent 16%), radial-gradient(#ffdde1 15%, transparent 16%);
+            background-size: 60px 60px; background-position: 0 0, 30px 30px;
+            color: #555; margin: 0; padding: 0; line-height: 1.8; padding-bottom: 80px; overflow-x: hidden;
         }
-        h2 { margin: 0; font-size: 16px; color: #d81b60; white-space: nowrap; }
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
-
-        .controls { display: flex; gap: 6px; align-items: center; margin-left: auto; }
-        .search-input { padding: 6px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 140px; outline: none; }
-        .filter-sel { padding: 5px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; background: white; color: #d81b60; outline: none; }
-        .btn-add { background: #d81b60; color: white; border: none; padding: 7px 15px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
-
-        /* スクロール可能なテーブルエリア */
-        .main-content {
-            height: calc(100vh - 65px); /* ヘッダー分を引いた高さ */
-            overflow-y: auto; /* ここだけスクロールさせる */
-            display: flex; justify-content: center;
-        }
-
-        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        
-        /* 表の見出し（ヘッダー）を固定 */
-        thead th { 
-            background: #a51d4d; color: white; padding: 10px 2px; font-size: 11px; 
-            cursor: pointer; position: sticky; top: 0; z-index: 150; 
-            border: 1px solid #8e153e; user-select: none;
-        }
-        thead th:hover { background: #c2185b; }
-        
-        td { padding: 8px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
-
-        /* --- 各列の幅をミリ単位で固定（ズレ防止） --- */
-        .w-no { width: 40px; color: #bbb; font-size: 10px; }
-        .w-name { width: 110px; font-weight: bold; text-align: left; padding-left: 10px; } 
-        .w-kana { width: 130px; color: #888; text-align: left; }
-        .w-gen { width: 50px; }
-        .w-cls { width: 50px; font-weight: bold; color: #d81b60; }
-        .w-act { width: 50px; }
-
-        /* 編集・その他スタイル */
-        .editable { background: #fffafc; cursor: text; }
-        .editable:focus { background: #fff; outline: 1px solid #ff8da1; box-shadow: inset 0 0 5px rgba(216, 27, 96, 0.1); }
-        .gender-tag { padding: 3px 7px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
-        .gender-男 { background: #e3f2fd; color: #1e88e5; }
-        .gender-女 { background: #fce4ec; color: #d81b60; }
-        .del-link { color: #ccc; font-size: 11px; cursor: pointer; }
-        .del-link:hover { color: #ea4335; text-decoration: underline; }
+        .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        .sakura-petal { position: absolute; background-color: #ffc0cb; border-radius: 150% 0 150% 0; animation: sakura-fall linear forwards; }
+        @keyframes sakura-fall { 0% { transform: translate(0, -10%) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: translate(150px, 110vh) rotate(720deg); opacity: 0; } }
+        .container { position: relative; z-index: 100; box-sizing: border-box; max-width: 720px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.96); padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; backdrop-filter: blur(2px); }
+        .side-img { position: fixed; z-index: 0; pointer-events: none; width: calc(50vw - 360px); height: auto; }
+        .img-left { top: 0; left: 0; }
+        .img-right { bottom: 0; right: 0; }
+        header { text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px; background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .header-title { color: #ffffff; font-size: 2.4em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
+        .music-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .music-btn { background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.3s; display: flex; align-items: center; gap: 5px; }
+        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
+        .info-box { margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.2); }
+        .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
+        .info-table th { width: 75px; color: #d65f82; font-weight: bold; text-align: left; padding: 10px 0; border-bottom: 1px solid #fff0f5; }
+        .info-table td { padding: 10px 0; color: #444; border-bottom: 1px solid #fff0f5; }
+        .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
+        .contents-index a { color: #555; text-decoration: none; font-size: 15px; font-weight: 700; display: inline-block; }
+        .contents-index a::before { content: "🌸 "; }
+        .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
+        .oval-title { display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5; border-radius: 60px; background-color: #fff; color: #ff8da1; font-weight: 700; font-size: 16px; line-height: 1.5; }
+        .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; }
+        .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .search-box { padding: 12px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 16px; box-sizing: border-box; background-color: #fffafa; width: 100%; }
+        .result-item { background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border-left: 4px solid #87ceeb; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+        .result-name { font-weight: 700; font-size: 1.1em; color: #333; }
+        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; font-size: 11px; font-weight: 700; }
+        .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
+        .video-item { display: flex; align-items: center; background: #fff; margin-bottom: 12px; padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5; box-shadow: 0 3px 6px rgba(0,0,0,0.05); gap: 15px; }
+        .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; background-color: #f0f0f0; flex-shrink: 0; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
+        footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
 </head>
 <body>
-
-<div class="header-panel">
-    <h2>🌸 名簿マスター</h2>
-    <div id="status" class="status-badge">同期済み</div>
-    <div class="controls">
-        <input type="text" id="q" class="search-input" placeholder="名前・カナ検索...">
-        <select id="fGen" class="filter-sel"><option value="">性別</option><option value="男">男</option><option value="女">女</option></select>
-        <select id="fC1" class="filter-sel"><option value="">1年</option></select>
-        <select id="fC2" class="filter-sel"><option value="">2年</option></select>
-        <select id="fC3" class="filter-sel"><option value="">3年</option></select>
-        <button class="btn-add" onclick="addM()">＋新規</button>
-        <div style="font-size:12px; font-weight:bold; color:#d81b60; min-width:35px;">[<span id="cnt">0</span>]</div>
+<div id="sakura-container" class="sakura-container"></div>
+<audio id="audio_okamachi" loop src="岡町商店街の唄.mp3"></audio>
+<audio id="audio_kouka" loop src="桜塚校歌.mp3"></audio>
+<video src="二人でお辞儀.mp4" class="side-img img-left" autoplay loop muted playsinline></video>
+<video src="二人で踊る動画.mp4" class="side-img img-right" autoplay loop muted playsinline></video>
+<div class="container">
+    <header id="page-top">
+        <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
+        <div class="music-controls">
+            <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
+            <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
+        </div>
+    </header>
+    <section class="info-box">
+        <h2>🌸 卒業50周年記念同期会 お知らせ</h2>
+        <table class="info-table">
+            <tr><th>日時</th><td><strong>2026年5月24日(日)</strong><br>12:00 ～ 14:30</td></tr>
+            <tr><th>場所</th><td><strong>リストランテ翔 21</strong> (大阪梅田 OITタワー 21 階)</td></tr>
+        </table>
+    </section>
+    <nav id="top-index" class="contents-index">
+        <h2>目次一覧</h2>
+        <ul><li><a href="#section_vol1">第1回 同期会</a></li><li><a href="#section_vol7">第7回 同期会</a></li><li><a href="#section_archive">特別付録（資料検索）</a></li></ul>
+    </nav>
+    <div id="section_archive" class="section-header">
+        <div class="oval-title">特別付録：資料アーカイブ</div>
     </div>
+    <div class="search-area">
+        <input type="text" id="searchInput" class="search-box" placeholder="名前を入力...">
+        <div id="searchResult" style="margin-top:20px;"></div>
+    </div>
+    <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
 </div>
-
-<div class="main-content">
-    <table id="tbl">
-        <thead>
-            <tr>
-                <th class="w-no">No</th>
-                <th class="w-name" onclick="srt('name')">氏名 ▼▲</th>
-                <th class="w-kana" onclick="srt('kana')">カナ ▼▲</th>
-                <th class="w-gen" onclick="srt('gen')">性別</th>
-                <th class="w-cls" onclick="srt('c1')">1年</th>
-                <th class="w-cls" onclick="srt('c2')">2年</th>
-                <th class="w-cls" onclick="srt('c3')">3年</th>
-                <th class="w-act">操作</th>
-            </tr>
-        </thead>
-        <tbody id="out"></tbody>
-    </table>
-</div>
-
 <script>
-    const CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    const GAS = "https://script.google.com/macros/s/AKfycbyj-nWSJYOn2_ry9z7UNv9LBxeUyAQkO4ixdwNht6KaVX6UFW6EnXvPq733-jDw2vvz4w/exec";
-
-    let data = [];
-    let sK = 'kana'; 
-    let sA = true;
-
-    function getG(v) {
-        if(!v) return "";
-        let s = String(v).trim();
-        let m = s.match(/(\d+)[-月](\d+)/); 
-        if(m) return m[2];
-        let d = s.match(/\d+/);
-        return d ? d[0] : s;
-    }
-
-    async function load() {
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
+    let memberData = [];
+    async function loadData() {
         try {
-            const res = await fetch(CSV);
+            const res = await fetch(SHEET_URL);
             const txt = await res.text();
-            const rows = txt.replace(/\r/g, '').split('\n').slice(1);
-            data = rows.map(r => {
+            const rows = txt.split(/\r?\n/).slice(1);
+            const fmt = (v) => v ? v.replace('月','-').replace('日','').trim() : "";
+            memberData = rows.map(r => {
                 const c = r.split(',');
-                return { 
-                    originalName: (c[0]||"").trim(), 
-                    name: (c[0]||"").trim(), 
-                    kana: (c[1]||"").trim(), 
-                    c1: getG(c[2]), 
-                    c2: getG(c[4]), 
-                    c3: getG(c[6]), 
-                    gen: (c[8]||"男").trim() 
-                };
+                return { name: c[0]||"", kana: c[1]||"", c1: fmt(c[2]), l1: c[3]||"", c2: fmt(c[4]), l2: c[5]||"" };
             }).filter(m => m.name);
-            updateFilters();
-            render();
-        } catch (e) { console.error("Load Error"); }
+            document.body.style.opacity = 1;
+        } catch (e) { console.error(e); }
     }
-
-    function updateFilters() {
-        const setOpts = (id, key) => {
-            const sel = document.getElementById(id);
-            const cur = sel.value;
-            const vals = [...new Set(data.map(m => m[key]))].filter(v => v).sort((a,b)=>a-b);
-            sel.innerHTML = `<option value="">${sel.options[0].text}</option>`;
-            vals.forEach(v => sel.innerHTML += `<option value="${v}" ${v==cur?'selected':''}>${v}組</option>`);
-        };
-        setOpts('fC1', 'c1'); setOpts('fC2', 'c2'); setOpts('fC3', 'c3');
-    }
-
-    function render() {
-        const body = document.getElementById('out');
-        const query = document.getElementById('q').value.toLowerCase();
-        const f_gen = document.getElementById('fGen').value;
-        const f_c1 = document.getElementById('fC1').value;
-        const f_c2 = document.getElementById('fC2').value;
-        const f_c3 = document.getElementById('fC3').value;
-
-        body.innerHTML = "";
-        const filtered = data.filter(m => {
-            return (m.name.includes(query) || m.kana.includes(query)) &&
-                   (!f_gen || m.gen === f_gen) &&
-                   (!f_c1 || m.c1 === f_c1) &&
-                   (!f_c2 || m.c2 === f_c2) &&
-                   (!f_c3 || m.c3 === f_c3);
+    document.getElementById('searchInput').oninput = function() {
+        const q = this.value;
+        const out = document.getElementById('searchResult');
+        out.innerHTML = "";
+        if(!q) return;
+        memberData.filter(m => m.name.includes(q) || m.kana.includes(q)).forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `<span class="result-name">${m.name}</span><div><a href="${m.l1}" class="class-btn" target="_blank">1年${m.c1}</a> <a href="${m.l2}" class="class-btn" target="_blank">2年${m.c2}</a></div>`;
+            out.appendChild(div);
         });
-
-        filtered.forEach((m, i) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="w-no">${i+1}</td>
-                <td class="w-name editable" contenteditable="true" onblur="sync('${m.originalName}','名前',this.innerText)">${m.name}</td>
-                <td class="w-kana editable" contenteditable="true" onblur="sync('${m.originalName}','フリガナ',this.innerText)">${m.kana}</td>
-                <td class="w-gen"><span class="gender-tag gender-${m.gen}" onclick="tglG(this,'${m.originalName}')">${m.gen}</span></td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','1年組',this.innerText)">${m.c1}</td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','2年組',this.innerText)">${m.c2}</td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','3年組',this.innerText)">${m.c3}</td>
-                <td class="w-act"><span class="del-link" onclick="delM('${m.originalName}')">削除</span></td>
-            `;
-            body.appendChild(tr);
-        });
-        document.getElementById('cnt').innerText = filtered.length;
+    };
+    function createSakura() {
+        const container = document.getElementById('sakura-container');
+        const petal = document.createElement('div');
+        petal.className = 'sakura-petal';
+        petal.style.width = petal.style.height = (Math.random()*10+10)+'px';
+        petal.style.left = Math.random()*100+'vw';
+        petal.style.animationDuration = (Math.random()*3+7)+'s';
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), 10000);
     }
-
-    async function sync(oldName, col, newVal) {
-        const st = document.getElementById('status');
-        st.innerText = "同期中..."; st.className = "status-badge"; st.style.borderColor="#f1c40f"; st.style.color="#f1c40f";
-        
-        let val = String(newVal).trim();
-        if(col.includes('組') && val && !val.includes('-')) {
-            val = col.charAt(0) + "-" + val;
-        }
-
-        try {
-            const res = await fetch(GAS, { method: "POST", body: JSON.stringify({ name: oldName, column: col, value: val }) });
-            st.innerText = "同期済み"; st.style.borderColor="#2ecc71"; st.style.color="#2ecc71";
-            
-            const target = data.find(m => m.originalName === oldName);
-            if(target) {
-                if(col === '名前') target.originalName = val;
-                const keyMap = {"名前":"name", "フリガナ":"kana", "1年組":"c1", "2年組":"c2", "3年組":"c3", "性別":"gen"};
-                if(keyMap[col]) target[keyMap[col]] = (col.includes('組')) ? getG(val) : val;
-                if(col.includes('組')) updateFilters();
-            }
-        } catch (e) { 
-            st.innerText = "同期失敗"; st.style.borderColor="#ea4335"; st.style.color="#ea4335";
-        }
+    setInterval(createSakura, 150);
+    const audios = { okamachi: document.getElementById('audio_okamachi'), kouka: document.getElementById('audio_kouka') };
+    const btns = { okamachi: document.getElementById('btn_okamachi'), kouka: document.getElementById('btn_kouka') };
+    function toggleMusic(type) {
+        const target = audios[type];
+        const other = audios[type === 'okamachi' ? 'kouka' : 'okamachi'];
+        const otherBtn = btns[type === 'okamachi' ? 'kouka' : 'okamachi'];
+        if (!target.paused) { target.pause(); btns[type].classList.remove('playing'); }
+        else { other.pause(); otherBtn.classList.remove('playing'); target.play(); btns[type].classList.add('playing'); }
     }
-
-    function tglG(el, name) {
-        const nxt = el.innerText.trim() === '男' ? '女' : '男';
-        el.innerText = nxt; el.className = `gender-tag gender-${nxt}`;
-        sync(name, '性別', nxt);
-    }
-
-    function addM() {
-        const n = prompt("新規追加する氏名を入力");
-        if(n) { data.unshift({originalName:n, name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); render(); sync(n, "名前", n); }
-    }
-
-    async function delM(name) {
-        if(confirm(name + " さんのデータを完全に削除しますか？")) {
-            await fetch(GAS, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
-            data = data.filter(m => m.originalName !== name); render();
-        }
-    }
-
-    function srt(k) {
-        sA = (sK === k) ? !sA : true; sK = k;
-        data.sort((a, b) => {
-            let va = a[k], vb = b[k];
-            if(k.includes('c')) { va = parseInt(va)||0; vb = parseInt(vb)||0; }
-            return (va < vb ? -1 : 1) * (sA ? 1 : -1);
-        });
-        render();
-    }
-
-    ['q', 'fGen', 'fC1', 'fC2', 'fC3'].forEach(id => {
-        document.getElementById(id).addEventListener(id==='q'?'input':'change', render);
-    });
-
-    load();
+    window.onload = loadData;
 </script>
 </body>
 </html>
