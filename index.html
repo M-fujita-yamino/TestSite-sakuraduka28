@@ -388,6 +388,28 @@
         </script>
     </ul>
 
+    <div id="dynamic-search-area" class="search-area" style="border-color: #87ceeb; background-color: #f0faff;">
+        <h3 style="color:#005a80; margin-top:0; border-bottom:1px dashed #87ceeb; padding-bottom:10px;">
+            🔍 リアルタイム名簿・写真検索
+            <span style="font-size:0.7em; color:#666; font-weight:normal; display:block; margin-top:5px;">
+                ※Googleスプレッドシートの最新データを参照します
+            </span>
+        </h3>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
+            <select id="dynamicClassSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer; border-color: #87ceeb;">
+                <option value="">全クラス</option>
+                <option value="1組">1組</option><option value="2組">2組</option>
+                <option value="3組">3組</option><option value="4組">4組</option>
+                <option value="5組">5組</option><option value="6組">6組</option>
+                <option value="7組">7組</option><option value="8組">8組</option>
+                <option value="9組">9組</option><option value="10組">10組</option>
+            </select>
+            <input type="text" id="dynamicSearchInput" class="search-box" style="flex:1; border-color: #87ceeb;" placeholder="スプレッドシートから名前検索...">
+        </div>
+        <div id="dynamicSearchResult" class="search-result"></div>
+    </div>
+
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
 </div>
 
@@ -504,9 +526,15 @@
         resetToTop();
     };
 </script>
+
 <script type="module">
     import { initPhotoSearch } from './photo-search.js';
-    initPhotoSearch();
+    initPhotoSearch({
+        classSelectId: 'dynamicClassSelect',
+        searchInputId: 'dynamicSearchInput',
+        resultDivId: 'dynamicSearchResult'
+    });
 </script>
+
 </body>
 </html>
