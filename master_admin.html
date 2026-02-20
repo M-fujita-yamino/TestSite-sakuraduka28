@@ -1,225 +1,56 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>桜塚28期：名簿マスター管理（絞り込み機能付）</title>
-    <style>
-        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; padding: 10px; font-size: 13px; }
-        
-        .header { 
-            background: rgba(255, 255, 255, 0.95); padding: 8px 15px; border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1); position: sticky; top: 0; z-index: 100;
-            border: 1px solid #ffc0cb; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-            max-width: 950px; margin: 0 auto 10px auto;
-        }
-        h2 { margin: 0; font-size: 15px; color: #d81b60; white-space: nowrap; }
-        .status { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
-
-        .controls { display: flex; gap: 5px; align-items: center; margin-left: auto; flex-wrap: wrap; }
-        .search-input { padding: 5px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 120px; }
-        .filter-select { padding: 4px 8px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; background: white; color: #d81b60; cursor: pointer; }
-        .btn-add { background: #d81b60; color: white; border: none; padding: 5px 15px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
-
-        .table-container { display: flex; justify-content: center; }
-        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        
-        th { background: #a51d4d; color: white; padding: 8px 2px; font-size: 11px; cursor: pointer; position: sticky; top: 55px; border: 1px solid #8e153e; }
-        th:hover { background: #c2185b; }
-        td { padding: 5px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
-
-        /* 幅の最適化 */
-        .w-no { width: 30px; color: #bbb; font-size: 10px; }
-        .w-name { width: 100px; font-weight: bold; text-align: left; padding-left: 10px; } 
-        .w-kana { width: 120px; color: #888; text-align: left; }
-        .w-gen { width: 40px; }
-        .w-cls { width: 45px; font-weight: bold; color: #d81b60; }
-        .w-act { width: 45px; }
-
-        .editable { background: #fffafc; cursor: text; transition: background 0.2s; }
-        .editable:focus { background: #fff; outline: 1px solid #ff8da1; box-shadow: inset 0 0 4px rgba(216, 27, 96, 0.1); }
-        
-        .gender-tag { padding: 2px 5px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
-        .gender-男 { background: #e3f2fd; color: #1e88e5; }
-        .gender-女 { background: #fce4ec; color: #d81b60; }
-        .del-link { color: #ccc; font-size: 11px; cursor: pointer; }
-        .del-link:hover { color: #ea4335; }
-    </style>
-</head>
-<body>
-
-<div class="header">
-    <h2>🌸 名簿管理</h2>
-    <div id="status" class="status">同期済み</div>
-    <div class="controls">
-        <input type="text" id="q" class="search-input" placeholder="氏名・カナ検索...">
-        
-        <select id="fGen" class="filter-select"><option value="">性別</option><option value="男">男</option><option value="女">女</option></select>
-        <select id="fC1" class="filter-select"><option value="">1年</option></select>
-        <select id="fC2" class="filter-select"><option value="">2年</option></select>
-        <select id="fC3" class="filter-select"><option value="">3年</option></select>
-
-        <button class="btn-add" onclick="addM()">＋新規</button>
-        <div style="font-size:12px; font-weight:bold; color:#d81b60;">[<span id="cnt">0</span>]</div>
-    </div>
-</div>
-
-<div class="table-container">
-    <table id="tbl">
-        <thead>
-            <tr>
-                <th class="w-no">No</th>
-                <th class="w-name" onclick="srt('name')">氏名 ▼▲</th>
-                <th class="w-kana" onclick="srt('kana')">カナ ▼▲</th>
-                <th class="w-gen" onclick="srt('gen')">性別</th>
-                <th class="w-cls" onclick="srt('c1')">1年</th>
-                <th class="w-cls" onclick="srt('c2')">2年</th>
-                <th class="w-cls" onclick="srt('c3')">3年</th>
-                <th class="w-act">操作</th>
-            </tr>
-        </thead>
-        <tbody id="out"></tbody>
-    </table>
-</div>
-
-<script>
-    const CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    const GAS = "https://script.google.com/macros/s/AKfycbyQPIRaAr3PEd6UevU_NO3ZTPnqdBP5MeqEbEmXl7m3oS3JtwDEi9kkuiM3K9IZEpV9/exec";
-
-    let data = [];
-    let sK = 'kana';
-    let sA = true;
-
-    function getG(v) {
-        if(!v) return "";
-        let s = String(v).trim();
-        let m = s.match(/(\d+)[-月](\d+)/); 
-        if(m) return m[2];
-        let d = s.match(/\d+/);
-        return d ? d[0] : s;
+// --- 修正版 sync 関数 ---
+async function sync(oldKey, col, newVal) {
+    const st = document.getElementById('status');
+    st.innerText = "同期中..."; 
+    st.style.borderColor = "#f1c40f"; 
+    st.style.color = "#f1c40f";
+    
+    // 空白除去と整形
+    let nameKey = String(oldKey).trim();
+    let val = String(newVal).trim();
+    
+    // クラス保存用の整形（例：2組 -> 1-2）
+    if(col.includes('組') && val && !val.includes('-')) {
+        val = col.charAt(0) + "-" + val;
     }
 
-    async function load() {
-        try {
-            const res = await fetch(CSV);
-            const txt = await res.text();
-            const rows = txt.replace(/\r/g, '').split('\n').slice(1);
-            data = rows.map(r => {
-                const c = r.split(',');
-                return { originalName: c[0]||"", name: c[0]||"", kana: c[1]||"", c1: getG(c[2]), c2: getG(c[4]), c3: getG(c[6]), gen: (c[8]||"男").trim() };
-            }).filter(m => m.name);
-
-            // フィルター項目の動的生成
-            updateFilterOptions();
-            render();
-        } catch (e) { console.error("データ読み込み失敗"); }
-    }
-
-    function updateFilterOptions() {
-        const createOpts = (id, key) => {
-            const sel = document.getElementById(id);
-            const val = sel.value; // 現在の選択を維持
-            const uniqueVals = [...new Set(data.map(m => m[key]))].filter(v => v).sort((a,b)=>a-b);
-            sel.innerHTML = `<option value="">${sel.options[0].text}</option>`;
-            uniqueVals.forEach(v => {
-                sel.innerHTML += `<option value="${v}" ${v==val?'selected':''}>${v}組</option>`;
-            });
-        };
-        createOpts('fC1', 'c1'); createOpts('fC2', 'c2'); createOpts('fC3', 'c3');
-    }
-
-    function render() {
-        const body = document.getElementById('out');
-        const q = document.getElementById('q').value.toLowerCase();
-        const fg = document.getElementById('fGen').value;
-        const fc1 = document.getElementById('fC1').value;
-        const fc2 = document.getElementById('fC2').value;
-        const fc3 = document.getElementById('fC3').value;
-
-        body.innerHTML = "";
-        const filtered = data.filter(m => {
-            return (m.name.includes(q) || m.kana.includes(q)) &&
-                   (!fg || m.gen === fg) &&
-                   (!fc1 || m.c1 === fc1) &&
-                   (!fc2 || m.c2 === fc2) &&
-                   (!fc3 || m.c3 === fc3);
+    try {
+        const response = await fetch(GAS, { 
+            method: "POST", 
+            body: JSON.stringify({ name: nameKey, column: col, value: val }) 
         });
+        
+        if (!response.ok) throw new Error('Network response was not ok');
 
-        filtered.forEach((m, i) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="w-no">${i+1}</td>
-                <td class="w-name editable" contenteditable="true" onblur="sync('${m.originalName}','名前',this.innerText)">${m.name}</td>
-                <td class="w-kana editable" contenteditable="true" onblur="sync('${m.originalName}','フリガナ',this.innerText)">${m.kana}</td>
-                <td class="w-gen"><span class="gender-tag gender-${m.gen}" onclick="tglG(this,'${m.originalName}')">${m.gen}</span></td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','1年組',this.innerText)">${m.c1}</td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','2年組',this.innerText)">${m.c2}</td>
-                <td class="w-cls editable" contenteditable="true" onblur="sync('${m.originalName}','3年組',this.innerText)">${m.c3}</td>
-                <td class="w-act"><span class="del-link" onclick="delM('${m.originalName}')">削除</span></td>
-            `;
-            body.appendChild(tr);
-        });
-        document.getElementById('cnt').innerText = filtered.length;
-    }
-
-    async function sync(oldKey, col, newVal) {
-        const st = document.getElementById('status');
-        st.innerText = "同期中..."; st.style.borderColor = "#f1c40f"; st.style.color = "#f1c40f";
-        let sv = newVal.trim();
-        if(col.includes('組') && sv && !sv.includes('-')) sv = col.charAt(0) + "-" + sv;
-
-        try {
-            await fetch(GAS, { method: "POST", body: JSON.stringify({ name: oldKey, column: col, value: sv }) });
-            st.innerText = "同期済み"; st.style.borderColor = "#2ecc71"; st.style.color = "#2ecc71";
-            
-            const target = data.find(m => m.originalName === oldKey);
-            if(target) {
-                if(col === '名前') target.originalName = sv;
-                target[col.replace('組','').replace('フリガナ','kana').replace('名前','name')] = sv;
-                // クラスが変更された場合にフィルターの選択肢を更新
-                if(col.includes('組')) updateFilterOptions();
-            }
-        } catch (e) { st.innerText = "エラー"; }
-    }
-
-    function tglG(el, name) {
-        const nxt = el.innerText === '男' ? '女' : '男';
-        el.innerText = nxt; el.className = `gender-tag gender-${nxt}`;
-        sync(name, '性別', nxt);
-    }
-
-    function addM() {
-        const n = prompt("追加するフルネームを入力してください");
-        if(n) { 
-            data.unshift({originalName:n, name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); 
-            render(); 
-            sync(n, "名前", n); 
+        st.innerText = "同期済み"; 
+        st.style.borderColor = "#2ecc71"; 
+        st.style.color = "#2ecc71";
+        
+        // メモリ上のデータも更新して整合性を保つ
+        const target = data.find(m => m.originalName === oldKey);
+        if(target) {
+            if(col === '名前') target.originalName = val;
+            // 内部プロパティ名のマッピング
+            const propMap = {"名前":"name", "フリガナ":"kana", "1年組":"c1", "2年組":"c2", "3年組":"c3", "性別":"gen"};
+            if(propMap[col]) target[propMap[col]] = val;
         }
+    } catch (e) { 
+        st.innerText = "同期失敗"; 
+        st.style.borderColor = "#ea4335";
+        st.style.color = "#ea4335";
+        console.error("Error:", e);
     }
+}
 
-    async function delM(name) {
-        if(confirm(name + " さんのデータを完全に削除しますか？")) {
-            await fetch(GAS, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
-            data = data.filter(m => m.originalName !== name); 
-            render();
-        }
-    }
-
-    function srt(k) {
-        sA = (sK === k) ? !sA : true; sK = k;
-        data.sort((a, b) => {
-            let va = a[k], vb = b[k];
-            if(k.includes('c')) { va = parseInt(va)||0; vb = parseInt(vb)||0; }
-            return (va < vb ? -1 : 1) * (sA ? 1 : -1);
-        });
-        render();
-    }
-
-    // フィルターイベント一括登録
-    ['q', 'fGen', 'fC1', 'fC2', 'fC3'].forEach(id => {
-        document.getElementById(id).addEventListener(id==='q'?'input':'change', render);
-    });
-
-    load();
-</script>
-</body>
-</html>
+// --- 修正版 性別トグル関数 ---
+function tglG(el, name) {
+    const current = el.innerText.trim();
+    const next = current === '男' ? '女' : '男';
+    
+    // 見た目を先に変える
+    el.innerText = next; 
+    el.className = `gender-tag gender-${next}`;
+    
+    // GASに送信
+    sync(name, '性別', next);
+}
