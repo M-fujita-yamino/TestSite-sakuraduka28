@@ -2,36 +2,33 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>桜塚28期：名簿マスター管理 V4</title>
+    <title>桜塚28期：名簿マスター管理 V4.1</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; font-size: 13px; overflow: hidden; }
         
-        /* 操作パネル固定 */
         .header-panel { 
             background: rgba(255, 255, 255, 0.98); padding: 10px 15px; 
             box-shadow: 0 2px 10px rgba(233, 30, 99, 0.1); position: relative; z-index: 200;
             border-bottom: 1px solid #ffc0cb; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
         }
         h2 { margin: 0; font-size: 16px; color: #d81b60; white-space: nowrap; }
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
+        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; border: 1px solid; }
 
         .controls { display: flex; gap: 6px; align-items: center; margin-left: auto; }
         .search-input { padding: 6px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 140px; outline: none; }
         .filter-sel { padding: 5px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; background: white; color: #d81b60; outline: none; }
         .btn-add { background: #d81b60; color: white; border: none; padding: 7px 15px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
-        /* スクロールエリア */
         .main-content { height: calc(100vh - 65px); overflow-y: auto; display: flex; justify-content: center; }
 
-        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 50px; }
         thead th { 
             background: #a51d4d; color: white; padding: 10px 2px; font-size: 11px; 
             cursor: pointer; position: sticky; top: 0; z-index: 150; border: 1px solid #8e153e;
         }
         td { padding: 8px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
 
-        /* 列幅固定（ズレ防止） */
         .w-no { width: 40px; color: #bbb; font-size: 10px; }
         .w-name { width: 110px; font-weight: bold; text-align: left; padding-left: 10px; } 
         .w-kana { width: 130px; color: #888; text-align: left; }
@@ -45,12 +42,13 @@
         .gender-男 { background: #e3f2fd; color: #1e88e5; }
         .gender-女 { background: #fce4ec; color: #d81b60; }
         .del-link { color: #ccc; font-size: 11px; cursor: pointer; }
+        .del-link:hover { color: #ea4335; }
     </style>
 </head>
 <body>
 
 <div class="header-panel">
-    <h2>🌸 名簿マスター V4</h2>
+    <h2>🌸 名簿マスター V4.1</h2>
     <div id="status" class="status-badge">同期済み</div>
     <div class="controls">
         <input type="text" id="q" class="search-input" placeholder="名前・カナ検索...">
@@ -59,7 +57,7 @@
         <select id="fC2" class="filter-sel"><option value="">2年</option></select>
         <select id="fC3" class="filter-sel"><option value="">3年</option></select>
         <button class="btn-add" onclick="addM()">＋新規</button>
-        <div style="font-size:12px; font-weight:bold; color:#d81b60; min-width:35px;">[<span id="cnt">0</span>]</div>
+        <div style="font-size:12px; font-weight:bold; color:#d81b60; min-width:35px; text-align:right;">[<span id="cnt">0</span>]</div>
     </div>
 </div>
 
@@ -87,22 +85,26 @@
     const GAS = "https://script.google.com/macros/s/AKfycbyj-nWSJYOn2_ry9z7UNv9LBxeUyAQkO4ixdwNht6KaVX6UFW6EnXvPq733-jDw2vvz4w/exec";
 
     let data = [];
-    let photoMap = {}; // クラス名をキーにしたURL辞書
+    let photoMap = {}; 
     let sK = 'kana'; 
     let sA = true;
 
+    // --- 強化された getG 関数 ---
     function getG(v) {
         if(!v) return "";
         let s = String(v).trim();
-        let m = s.match(/(\d+)[-月](\d+)/); 
-        if(m) return m[2];
-        let d = s.match(/\d+/);
-        return d ? d[0] : s;
+        // 1. 文末の数字を最優先（例：「3-5」「3年5組」「3月5日」→ 5）
+        let m = s.match(/(\d+)$/);
+        // 2. ハイフンの後ろの数字（例：「3-5」→ 5）
+        if(!m) m = s.match(/-(\d+)/);
+        // 3. それでもダメなら最初に見つかった数字
+        if(!m) m = s.match(/(\d+)/);
+        
+        return m ? m[1] : s;
     }
 
     async function load() {
         try {
-            // 1. 写真マスターの読み込み
             const resP = await fetch(PHOTO_CSV);
             const txtP = await resP.text();
             txtP.split('\n').slice(1).forEach(line => {
@@ -110,7 +112,6 @@
                 if(cols.length >= 2) photoMap[cols[0].trim()] = cols[1].trim();
             });
 
-            // 2. 名簿の読み込み
             const resM = await fetch(MEIBO_CSV);
             const txtM = await resM.text();
             const rows = txtM.replace(/\r/g, '').split('\n').slice(1);
@@ -129,46 +130,22 @@
 
             updateFilters();
             render();
-        } catch (e) { console.error("データ読み込み失敗"); }
+        } catch (e) { console.error("Data Load Error"); }
     }
 
-    // フィルタ・描画・同期・ソート関数（V3のロジックを継承）
-    // ... [以下、V3と同じロジックが続くため、V4で重要な同期部分のみ記述] ...
-
-    async function sync(oldName, col, newVal) {
-        const st = document.getElementById('status');
-        st.innerText = "同期中..."; st.style.borderColor="#f1c40f"; st.style.color="#f1c40f";
-        
-        let val = String(newVal).trim();
-        // ★重要：クラス名が変わった時は「1-x」形式に整形して名簿シートへ送る
-        let sendVal = val;
-        if(col.includes('組') && val && !val.includes('-')) {
-            sendVal = col.charAt(0) + "-" + val;
-        }
-
-        try {
-            await fetch(GAS, { method: "POST", body: JSON.stringify({ name: oldName, column: col, value: sendVal }) });
-            st.innerText = "同期済み"; st.style.borderColor="#2ecc71"; st.style.color="#2ecc71";
-            
-            // ローカルデータ更新
-            const target = data.find(m => m.originalName === oldName);
-            if(target) {
-                if(col === '名前') target.originalName = val;
-                const keyMap = {"名前":"name", "フリガナ":"kana", "1年組":"c1", "2年組":"c2", "3年組":"c3", "性別":"gen"};
-                if(keyMap[col]) target[keyMap[col]] = (col.includes('組')) ? getG(val) : val;
-            }
-        } catch (e) { st.innerText = "同期失敗"; st.style.borderColor="#ea4335"; st.style.color="#ea4335"; }
-    }
-    
-    // 他の共通関数（render, srt, tglG, updateFilters, addM, delM）はV3と同様に実装
-    // [スペースの関係で省略しますが、V3の全機能を内包しています]
     function updateFilters() {
         const setOpts = (id, key) => {
             const sel = document.getElementById(id);
             const cur = sel.value;
-            const vals = [...new Set(data.map(m => m[key]))].filter(v => v).sort((a,b)=>a-b);
+            // 数値としてソート
+            const vals = [...new Set(data.map(m => m[key]))]
+                        .filter(v => v && !isNaN(v))
+                        .sort((a,b) => parseInt(a) - parseInt(b));
+            
             sel.innerHTML = `<option value="">${sel.options[0].text}</option>`;
-            vals.forEach(v => sel.innerHTML += `<option value="${v}" ${v==cur?'selected':''}>${v}組</option>`);
+            vals.forEach(v => {
+                sel.innerHTML += `<option value="${v}" ${v==cur?'selected':''}>${v}組</option>`;
+            });
         };
         setOpts('fC1', 'c1'); setOpts('fC2', 'c2'); setOpts('fC3', 'c3');
     }
@@ -180,6 +157,7 @@
         const f_c1 = document.getElementById('fC1').value;
         const f_c2 = document.getElementById('fC2').value;
         const f_c3 = document.getElementById('fC3').value;
+
         body.innerHTML = "";
         const filtered = data.filter(m => {
             return (m.name.includes(query) || m.kana.includes(query)) &&
@@ -188,6 +166,7 @@
                    (!f_c2 || m.c2 === f_c2) &&
                    (!f_c3 || m.c3 === f_c3);
         });
+
         filtered.forEach((m, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -203,6 +182,33 @@
             body.appendChild(tr);
         });
         document.getElementById('cnt').innerText = filtered.length;
+    }
+
+    async function sync(oldName, col, newVal) {
+        const st = document.getElementById('status');
+        st.innerText = "同期中..."; st.style.borderColor="#f1c40f"; st.style.color="#f1c40f";
+        
+        let val = String(newVal).trim();
+        let sendVal = val;
+        if(col.includes('組') && val && !val.includes('-')) {
+            sendVal = col.charAt(0) + "-" + val;
+        }
+
+        try {
+            const res = await fetch(GAS, { method: "POST", body: JSON.stringify({ name: oldName, column: col, value: sendVal }) });
+            if(!res.ok) throw new Error();
+            st.innerText = "同期済み"; st.style.borderColor="#2ecc71"; st.style.color="#2ecc71";
+            
+            const target = data.find(m => m.originalName === oldName);
+            if(target) {
+                if(col === '名前') target.originalName = val;
+                const keyMap = {"名前":"name", "フリガナ":"kana", "1年組":"c1", "2年組":"c2", "3年組":"c3", "性別":"gen"};
+                if(keyMap[col]) target[keyMap[col]] = (col.includes('組')) ? getG(val) : val;
+                if(col.includes('組')) updateFilters();
+            }
+        } catch (e) { 
+            st.innerText = "同期失敗"; st.style.borderColor="#ea4335"; st.style.color="#ea4335";
+        }
     }
 
     function tglG(el, name) {
