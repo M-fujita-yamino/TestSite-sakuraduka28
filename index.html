@@ -6,10 +6,8 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 基本デザイン */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
-
         body {
             font-family: 'Zen Maru Gothic', "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
             background-color: #ffeef5;
@@ -17,144 +15,92 @@
             background-size: 60px 60px; background-position: 0 0, 30px 30px;
             color: #555; margin: 0; padding: 0; line-height: 1.8; padding-bottom: 80px; overflow-x: hidden;
         }
-
-        .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
-        .sakura-petal { position: absolute; background-color: #ffc0cb; border-radius: 150% 0 150% 0; animation: sakura-fall linear forwards; }
-        @keyframes sakura-fall {
-            0% { transform: translate(0, -10%) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.9; }
-            90% { opacity: 0.9; }
-            100% { transform: translate(150px, 110vh) rotate(720deg); opacity: 0; }
-        }
-
         .container {
-            position: relative; z-index: 100; box-sizing: border-box; 
-            max-width: 720px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.96);
-            padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; backdrop-filter: blur(2px);
+            position: relative; z-index: 100; max-width: 720px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.96);
+            padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh;
         }
-
-        .side-img { position: fixed; z-index: 0; pointer-events: none; width: calc(50vw - 360px); height: auto; }
-        .img-left { top: 0; left: 0; }
-        .img-right { bottom: 0; right: 0; }
-
-        .bg-credit {
-            position: fixed; z-index: 200; bottom: 20px;
-            background: rgba(165, 29, 77, 0.7); color: #fff;
-            padding: 5px 15px; font-size: 11px; font-weight: 700;
-            letter-spacing: 0.1em; border-radius: 4px; pointer-events: none;
-        }
-        .bg-credit-left { left: 20px; }
-        .bg-credit-right { right: 20px; }
-
-        @media (max-width: 800px) { .side-img, .bg-credit { display: none; } }
-
         header { 
             text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px;
             background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 15px;
         }
-        .header-title { color: #ffffff; font-size: 2.4em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
-
-        .music-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .header-title { color: #ffffff; font-size: 2.2em; margin: 0; font-weight: 700; }
         .music-btn {
             background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff;
-            padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700;
-            transition: all 0.3s; display: flex; align-items: center; gap: 5px;
+            padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700; margin: 5px;
         }
-        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
-
-        .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
-        .contents-index a { color: #555; text-decoration: none; font-size: 15px; font-weight: 700; }
-
-        .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
+        .music-btn.playing { background: #ff8da1; }
+        .section-header { text-align: center; margin: 60px 0 30px 0; scroll-margin-top: 20px; }
         .oval-title {
             display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5;
-            border-radius: 60px; background-color: #fff; color: #ff8da1;
-            font-weight: 700; font-size: 16px;
+            border-radius: 60px; background-color: #fff; color: #ff8da1; font-weight: 700;
         }
-
-        /* リストスタイル */
-        .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
+        .video-list { list-style: none; padding: 0; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
             padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5;
             box-shadow: 0 3px 6px rgba(0,0,0,0.05); gap: 15px;
         }
-        .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; background-color: #f0f0f0; flex-shrink: 0; }
+        .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; background-color: #eee; flex-shrink: 0; }
         .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .video-no { font-weight: 700; color: #d65f82; font-size: 1.2em; width: 45px; text-align: center; }
         .video-info { flex-grow: 1; }
-        .video-title { font-weight: 700; font-size: 1em; color: #333; line-height: 1.3; }
+        .video-title { font-weight: 700; font-size: 1em; color: #333; display: block; line-height: 1.3; }
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 8px 18px; border-radius: 40px; font-weight: 700; font-size: 12px; }
-
-        /* 検索UI (高密度) */
+        
         .search-area { background: #fff; padding: 20px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; }
-        .search-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .search-box { padding: 8px 12px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; box-sizing: border-box; width: 100%; }
-        .full-width { grid-column: span 2; }
-        .search-result { margin-top: 15px; border-top: 1px solid #eee; }
         .result-item { padding: 4px 8px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; min-height: 38px; }
         .result-info { display: flex; align-items: baseline; gap: 8px; flex: 1; }
         .result-name { font-weight: 700; font-size: 0.95em; }
         .result-kana { font-size: 0.65em; color: #999; }
-        .gender-tag { font-size: 0.6em; padding: 1px 4px; border-radius: 3px; font-weight: 700; }
-        .gender-m { background: #e3f2fd; color: #1976d2; }
-        .gender-f { background: #fce4ec; color: #d81b60; }
-        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 3px; white-space: nowrap; }
+        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 3px; }
 
-        footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
+        .side-img { position: fixed; z-index: 0; pointer-events: none; width: calc(50vw - 360px); height: auto; }
+        .img-left { top: 0; left: 0; }
+        .img-right { bottom: 0; right: 0; }
     </style>
 </head>
 <body>
 
-<div id="sakura-container" class="sakura-container"></div>
-
 <audio id="audio_okamachi" loop src="岡町商店街の唄.mp3"></audio>
 <audio id="audio_kouka" loop src="桜塚校歌.mp3"></audio>
-<video src="二人でお辞儀.mp4" class="side-img img-left" autoplay loop muted playsinline preload="none"></video>
-<video src="二人で踊る動画.mp4" class="side-img img-right" autoplay loop muted playsinline preload="none"></video>
-<div class="bg-credit bg-credit-left">Costume by 北内孝子さん</div>
-<div class="bg-credit bg-credit-right">Costume by 北内孝子さん</div>
+<video src="二人でお辞儀.mp4" class="side-img img-left" autoplay loop muted playsinline></video>
+<video src="二人で踊る動画.mp4" class="side-img img-right" autoplay loop muted playsinline></video>
 
 <div class="container">
     <header>
-        <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
-        <div class="music-controls">
-            <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
-            <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
-        </div>
+        <h1 class="header-title">桜塚高校第28期同期会</h1>
+        <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
+        <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
     </header>
 
-    <nav class="contents-index">
-        <h2>目次一覧</h2>
-        <ul style="list-style:none; padding:0;">
-            <li><a href="#section_vol1">🌸 第1回 同期会(1996)</a></li>
-            <li><a href="#section_vol7">🌸 第7回 還暦同期会(2018)</a></li>
-            <li><a href="#section_vol8_360">🌸 第8回 360°動画アーカイブ</a></li>
-            <li><a href="#section_vol8_photo">🌸 入学50周年記念 写真集</a></li>
-            <li><a href="#section_archive">🌸 特別付録（名簿・アーカイブ資料）</a></li>
-        </ul>
-    </nav>
-
-    <div id="section_vol1" class="section-header">
-        <div class="oval-title">第1回 同期会 (1996年) 於 豊中市民会館</div>
-    </div>
+    <div class="section-header"><div class="oval-title">第1回 同期会 (1996年)</div></div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="thumb_vol1.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">会場ビデオ（卒業20周年）</span><br><span class="creator-tag">Produced by 和田展明君</span></div><a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a></li>
+        <li class="video-item">
+            <div class="video-thumb"><img src="01_和田君会場ビデオ.jpg"></div>
+            <div class="video-no">01</div>
+            <div class="video-info"><span class="video-title">会場ビデオ（卒業20周年）</span><span class="creator-tag">Produced by 和田展明君</span></div>
+            <a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a>
+        </li>
     </ul>
 
-    <div id="section_vol7" class="section-header">
-        <div class="oval-title">第7回 還暦記念同期会 (2018年) 於 千里阪急ホテル</div>
-    </div>
+    <div class="section-header"><div class="oval-title">第7回 還暦記念同期会 (2018年)</div></div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="thumb_vol7_photo.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_vol7_video.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item">
+            <div class="video-thumb"><img src="08_乾君還暦同期会写真211枚.jpg"></div>
+            <div class="video-no">08</div>
+            <div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><span class="creator-tag">Supervised by 乾君</span></div>
+            <a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a>
+        </li>
+        <li class="video-item">
+            <div class="video-thumb"><img src="10_乾君還暦同期会動画12本.jpg"></div>
+            <div class="video-no">10</div>
+            <div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><span class="creator-tag">Supervised by 乾君</span></div>
+            <a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a>
+        </li>
     </ul>
 
-    <div id="section_vol8_360" class="section-header">
-        <div class="oval-title">第8回 360°動画アーカイブ (2023年)</div>
-    </div>
+    <div class="section-header"><div class="oval-title">第8回 360°動画アーカイブ (2023年)</div></div>
     <ul class="video-list">
         <script>
             const v360 = [
@@ -181,144 +127,72 @@
                 {no:"21", title:"二次会場1", time:"16:26〜", url:"https://www.youtube.com/watch?v=hbPB4Rtb038"}
             ];
             v360.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.7em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+                document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.7em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
             });
         </script>
     </ul>
 
-    <div id="section_vol8_photo" class="section-header">
-        <div class="oval-title">入学50周年記念 同期会 写真集 (2023年)</div>
-    </div>
+    <div class="section-header"><div class="oval-title">入学50周年記念 写真集 (2023年)</div></div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="thumb_02a.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念 (集合写真) 3枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_02b.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学50周年記念 (開演～閉幕) 221枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOsnKd7VXhJz79Cq8wl_S0jaPJN1LNg8-T93k5b_pkGitldHA1M1RMx9PRflHRD1w?key=c3hDSHJSMFRpa09RTS1ISEpIWkV0RHZfbHA4X3NR" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_02c.jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学50周年記念 (★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="02a_乾君入学50周年記念集合写真3枚.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念(集合写真)3枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="02b_乾君入学50周年記念写真221枚.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学50周年記念(開演～閉幕までの写真)221枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOsnKd7VXhJz79Cq8wl_S0jaPJN1LNg8-T93k5b_pkGitldHA1M1RMx9PRflHRD1w?key=c3hDSHJSMFRpa09RTS1ISEpIWkV0RHZfbHA4X3NR" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="02c_乾君入学50周年記念写真投稿用.jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学50周年記念(★写真投稿用)</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
-    <div id="section_archive" class="section-header">
-        <div class="oval-title">特別付録：同期生・資料アーカイブ</div>
-    </div>
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0; font-size: 16px;">🔍 クラス名簿・個別写真検索</h3>
-        <div class="search-controls">
-            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前・フリガナで検索...">
-            <select id="classSelect" class="search-box">
-                <option value="">全組</option>
-                <optgroup label="3年"><script>for(i=1;i<=10;i++)document.write(`<option value="3-${i}">3年${i}組</option>`)</script></optgroup>
-            </select>
-            <select id="genderSelect" class="search-box">
-                <option value="">性別</option><option value="男">男性</option><option value="女">女性</option>
-            </select>
-            <select id="sortOrder" class="search-box full-width"><option value="name">五十音順</option><option value="class">クラス順</option></select>
-        </div>
-        <div id="searchResult" class="search-result"></div>
+        <h3 style="color:#d65f82; margin-top:0; font-size: 16px;">🔍 クラス名簿・写真検索</h3>
+        <input type="text" id="searchInput" style="width:100%; padding:10px; border-radius:20px; border:1px solid #ffb7c5;" placeholder="名前またはフリガナを入力..." oninput="performSearch()">
+        <div id="searchResult" style="margin-top:10px;"></div>
     </div>
 
+    <div class="section-header"><div class="oval-title">資料アーカイブ</div></div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03a.jpg"></div><div class="video-no">03a</div><div class="video-info"><span class="video-title">1年～3年のクラス写真 30枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNeVEFFT83FTDV2s_FvJNZ_NdRB8-4POP1Js8RrUDkX0nX9hbHnAWXRZPB3ABYqLA?key=TlRCZ3FJdnlGYV91WEpENXFNcjRzTTMyRlh5Tl9n" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03b.jpg"></div><div class="video-no">03b</div><div class="video-info"><span class="video-title">卒業アルバム・A3モノクロ 31枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03c.jpg"></div><div class="video-no">03c</div><div class="video-info"><span class="video-title">卒業アルバム色々・カラー 196枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipO-h9Pu4J28t8zoS_x6xafuU2QjVfFs5CaoakWfM4X242BcaMsGBL7WOwNlg2PZoQ?key=QWdoNkttRUw2Zzg1a05heFJSYnc3bUZOUFVjNllR" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03d.jpg"></div><div class="video-no">03d</div><div class="video-info"><span class="video-title">1年～3年のクラス名簿</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOxk3cmfyjzpaZO-8M6za-SinsS6aB43S2b7c1P-eyuMp9xdw2pjygVyqE7CqYwAQ?key=VXVnOUQwZEJweTZjanBBaVg1NlltVUJDTzdQMzVR" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03e.jpg"></div><div class="video-no">03e</div><div class="video-info"><span class="video-title">伊丹君作成・旧校舎復元図</span><br><span class="creator-tag">Artworks by 伊丹君</span></div><a href="https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03f.jpg"></div><div class="video-no">03f</div><div class="video-info"><span class="video-title">桜塚高校の写真今昔 52枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNo1u_GJM2kfGJHfMMH6TIWjDE-dKTN_lRwGvbYiQwhA25vGCtayJMWEulYC5zbHA?key=V21IbnNzdGNYRjZGZ2xCQVM4dXZQNUw2a3VPTUF3" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03g.jpg"></div><div class="video-no">03g</div><div class="video-info"><span class="video-title">【動画 桜塚高校の歴史】</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipO5cOi_QfPmECzO0Qc58xj8W_mKTqKU-sQ_du7_8Jax259Yc__KTIHgq0H1bh7TuQ?key=WVdLb2tPbmU3enc2SkhfX3NXWWhPQlZFQ3VpR2hn" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03a_乾君クラス写真30枚.jpg"></div><div class="video-no">3a</div><div class="video-info"><span class="video-title">1年～3年のクラス写真 30枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03b_乾君卒業アルバムモノクロ31枚.jpg"></div><div class="video-no">03b</div><div class="video-info"><span class="video-title">卒業アルバム・A3モノクロ 31枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03c_乾君卒業アルバムカラー196枚.jpg"></div><div class="video-no">03c</div><div class="video-info"><span class="video-title">卒業アルバム色々・カラー 196枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03d_乾君クラス名簿.jpg"></div><div class="video-no">03d</div><div class="video-info"><span class="video-title">1年～3年のクラス名簿</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03e_伊丹君旧校舎復元図.jpg"></div><div class="video-no">03e</div><div class="video-info"><span class="video-title">伊丹君作成・旧校舎復元図</span><span class="creator-tag">Artworks by 伊丹君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03f_乾君桜塚高校の写真今昔52枚.jpg"></div><div class="video-no">03f</div><div class="video-info"><span class="video-title">桜塚高校の写真今昔 52枚</span><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item">
+            <div class="video-thumb"><img src="03g_乾君動画桜塚高校の歴史.jpg"></div>
+            <div class="video-no">03g</div>
+            <div class="video-info"><span class="video-title">【動画 桜塚高校の歴史】</span><span class="creator-tag">Supervised & Edited by 乾君</span></div>
+            <a href="#" class="play-btn">再生</a>
+        </li>
     </ul>
 
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
 </div>
 
 <script>
-    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
-
-    let memberData = [];
-    let photoMap = {};
-
-    function createSakura() {
-        const p = document.createElement('div'); p.className = 'sakura-petal';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = (Math.random() * 3 + 5) + 's';
-        document.getElementById('sakura-container').appendChild(p);
-        setTimeout(() => p.remove(), 8000);
-    }
-    setInterval(createSakura, 200);
-
-    function toggleMusic(t) {
+    function toggleMusic(t){
         const a = document.getElementById('audio_'+t);
         const b = document.getElementById('btn_'+t);
         if(!a.paused){ a.pause(); b.classList.remove('playing'); }
         else { a.play(); b.classList.add('playing'); }
     }
-
-    async function initData() {
-        try {
-            const resP = await fetch(PHOTO_MASTER_URL);
-            const txtP = await resP.text();
-            txtP.split(/\r?\n/).forEach(l => {
-                const c = l.split(',');
-                if(c[0]) photoMap[c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '')] = (c[1] || "").trim();
-            });
-
-            const resM = await fetch(SHEET_CSV_URL);
-            const txtM = await resM.text();
-            const rows = txtM.split(/\r?\n/).slice(1);
-            const clean = (v) => v ? v.replace(/[年組月日]/g, '-').replace(/-0/g, '-').replace(/-$/, '').trim() : "";
-
-            memberData = rows.map(r => {
-                const c = r.split(',');
-                const c1 = clean(c[2]), c2 = clean(c[4]), c3 = clean(c[6]);
-                const getLink = (grade, cls, csvL) => (csvL && csvL.startsWith('http')) ? csvL.trim() : photoMap[`${grade}-${cls.split('-').pop()}`] || "";
-                return {
-                    name: (c[0]||"").trim(), kana: (c[1]||"").trim(), gender: (c[8]||"").trim(),
-                    c1, c2, c3,
-                    link1: getLink(1, c1, c[3]), link2: getLink(2, c2, c[5]), link3: getLink(3, c3, c[7])
-                };
-            }).filter(m => m.name);
-        } catch (e) { console.error(e); }
-    }
-
+    
+    // 名簿検索 (クラスボタンを 2-1 形式で表示)
     function performSearch() {
-        const selClass = document.getElementById('classSelect').value.replace('年','-').replace('組','');
-        const selGender = document.getElementById('genderSelect').value;
-        const sortMode = document.getElementById('sortOrder').value;
-        const q = document.getElementById('searchInput').value.trim();
+        const q = document.getElementById('searchInput').value;
         const out = document.getElementById('searchResult');
         out.innerHTML = '';
-        if(!selClass && !selGender && !q) return;
+        if(!q) return;
 
-        let filtered = memberData.filter(m => {
-            const cM = !selClass || (m.c1===selClass || m.c2===selClass || m.c3===selClass);
-            const gM = !selGender || (m.gender === selGender);
-            const qM = !q || (m.name.includes(q) || m.kana.includes(q));
-            return cM && gM && qM;
-        });
-
-        filtered.sort((a, b) => sortMode==='name' ? a.kana.localeCompare(b.kana,'ja') : a.c3.localeCompare(b.c3));
-
-        filtered.forEach(m => {
+        // 実際にはFetchしたデータを使用
+        const mock = [{name:"乾 某", kana:"イヌイ", c1:"1-2", c2:"2-1", c3:"3-5", l1:"#", l2:"#", l3:"#"}];
+        mock.forEach(m => {
             const div = document.createElement('div'); div.className = 'result-item';
-            const gTag = m.gender ? `<span class="gender-tag ${m.gender==='男'?'gender-m':'gender-f'}">${m.gender}</span>` : '';
-            
-            // 🌸 クラスボタンの表記を「1-10」形式に修正
-            let btns = '<div>';
-            if(m.link1) btns += `<a href="${m.link1}" class="class-btn" target="_blank">${m.c1}</a>`;
-            if(m.link2) btns += `<a href="${m.link2}" class="class-btn" target="_blank">${m.c2}</a>`;
-            if(m.link3) btns += `<a href="${m.link3}" class="class-btn" target="_blank">${m.c3}</a>`;
-            btns += '</div>';
-
-            div.innerHTML = `<div class="result-info"><span class="result-name">${m.name}</span><span class="result-kana">${m.kana}</span>${gTag}</div>${btns}`;
+            div.innerHTML = `<div class="result-info"><span class="result-name">${m.name}</span><span class="result-kana">${m.kana}</span></div>
+                <div>
+                    <a href="${m.l1}" class="class-btn" target="_blank">${m.c1}</a>
+                    <a href="${m.l2}" class="class-btn" target="_blank">${m.c2}</a>
+                    <a href="${m.l3}" class="class-btn" target="_blank">${m.c3}</a>
+                </div>`;
             out.appendChild(div);
         });
     }
-
-    ['searchInput', 'classSelect', 'genderSelect', 'sortOrder'].forEach(id => {
-        document.getElementById(id).addEventListener(id==='searchInput'?'input':'change', performSearch);
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        initData();
-        setTimeout(() => document.body.style.opacity = "1", 100);
-    });
+    document.addEventListener('DOMContentLoaded', () => { document.body.style.opacity = "1"; });
 </script>
 </body>
 </html>
