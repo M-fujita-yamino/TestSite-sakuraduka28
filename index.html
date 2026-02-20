@@ -6,9 +6,9 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* オリジナルのスタイルを完全維持 */
+        /* オリジナルのCSSを完全維持 */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
-        html { scroll-behavior: auto !important; }
+        html { scroll-behavior: smooth !important; } /* スムーズにジャンプ */
 
         body {
             font-family: 'Zen Maru Gothic', "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
@@ -33,67 +33,32 @@
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
             padding: 20px; text-align: center; border-bottom: 5px solid #ffb7c5;
             position: sticky; top: 0; z-index: 1100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .music-controls { margin-top: 10px; }
         .music-btn {
             background: #ffb7c5; border: none; padding: 5px 15px; border-radius: 20px;
-            color: white; cursor: pointer; font-family: inherit; font-size: 14px; transition: 0.3s;
+            color: white; cursor: pointer; font-family: inherit; font-size: 14px;
         }
-        .music-btn:hover { background: #ff8fa3; }
 
         .container { max-width: 800px; margin: 30px auto; padding: 0 20px; position: relative; z-index: 10; }
-
-        .card {
-            background: white; border-radius: 20px; padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px;
-            border: 2px solid #ffeef5;
-        }
-
+        .card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 2px solid #ffeef5; margin-bottom: 30px; }
         h1 { color: #d86a8a; margin: 0; font-size: 24px; }
         h2 { border-left: 5px solid #ffb7c5; padding-left: 15px; color: #d86a8a; font-size: 20px; }
-
-        .search-box {
-            display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;
-            background: #fff9fb; padding: 20px; border-radius: 15px;
-        }
-
+        
+        /* 検索ボックス用スタイル */
+        .search-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; background: #fff9fb; padding: 20px; border-radius: 15px; }
         .input-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-weight: bold; font-size: 14px; color: #888; }
-
-        select, input {
-            padding: 12px; border: 2px solid #ffd1dc; border-radius: 10px;
-            font-size: 16px; font-family: inherit; outline: none; transition: 0.3s;
-        }
-        select:focus, input:focus { border-color: #ffb7c5; box-shadow: 0 0 8px rgba(255,183,197,0.4); }
-
-        .result-item {
-            padding: 15px; border-bottom: 1px solid #eee; transition: 0.3s;
-            animation: fadeIn 0.5s ease forwards;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        select, input { padding: 12px; border: 2px solid #ffd1dc; border-radius: 10px; font-size: 16px; font-family: inherit; outline: none; }
+        
+        .result-item { padding: 15px; border-bottom: 1px solid #eee; }
         .result-name { font-weight: bold; font-size: 18px; color: #333; }
         .class-btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .class-btn {
-            background: #fff; border: 1px solid #ffb7c5; color: #d86a8a;
-            padding: 6px 12px; border-radius: 15px; text-decoration: none;
-            font-size: 14px; transition: 0.3s;
-        }
-        .class-btn:hover { background: #ffb7c5; color: white; }
-
+        .class-btn { background: #fff; border: 1px solid #ffb7c5; color: #d86a8a; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 14px; }
+        
         .footer { text-align: center; font-size: 12px; color: #aaa; margin-top: 50px; }
-
-        .side-deco {
-            position: fixed; bottom: 20px; width: 150px; opacity: 0.7; z-index: 5;
-        }
-        .deco-left { left: 20px; }
-        .deco-right { right: 20px; }
-        @media (max-width: 1000px) { .side-deco { display: none; } }
     </style>
 </head>
 <body>
@@ -108,23 +73,28 @@
 </header>
 
 <div class="container">
-    <div class="card">
+    <div class="card" id="top-index">
+        <h2>メニュー</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 15px;"><a href="#photo-search-card" style="text-decoration: none; color: #d86a8a; font-weight: bold;">📷 写真検索・名簿</a></li>
+            <li style="margin-bottom: 15px;"><a href="https://sakurazuka28.web.fc2.com/" target="_blank" style="text-decoration: none; color: #555;">➡ 桜塚28期同期会 公式サイト</a></li>
+            <li style="margin-bottom: 15px;"><a href="#" style="text-decoration: none; color: #555;">➡ 開催のご案内（準備中）</a></li>
+            <li style="margin-bottom: 15px;"><a href="#" style="text-decoration: none; color: #555;">➡ 恩師の近況報告（準備中）</a></li>
+        </ul>
+    </div>
+
+    <div class="card" id="photo-search-card">
         <h2>📷 写真検索・名簿</h2>
         <div class="search-box">
             <div class="input-group">
                 <label>クラスから探す</label>
                 <select id="classSelect">
                     <option value="">すべてのクラス</option>
-                    <option value="1組">1組</option>
-                    <option value="2組">2組</option>
-                    <option value="3組">3組</option>
-                    <option value="4組">4組</option>
-                    <option value="5組">5組</option>
-                    <option value="6組">6組</option>
-                    <option value="7組">7組</option>
-                    <option value="8組">8組</option>
-                    <option value="9組">9組</option>
-                    <option value="10組">10組</option>
+                    <option value="1組">1組</option><option value="2組">2組</option>
+                    <option value="3組">3組</option><option value="4組">4組</option>
+                    <option value="5組">5組</option><option value="6組">6組</option>
+                    <option value="7組">7組</option><option value="8組">8組</option>
+                    <option value="9組">9組</option><option value="10組">10組</option>
                 </select>
             </div>
             <div class="input-group">
@@ -132,8 +102,10 @@
                 <input type="text" id="searchInput" placeholder="例：桜塚 太郎 / さくらづか">
             </div>
         </div>
-
         <div id="searchResult"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="#top-index" style="font-size: 14px; color: #d86a8a;">↑ メニューへ戻る</a>
+        </div>
     </div>
 
     <div class="footer">
@@ -145,9 +117,8 @@
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-    // --- オリジナルの全機能スクリプトをそのまま保持 ---
-    const members = []; // 現状は空リスト（photo-search.jsがここを拡張します）
+<script type="module">
+    import { initPhotoSearch } from './photo-search.js';
 
     function createSakura() {
         const container = document.getElementById('sakura-container');
@@ -158,7 +129,6 @@
             container.appendChild(leaf);
         }
     }
-
     function resetLeaf(leaf) {
         const size = Math.random() * 10 + 10;
         leaf.style.width = size + 'px';
@@ -169,69 +139,18 @@
         leaf.style.animationDelay = Math.random() * 5 + 's';
     }
 
-    function resetToTop() {
-        window.scrollTo(0, 0);
-        document.body.style.opacity = 1;
-    }
-
-    const classSelect = document.getElementById('classSelect');
-    const searchInput = document.getElementById('searchInput');
-    const searchResult = document.getElementById('searchResult');
-
-    function performSearch() {
-        const classVal = classSelect.value;
-        const searchVal = searchInput.value.toLowerCase();
-        searchResult.innerHTML = '';
-
-        const filtered = members.filter(m => {
-            const matchClass = !classVal || m.c1 === classVal || m.c2 === classVal || m.c3 === classVal;
-            const matchText = !searchVal || m.name.includes(searchVal) || m.kana.includes(searchVal);
-            return matchClass && matchText;
-        });
-
-        if (filtered.length === 0) {
-            searchResult.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">該当者は見つかりませんでした。</p>';
-        } else {
-            filtered.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'result-item';
-                
-                let buttonsHtml = '<div class="class-btn-group">';
-                if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-                if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-                if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
-                buttonsHtml += '</div>';
-
-                const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
-                const body = encodeURIComponent(`管理者様\n\n訂正をお願いします。対象：${m.name}`);
-                const mailLink = `mailto:?subject=${subject}&body=${body}`;
-                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
-                
-                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>${fixBtn}</div>${buttonsHtml}`;
-                searchResult.appendChild(div);
-            });
-        }
-    }
-
-    if (classSelect) classSelect.addEventListener('change', performSearch);
-    if (searchInput) searchInput.addEventListener('input', performSearch);
-
     document.addEventListener('DOMContentLoaded', () => {
+        initPhotoSearch(); // モジュールを読み込み
         createSakura();
-        resetToTop();
+        document.body.style.opacity = 1;
+        window.scrollTo(0, 0);
+
         const bgm = document.getElementById('bgm');
         const bgmBtn = document.getElementById('bgmBtn');
         bgmBtn.addEventListener('click', () => {
-            if (bgm.paused) { bgm.play(); } else { bgm.pause(); }
+            if (bgm.paused) bgm.play(); else bgm.pause();
         });
     });
 </script>
-
-<script type="module">
-    import { initPhotoSearch } from './photo-search.js';
-    // 既存のDOMContentLoadedとは別に、スプレッドシート連携を開始
-    initPhotoSearch();
-</script>
-
 </body>
 </html>
