@@ -1,17 +1,17 @@
 /**
- * スプレッドシート連動 高機能検索機能モジュール（JSONP & 絞り込み/ソート対応版）
+ * スプレッドシート連動 高機能検索機能モジュール
  */
 export async function initPhotoSearch({ classSelectId, searchInputId, resultDivId }) {
     const classSelect = document.getElementById(classSelectId);
     const searchInput = document.getElementById(searchInputId);
     const resultDiv = document.getElementById(resultDivId);
     
-    // ★ここにご自身のGAS URLを貼り付けてください
+    // ★ご自身のGAS URLをここに貼り付け
     const GAS_URL = 'https://script.google.com/macros/s/AKfycby6MV7JyQt2R9Wapooo8ZXTZAa-qVhD2k-rx0DG40vr826TtDLvOimFI1Ncs3OnStzDoA/exec';
 
     let allData = [];
 
-    // --- 絞り込み・ソート用UIの自動追加 ---
+    // --- UIの自動構築 ---
     const searchArea = document.getElementById('dynamic-search-area');
     const controlsWrap = document.createElement('div');
     controlsWrap.style.cssText = "display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; align-items: center;";
@@ -19,8 +19,8 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     controlsWrap.innerHTML = `
         <select id="dynamicSexSelect" class="search-box" style="width: 30%; min-width: 100px; border-color: #87ceeb; cursor: pointer;">
             <option value="">性別すべて</option>
-            <option value="男">男性</option>
-            <option value="女">女性</option>
+            <option value="男">男性のみ</option>
+            <option value="女">女性のみ</option>
         </select>
         <select id="dynamicSortSelect" class="search-box" style="flex: 1; min-width: 150px; border-color: #87ceeb; cursor: pointer;">
             <option value="kana_asc">五十音順 (あ→ん)</option>
@@ -28,8 +28,9 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             <option value="class_asc">クラス順 (1年→3年)</option>
         </select>
     `;
-    // クラス選択と名前入力フィールドの直後に挿入
-    searchArea.querySelector('div').after(controlsWrap);
+    
+    const targetContainer = searchArea.querySelector('div');
+    if (targetContainer) targetContainer.after(controlsWrap);
 
     const sexSelect = document.getElementById('dynamicSexSelect');
     const sortSelect = document.getElementById('dynamicSortSelect');
@@ -37,7 +38,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     // データ取得（JSONP方式）
     async function fetchData() {
         try {
-            resultDiv.innerHTML = '<div style="color:#666; padding:10px;">名簿データを同期中...</div>';
+            resultDiv.innerHTML = '<div style="color:#666; padding:10px;">データを同期中...</div>';
             const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
             const script = document.createElement('script');
             window[callbackName] = function(data) {
@@ -54,11 +55,10 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
 
     function onDataReceived(rawData) {
         if (!rawData || rawData.length < 2) {
-            resultDiv.innerHTML = '<div style="color:red; padding:10px;">データが読み込めませんでした</div>';
+            resultDiv.innerHTML = '<div style="color:red; padding:10px;">データが空です</div>';
             return;
         }
 
-        // データのマッピング（0:name, 1:kana, 2:sex, 3:c1, 4:c2, 5:c3, 6:link1, 7:link2, 8:link3）
         allData = rawData.slice(1).map(row => ({
             name:  String(row[0] || "").trim(),
             kana:  String(row[1] || "").trim(),
@@ -71,40 +71,40 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             link3: String(row[8] || "").trim()
         }));
 
-        resultDiv.innerHTML = '<div style="color:#999; padding:10px;">同期完了。条件を選択してください。</div>';
+        resultDiv.innerHTML = '<div style="color:#999; padding:10px;">同期完了。検索を開始してください。</div>';
     }
 
-    // 絞り込みと並べ替えの統合処理
     function updateSearch() {
         const selClass = classSelect.value;
         const query = searchInput.value.trim();
         const selSex = sexSelect.value;
         const sortType = sortSelect.value;
         
+        // 何も指定されていない時は案内を表示（全クラスが選ばれている場合も含む）
         if (!selClass && !query && !selSex) {
-            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">クラス選択、または検索ワードを入力してください</div>';
+            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>';
             return;
         }
 
-        // 1. フィルタリング
         let filtered = allData.filter(item => {
-            const matchClass = selClass ? (item.c1 === selClass || item.c2 === selClass || item.c3 === selClass) : true;
-            const matchName = query ? (item.name.includes(query) || item.kana.includes(query)) : true;
-            const matchSex = selSex ? (item.sex === selSex) : true;
+            // クラス一致チェック：「全クラス（空値）」の時は常にtrue
+            const matchClass = (!selClass) ? true : (item.c1 === selClass || item.c2 === selClass || item.c3 === selClass);
+            // 名前・フリガナチェック
+            const matchName = (!query) ? true : (item.name.includes(query) || item.kana.includes(query));
+            // 性別チェック
+            const matchSex = (!selSex) ? true : (item.sex === selSex);
+            
             return matchClass && matchName && matchSex;
         });
 
-        // 2. ソート（並べ替え）
+        // ソート処理
         filtered.sort((a, b) => {
-            if (sortType === 'kana_asc') {
-                return a.kana.localeCompare(b.kana, 'ja');
-            } else if (sortType === 'kana_desc') {
-                return b.kana.localeCompare(a.kana, 'ja');
-            } else if (sortType === 'class_asc') {
-                // クラス順：1年→2年→3年の優先度で結合して比較
-                const classA = (a.c1 || "z") + (a.c2 || "z") + (a.c3 || "z");
-                const classB = (b.c1 || "z") + (b.c2 || "z") + (b.c3 || "z");
-                return classA.localeCompare(classB);
+            if (sortType === 'kana_asc') return a.kana.localeCompare(b.kana, 'ja');
+            if (sortType === 'kana_desc') return b.kana.localeCompare(a.kana, 'ja');
+            if (sortType === 'class_asc') {
+                const aVal = (a.c1 || "9-9") + (a.c2 || "9-9") + (a.c3 || "9-9");
+                const bVal = (b.c1 || "9-9") + (b.c2 || "9-9") + (b.c3 || "9-9");
+                return aVal.localeCompare(bVal);
             }
             return 0;
         });
@@ -153,7 +153,6 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
         });
     }
 
-    // 各操作に連動
     [classSelect, searchInput, sexSelect, sortSelect].forEach(el => {
         el.addEventListener('change', updateSearch);
         el.addEventListener('input', updateSearch);
