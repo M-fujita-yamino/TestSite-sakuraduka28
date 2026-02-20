@@ -162,7 +162,19 @@
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
 </head>
-<body>
+<script type="module">
+    import { initSearch } from './search-module.js';
+    
+    // ページ読み込み完了時に検索機能を初期化
+    document.addEventListener('DOMContentLoaded', () => {
+        initSearch();
+        
+        // 既存の「桜吹雪」や「BGM」のコードはここに残す、
+        // もしくはそれらも別ファイルにして読み込むとさらにスッキリします。
+        document.body.style.opacity = 1; 
+    });
+</script>
+    <body>
 
 <div id="sakura-container" class="sakura-container"></div>
 
@@ -506,3 +518,4 @@
 </script>
 </body>
 </html>
+
