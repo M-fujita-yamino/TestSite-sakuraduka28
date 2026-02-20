@@ -6,7 +6,7 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 基本デザインを維持 */
+        /* 基本デザイン */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
 
@@ -69,52 +69,18 @@
             position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.2);
         }
         .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
-        .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
-        .info-table th { width: 75px; color: #d65f82; font-weight: bold; vertical-align: top; text-align: left; padding: 10px 0; }
-        .info-table td { padding: 10px 0; color: #444; }
 
         .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
-        .contents-index h2 { font-size: 18px; color: #d65f82; border-bottom: 2px solid #ffeef5; margin-top: 0; }
-        .contents-index ul { list-style: none; padding: 0; }
-        .contents-index li { margin-bottom: 8px; }
-        .contents-index a { color: #555; text-decoration: none; font-size: 15px; font-weight: 700; display: inline-block; }
-        .contents-index a::before { content: "🌸 "; }
+        .contents-index a { color: #555; text-decoration: none; font-size: 15px; font-weight: 700; }
 
         .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
         .oval-title {
             display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5;
             border-radius: 60px; background-color: #fff; color: #ff8da1;
-            font-weight: 700; font-size: 16px; line-height: 1.5;
+            font-weight: 700; font-size: 16px;
         }
-        .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; }
 
-        /* 🌸 検索エリア設定 */
-        .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .search-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .search-box { padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; box-sizing: border-box; background-color: #fffafa; width: 100%; }
-        .full-width { grid-column: span 2; }
-        
-        /* 🌸 【重要】1/3の高さに圧縮した結果アイテム */
-        .search-result { margin-top: 15px; border-top: 1px solid #eee; }
-        .result-item {
-            background: #fff; padding: 4px 8px; margin-bottom: 0; border-radius: 0; border: none; border-bottom: 1px solid #f0f0f0;
-            display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 36px;
-        }
-        .result-item:hover { background-color: #fffafb; }
-        .result-info { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }
-        .result-name { font-weight: 700; font-size: 0.95em; color: #333; white-space: nowrap; }
-        .result-kana { font-size: 0.65em; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .gender-tag { font-size: 0.6em; padding: 1px 4px; border-radius: 3px; font-weight: 700; flex-shrink: 0; }
-        .gender-m { background: #e3f2fd; color: #1976d2; }
-        .gender-f { background: #fce4ec; color: #d81b60; }
-
-        .class-btn-container { display: flex; gap: 4px; flex-shrink: 0; }
-        .class-btn {
-            background: #87ceeb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;
-            display: inline-flex; align-items: center; transition: background 0.2s;
-        }
-        .class-btn:hover { background: #5fbce4; }
-
+        /* リスト・検索UI */
         .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
@@ -129,6 +95,24 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
+        /* 検索結果（高密度レイアウト） */
+        .search-area { background: #fff; padding: 20px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; }
+        .search-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .search-box { padding: 8px 12px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; box-sizing: border-box; width: 100%; }
+        .full-width { grid-column: span 2; }
+        .search-result { margin-top: 15px; border-top: 1px solid #eee; }
+        .result-item {
+            padding: 4px 8px; border-bottom: 1px solid #f0f0f0;
+            display: flex; align-items: center; justify-content: space-between; min-height: 38px;
+        }
+        .result-info { display: flex; align-items: baseline; gap: 8px; flex: 1; }
+        .result-name { font-weight: 700; font-size: 0.95em; }
+        .result-kana { font-size: 0.65em; color: #999; }
+        .gender-tag { font-size: 0.6em; padding: 1px 4px; border-radius: 3px; font-weight: 700; }
+        .gender-m { background: #e3f2fd; color: #1976d2; }
+        .gender-f { background: #fce4ec; color: #d81b60; }
+        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 3px; }
+
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
 </head>
@@ -138,15 +122,13 @@
 
 <audio id="audio_okamachi" loop src="岡町商店街の唄.mp3"></audio>
 <audio id="audio_kouka" loop src="桜塚校歌.mp3"></audio>
-
 <video src="二人でお辞儀.mp4" class="side-img img-left" autoplay loop muted playsinline preload="none"></video>
 <video src="二人で踊る動画.mp4" class="side-img img-right" autoplay loop muted playsinline preload="none"></video>
-
 <div class="bg-credit bg-credit-left">Costume by 北内孝子さん</div>
 <div class="bg-credit bg-credit-right">Costume by 北内孝子さん</div>
 
 <div class="container">
-    <header id="page-top">
+    <header>
         <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
         <div class="music-controls">
             <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
@@ -154,64 +136,53 @@
         </div>
     </header>
 
-    <section class="info-box">
-        <h2>🌸 桜塚高校 28 期卒業50周年記念同期会 お知らせ</h2>
-        <table class="info-table">
-            <tr><th>日時</th><td><strong>2026年5月24日(日)</strong> 12:00 ～</td></tr>
-            <tr><th>場所</th><td><strong>リストランテ翔 21</strong></td></tr>
-        </table>
-    </section>
-
-    <nav id="top-index" class="contents-index">
+    <nav class="contents-index">
         <h2>目次一覧</h2>
-        <ul>
-            <li><a href="#section_vol1">第1回 同期会</a></li>
-            <li><a href="#section_vol7">第7回 同期会</a></li>
-            <li><a href="#section_vol8_360">第8回 360°動画アーカイブ</a></li>
-            <li><a href="#section_vol8_photo">第8回 同期会 写真集</a></li>
-            <li><a href="#section_archive">特別付録（名簿・クラス写真検索）</a></li>
+        <ul style="list-style:none; padding:0;">
+            <li><a href="#section_vol1">🌸 第1回 同期会(1996)</a></li>
+            <li><a href="#section_vol7">🌸 第7回 還暦同期会(2018)</a></li>
+            <li><a href="#section_vol8_360">🌸 第8回 360°動画アーカイブ</a></li>
+            <li><a href="#section_vol8_photo">🌸 入学50周年記念 写真集（完全版）</a></li>
+            <li><a href="#section_archive">🌸 特別付録（名簿・クラス写真検索）</a></li>
         </ul>
     </nav>
 
     <div id="section_vol1" class="section-header">
-        <div class="oval-title">第1回 同期会 (1996年) 於 豊中市民会館</div>
-        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        <div class="oval-title">第1回 同期会 (1996年)</div>
     </div>
     <ul class="video-list">
         <li class="video-item"><div class="video-thumb"><img src="第一回同期会.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">会場ビデオ（卒業20周年）</span><br><span class="creator-tag">Produced by 和田展明君</span></div><a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a></li>
     </ul>
 
     <div id="section_vol7" class="section-header">
-        <div class="oval-title">第7回 還暦記念同期会 (2018年) 於 千里阪急ホテル</div>
-        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        <div class="oval-title">第7回 還暦記念同期会 (2018年)</div>
     </div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真(千里阪急ホテル)211枚.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
         <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
     <div id="section_vol8_360" class="section-header">
         <div class="oval-title">第8回 360°動画アーカイブ (2023年)</div>
-        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
-    <ul class="video-list" id="vlist_360">
+    <ul class="video-list">
         <script>
-            const v1 = [
+            const v360 = [
                 {no:"01", title:"受付前", time:"11:42〜", url:"https://youtu.be/rxbp8wEeMsQ"},
                 {no:"02", title:"受付中", time:"11:55〜", url:"https://youtu.be/fW8Ealkxj5o"},
-                {no:"03", title:"開会挨拶・1年クラス席", time:"12:10〜", url:"https://youtu.be/we5isrYUz5c"},
+                {no:"03", title:"開会挨拶・1年席", time:"12:10〜", url:"https://youtu.be/we5isrYUz5c"},
                 {no:"04", title:"1年クラス歓談", time:"12:18〜", url:"https://youtu.be/BG1l0Yqfl2U"},
                 {no:"05", title:"1年クラス歓談", time:"12:24〜", url:"https://youtu.be/YrMtlCD_6dc"},
-                {no:"06", title:"1年クラス歓談・展示物", time:"13:21〜", url:"https://youtu.be/JI5FtwazCpQ"},
+                {no:"06", title:"1年席・展示物", time:"13:21〜", url:"https://youtu.be/JI5FtwazCpQ"},
                 {no:"07", title:"展示物閲覧", time:"13:22〜", url:"https://youtu.be/1VCm0gowwQ0"},
                 {no:"08", title:"2年クラス歓談", time:"13:33〜", url:"https://youtu.be/n2e0zfEq1BI"},
                 {no:"09", title:"2年クラス歓談", time:"13:35〜", url:"https://youtu.be/dHItCfY9Hxw"},
-                {no:"10", title:"3年クラス歓談・エンタメ", time:"14:22〜", url:"https://youtu.be/egTtcC_cE8w"},
+                {no:"10", title:"3年席・エンタメ", time:"14:22〜", url:"https://youtu.be/egTtcC_cE8w"},
                 {no:"11", title:"エンタメフォー研", time:"14:30〜", url:"https://youtu.be/BY6I7QyYyMY"},
-                {no:"12", title:"エンタメ木田君・金ヶ江君", time:"14:38〜", url:"https://youtu.be/HiBOH3Cg3CQ"},
-                {no:"13", title:"エンタメ金ヶ江君", time:"14:42〜", url:"https://youtu.be/fsGqOCG7vGM"},
+                {no:"12", title:"エンタメ木田・金ヶ江", time:"14:38〜", url:"https://youtu.be/HiBOH3Cg3CQ"},
+                {no:"13", title:"エンタメ金ヶ江", time:"14:42〜", url:"https://youtu.be/fsGqOCG7vGM"},
                 {no:"14", title:"伊丹君挨拶_閉会", time:"15:12〜", url:"https://youtu.be/RS3-GnjuuPw"},
-                {no:"15", title:"エンタメ中住君・集合写真", time:"15:20〜", url:"https://youtu.be/QbrGknQ9_Tw"},
+                {no:"15", title:"中住君・集合写真", time:"15:20〜", url:"https://youtu.be/QbrGknQ9_Tw"},
                 {no:"16", title:"集合写真・撤収", time:"15:25〜", url:"https://youtu.be/jClSRHMiUAg"},
                 {no:"17", title:"会場前1", time:"15:41〜", url:"https://youtu.be/GWNV_YlNytE"},
                 {no:"18", title:"会場前2", time:"15:47〜", url:"https://youtu.be/pTzXHN2lr-E"},
@@ -219,75 +190,51 @@
                 {no:"20", title:"集合写真ドローン", time:"15:25〜", url:"https://youtu.be/LIr4MjMuEuo"},
                 {no:"21", title:"二次会場1", time:"16:26〜", url:"https://www.youtube.com/watch?v=hbPB4Rtb038"}
             ];
-            v1.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+            v360.forEach(v => {
+                document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.7em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
             });
         </script>
     </ul>
 
     <div id="section_vol8_photo" class="section-header">
-        <div class="oval-title">第8回 同期会 写真集 (2023年)</div>
-        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        <div class="oval-title">入学50周年記念 同期会 写真集 (2023年)</div>
     </div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 集合写真.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念 集合写真</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 集合写真.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念 (集合写真) 3枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 同期会イベント.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学50周年記念 (開演～閉幕) 221枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOsnKd7VXhJz79Cq8wl_S0jaPJN1LNg8-T93k5b_pkGitldHA1M1RMx9PRflHRD1w?key=c3hDSHJSMFRpa09RTS1ISEpIWkV0RHZfbHA4X3NR" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="写真投稿用.jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学50周年記念 (★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
     <div id="section_archive" class="section-header">
         <div class="oval-title">特別付録：同期生クラス・写真検索</div>
-        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
-
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0; font-size: 16px;">🔍 名簿・写真アーカイブ</h3>
-        <span id="dataStatus" style="font-size:0.65em; color:#888;">同期中...</span>
-        
+        <h3 style="color:#d65f82; margin-top:0; font-size: 16px;">🔍 クラス名簿・写真検索</h3>
         <div class="search-controls">
-            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前・フリガナで検索...">
+            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前またはフリガナ...">
             <select id="classSelect" class="search-box">
-                <option value="">全学年・全組</option>
-                <optgroup label="3年">
-                    <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
-                    <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
-                    <option value="3-7">3年7組</option><option value="3-8">3年8組</option><option value="3-9">3年9組</option>
-                    <option value="3-10">3年10組</option>
-                </optgroup>
-                <optgroup label="2年">
-                    <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
-                    <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
-                    <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
-                    <option value="2-10">2年10組</option>
-                </optgroup>
-                <optgroup label="1年">
-                    <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
-                    <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
-                    <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
-                    <option value="1-10">1年10組</option>
-                </optgroup>
+                <option value="">全組</option>
+                <optgroup label="3年"><script>for(i=1;i<=10;i++)document.write(`<option value="3-${i}">3年${i}組</option>`)</script></optgroup>
             </select>
             <select id="genderSelect" class="search-box">
-                <option value="">性別:すべて</option>
-                <option value="男">男性</option>
-                <option value="女">女性</option>
+                <option value="">性別</option><option value="男">男性</option><option value="女">女性</option>
             </select>
             <select id="sortOrder" class="search-box full-width">
-                <option value="name">五十音順</option>
-                <option value="class">クラス順</option>
+                <option value="name">五十音順</option><option value="class">クラス順</option>
             </select>
         </div>
-        
         <div id="searchResult" class="search-result"></div>
     </div>
 
     <ul class="video-list">
         <script>
-            const vArchive = [
-                {no:"03a", title:"クラス写真 30枚", url:"https://photos.google.com/share/AF1QipNeVEFFT83FTDV2s_FvJNZ_NdRB8-4POP1Js8RrUDkX0nX9hbHnAWXRZPB3ABYqLA?key=TlRCZ3FJdnlGYV91WEpENXFNcjRzTTMyRlh5Tl9n", tag:"乾君"},
-                {no:"03b", title:"卒業アルバム・モノクロ", url:"https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB", tag:"乾君"},
-                {no:"03e", title:"伊丹君作成・旧校舎復元図", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"伊丹君"}
+            const vArc = [
+                {no:"03a", title:"クラス写真 30枚", img:"クラス写真30枚.jpg", url:"https://photos.google.com/share/AF1QipNeVEFFT83FTDV2s_FvJNZ_NdRB8-4POP1Js8RrUDkX0nX9hbHnAWXRZPB3ABYqLA?key=TlRCZ3FJdnlGYV91WEpENXFNcjRzTTMyRlh5Tl9n", tag:"乾君"},
+                {no:"03b", title:"卒業アルバム(モノクロ)", img:"卒業アルバム.jpg", url:"https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB", tag:"乾君"},
+                {no:"03e", title:"旧校舎復元図", img:"旧校舎復元図.jpg", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"伊丹君"}
             ];
-            vArchive.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="特別付録.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.tag} 制作</span></div><a href="${v.url}" class="play-btn" target="_blank">閲覧</a></li>`);
+            vArc.forEach(v => {
+                document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.img}"></div><div class="video-no">${v.no}</div><div class="video-info"><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.tag} 制作</span></div><a href="${v.url}" class="play-btn" target="_blank">閲覧</a></li>`);
             });
         </script>
     </ul>
@@ -296,7 +243,6 @@
 </div>
 
 <script>
-    /* 🌸 高密度UI・高度検索ロジック 🌸 */
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
 
@@ -325,10 +271,7 @@
             const txtP = await resP.text();
             txtP.split(/\r?\n/).forEach(l => {
                 const c = l.split(',');
-                if(c[0]) {
-                    const key = c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '');
-                    photoMap[key] = (c[1] || "").trim();
-                }
+                if(c[0]) photoMap[c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '')] = (c[1] || "").trim();
             });
 
             const resM = await fetch(SHEET_CSV_URL);
@@ -339,19 +282,14 @@
             memberData = rows.map(r => {
                 const c = r.split(',');
                 const c1 = clean(c[2]), c2 = clean(c[4]), c3 = clean(c[6]);
-                const getLink = (grade, classVal, csvLink) => {
-                    if (csvLink && csvLink.startsWith('http')) return csvLink.trim();
-                    const classNum = classVal.split('-').pop();
-                    return photoMap[`${grade}-${classNum}`] || "";
-                };
+                const getLink = (grade, cls, csvL) => (csvL && csvL.startsWith('http')) ? csvL.trim() : photoMap[`${grade}-${cls.split('-').pop()}`] || "";
                 return {
                     name: (c[0]||"").trim(), kana: (c[1]||"").trim(), gender: (c[8]||"").trim(),
                     c1, c2, c3,
                     link1: getLink(1, c1, c[3]), link2: getLink(2, c2, c[5]), link3: getLink(3, c3, c[7])
                 };
             }).filter(m => m.name);
-            document.getElementById('dataStatus').textContent = "✓ 同期完了";
-        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ エラー"; }
+        } catch (e) { console.error(e); }
     }
 
     function performSearch() {
@@ -361,41 +299,26 @@
         const q = document.getElementById('searchInput').value.trim();
         const out = document.getElementById('searchResult');
         out.innerHTML = '';
-
         if(!selClass && !selGender && !q) return;
 
         let filtered = memberData.filter(m => {
-            const classMatch = !selClass || (m.c1===selClass || m.c2===selClass || m.c3===selClass);
-            const genderMatch = !selGender || (m.gender === selGender);
-            const queryMatch = !q || (m.name.includes(q) || m.kana.includes(q));
-            return classMatch && genderMatch && queryMatch;
+            const cM = !selClass || (m.c1===selClass || m.c2===selClass || m.c3===selClass);
+            const gM = !selGender || (m.gender === selGender);
+            const qM = !q || (m.name.includes(q) || m.kana.includes(q));
+            return cM && gM && qM;
         });
 
-        filtered.sort((a, b) => {
-            if (sortMode === 'name') return a.kana.localeCompare(b.kana, 'ja');
-            return a.c3.localeCompare(b.c3);
-        });
+        filtered.sort((a, b) => sortMode==='name' ? a.kana.localeCompare(b.kana,'ja') : a.c3.localeCompare(b.c3));
 
-        // 🌸 圧縮レイアウトでの生成
         filtered.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'result-item';
+            const div = document.createElement('div'); div.className = 'result-item';
             const gTag = m.gender ? `<span class="gender-tag ${m.gender==='男'?'gender-m':'gender-f'}">${m.gender}</span>` : '';
-            
-            let btns = '<div class="class-btn-container">';
+            let btns = '<div>';
             if(m.link1) btns += `<a href="${m.link1}" class="class-btn" target="_blank">1年</a>`;
             if(m.link2) btns += `<a href="${m.link2}" class="class-btn" target="_blank">2年</a>`;
             if(m.link3) btns += `<a href="${m.link3}" class="class-btn" target="_blank">3年</a>`;
             btns += '</div>';
-            
-            div.innerHTML = `
-                <div class="result-info">
-                    <span class="result-name">${m.name}</span>
-                    <span class="result-kana">${m.kana}</span>
-                    ${gTag}
-                </div>
-                ${btns}
-            `;
+            div.innerHTML = `<div class="result-info"><span class="result-name">${m.name}</span><span class="result-kana">${m.kana}</span>${gTag}</div>${btns}`;
             out.appendChild(div);
         });
     }
