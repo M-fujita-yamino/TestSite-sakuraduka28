@@ -6,7 +6,7 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* デザイン・アニメーション設定を完全維持 */
+        /* 基本デザインを維持 */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
 
@@ -88,27 +88,29 @@
         }
         .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; }
 
+        /* 🌸 検索エリア設定 */
         .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .search-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .search-box { padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; box-sizing: border-box; background-color: #fffafa; width: 100%; }
         .full-width { grid-column: span 2; }
         
-        .search-result { margin-top: 20px; }
+        /* 🌸 【重要】1/3の高さに圧縮した結果アイテム */
+        .search-result { margin-top: 15px; border-top: 1px solid #eee; }
         .result-item {
-            background: #fdfdfd; padding: 10px 12px; margin-bottom: 8px; border-radius: 12px; border: 1px solid #eee; border-left: 5px solid #87ceeb;
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+            background: #fff; padding: 4px 8px; margin-bottom: 0; border-radius: 0; border: none; border-bottom: 1px solid #f0f0f0;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 36px;
         }
-        .result-info { display: flex; flex-direction: column; gap: 2px; }
-        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .result-name { font-weight: 700; font-size: 1.15em; color: #333; }
-        .result-kana { font-size: 0.75em; color: #888; letter-spacing: 0.05em; }
-        .gender-tag { font-size: 0.65em; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+        .result-item:hover { background-color: #fffafb; }
+        .result-info { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }
+        .result-name { font-weight: 700; font-size: 0.95em; color: #333; white-space: nowrap; }
+        .result-kana { font-size: 0.65em; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gender-tag { font-size: 0.6em; padding: 1px 4px; border-radius: 3px; font-weight: 700; flex-shrink: 0; }
         .gender-m { background: #e3f2fd; color: #1976d2; }
         .gender-f { background: #fce4ec; color: #d81b60; }
 
-        .class-btn-container { display: flex; flex-wrap: wrap; gap: 6px; }
+        .class-btn-container { display: flex; gap: 4px; flex-shrink: 0; }
         .class-btn {
-            background: #87ceeb; color: white; text-decoration: none; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
+            background: #87ceeb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;
             display: inline-flex; align-items: center; transition: background 0.2s;
         }
         .class-btn:hover { background: #5fbce4; }
@@ -184,7 +186,7 @@
         <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会(★写真投稿用).jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真(千里阪急ホテル)211枚.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
         <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
@@ -237,12 +239,11 @@
     </div>
 
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0;">🔍 同期生を検索</h3>
-        <span id="dataStatus" style="font-size:0.7em; color:#888;">データ準備中...</span>
+        <h3 style="color:#d65f82; margin-top:0; font-size: 16px;">🔍 名簿・写真アーカイブ</h3>
+        <span id="dataStatus" style="font-size:0.65em; color:#888;">同期中...</span>
         
         <div class="search-controls">
-            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前またはフリガナで検索...">
-            
+            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前・フリガナで検索...">
             <select id="classSelect" class="search-box">
                 <option value="">全学年・全組</option>
                 <optgroup label="3年">
@@ -264,16 +265,14 @@
                     <option value="1-10">1年10組</option>
                 </optgroup>
             </select>
-
             <select id="genderSelect" class="search-box">
-                <option value="">性別: すべて</option>
+                <option value="">性別:すべて</option>
                 <option value="男">男性</option>
                 <option value="女">女性</option>
             </select>
-
             <select id="sortOrder" class="search-box full-width">
-                <option value="name">並び順: 五十音順</option>
-                <option value="class">並び順: クラス番号順</option>
+                <option value="name">五十音順</option>
+                <option value="class">クラス順</option>
             </select>
         </div>
         
@@ -297,7 +296,7 @@
 </div>
 
 <script>
-    /* 🌸 高度検索・フリガナ併記ロジック 🌸 */
+    /* 🌸 高密度UI・高度検索ロジック 🌸 */
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
 
@@ -345,19 +344,14 @@
                     const classNum = classVal.split('-').pop();
                     return photoMap[`${grade}-${classNum}`] || "";
                 };
-
                 return {
-                    name: (c[0]||"").trim(),
-                    kana: (c[1]||"").trim(),
-                    gender: (c[8]||"").trim(),
+                    name: (c[0]||"").trim(), kana: (c[1]||"").trim(), gender: (c[8]||"").trim(),
                     c1, c2, c3,
-                    link1: getLink(1, c1, c[3]),
-                    link2: getLink(2, c2, c[5]),
-                    link3: getLink(3, c3, c[7])
+                    link1: getLink(1, c1, c[3]), link2: getLink(2, c2, c[5]), link3: getLink(3, c3, c[7])
                 };
             }).filter(m => m.name);
-            document.getElementById('dataStatus').textContent = "✓ 全データ同期完了";
-        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ データ取得エラー"; }
+            document.getElementById('dataStatus').textContent = "✓ 同期完了";
+        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ エラー"; }
     }
 
     function performSearch() {
@@ -382,28 +376,25 @@
             return a.c3.localeCompare(b.c3);
         });
 
+        // 🌸 圧縮レイアウトでの生成
         filtered.forEach(m => {
             const div = document.createElement('div');
             div.className = 'result-item';
-            
             const gTag = m.gender ? `<span class="gender-tag ${m.gender==='男'?'gender-m':'gender-f'}">${m.gender}</span>` : '';
             
-            let btnHtml = '<div class="class-btn-container">';
-            if(m.link1) btnHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1.split('-').pop()}組</a>`;
-            if(m.link2) btnHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2.split('-').pop()}組</a>`;
-            if(m.link3) btnHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3.split('-').pop()}組</a>`;
-            btnHtml += '</div>';
+            let btns = '<div class="class-btn-container">';
+            if(m.link1) btns += `<a href="${m.link1}" class="class-btn" target="_blank">1年</a>`;
+            if(m.link2) btns += `<a href="${m.link2}" class="class-btn" target="_blank">2年</a>`;
+            if(m.link3) btns += `<a href="${m.link3}" class="class-btn" target="_blank">3年</a>`;
+            btns += '</div>';
             
-            // 🌸 名前(フリガナ)の併記部分
             div.innerHTML = `
                 <div class="result-info">
-                    <div class="name-row">
-                        <span class="result-name">${m.name}</span>
-                        ${gTag}
-                    </div>
+                    <span class="result-name">${m.name}</span>
                     <span class="result-kana">${m.kana}</span>
+                    ${gTag}
                 </div>
-                ${btnHtml}
+                ${btns}
             `;
             out.appendChild(div);
         });
@@ -420,4 +411,3 @@
 </script>
 </body>
 </html>
-
