@@ -6,7 +6,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     const searchInput = document.getElementById(searchInputId);
     const resultDiv = document.getElementById(resultDivId);
 
-    // GASのウェブアプリURL（ご自身のURLに書き換えてください）
+    // GASのウェブアプリURL（デプロイ後に発行されるURLをここに貼り付けてください）
     const GAS_ENDPOINT = 'https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec';
 
     let allData = [];
@@ -40,24 +40,26 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             const response = await fetch(GAS_ENDPOINT);
             const rawData = await response.json();
 
-            // スプレッドシートの配列をオブジェクト形式に変換
-            // スプレッドシートの並び：name(0), kana(1), sex(2), c1(3), c2(4), c3(5), link1(6), link2(7), link3(8)
-            allData = rawData.slice(1).map(row => ({
-                name:  row[0] || "",
-                kana:  row[1] || "",
-                sex:   row[2] || "",
-                c1:    String(row[3] || ""),
-                c2:    String(row[4] || ""),
-                c3:    String(row[5] || ""),
-                link1: row[6] || "",
-                link2: row[7] || "",
-                link3: row[8] || ""
-            }));
+            // rawDataが配列であることを確認し、オブジェクトに変換
+            // 期待する列順: 0:name, 1:kana, 2:sex, 3:c1, 4:c2, 5:c3, 6:link1, 7:link2, 8:link3
+            allData = rawData.slice(1).map(row => {
+                return {
+                    name:  String(row[0] || "").trim(),
+                    kana:  String(row[1] || "").trim(),
+                    sex:   String(row[2] || "").trim(),
+                    c1:    String(row[3] || "").trim(), // "1-1" などの文字列として確実に取得
+                    c2:    String(row[4] || "").trim(),
+                    c3:    String(row[5] || "").trim(),
+                    link1: String(row[6] || "").trim(),
+                    link2: String(row[7] || "").trim(),
+                    link3: String(row[8] || "").trim()
+                };
+            });
 
             resultDiv.innerHTML = '<div style="color:#999; padding:10px;">名簿の読み込みが完了しました</div>';
         } catch (error) {
             console.error('Fetch error:', error);
-            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。</div>';
+            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。URLを確認してください。</div>';
         }
     }
 
@@ -67,23 +69,26 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
         const selectedSex = sexSelect.value;
         const sortType = sortSelect.value;
 
+        // 何も入力・選択がない時は結果を表示しない
         if (!selectedClass && !query && !selectedSex) {
             resultDiv.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>';
             return;
         }
 
         let filtered = allData.filter(item => {
-            // クラス検索：c1, c2, c3のいずれかが選択値と一致するか
+            // クラス一致チェック
             let matchClass = true;
             if (selectedClass) {
                 matchClass = (item.c1 === selectedClass || item.c2 === selectedClass || item.c3 === selectedClass);
             }
             
+            // 名前・フリガナ一致チェック
             let matchName = true;
             if (query) {
                 matchName = (item.name.includes(query) || item.kana.includes(query));
             }
 
+            // 性別一致チェック
             let matchSex = true;
             if (selectedSex) {
                 matchSex = (item.sex === selectedSex);
@@ -92,7 +97,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             return matchClass && matchName && matchSex;
         });
 
-        // ソート
+        // 並べ替え
         filtered.sort((a, b) => {
             if (sortType === 'kana_asc') return a.kana.localeCompare(b.kana, 'ja');
             if (sortType === 'kana_desc') return b.kana.localeCompare(a.kana, 'ja');
@@ -106,13 +111,13 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     function renderResults(data, selectedClass) {
         resultDiv.innerHTML = '';
         if (data.length === 0) {
-            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">該当者は見つかりませんでした</div>';
+            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">該当する同期生は見つかりませんでした</div>';
             return;
         }
 
         const countDiv = document.createElement('div');
         countDiv.style.cssText = "font-size:12px; color:#005a80; margin-bottom:10px; font-weight:bold;";
-        countDiv.textContent = `該当: ${data.length}名`;
+        countDiv.textContent = `検索結果: ${data.length}名`;
         resultDiv.appendChild(countDiv);
 
         data.forEach(item => {
