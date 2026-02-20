@@ -12,7 +12,6 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     let allData = [];
 
     // --- UIの追加構築（性別・ソート用） ---
-    // 既存の検索エリアにコントロールを追加
     const searchArea = document.getElementById('dynamic-search-area');
     const controlsWrap = document.createElement('div');
     controlsWrap.style.cssText = "display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; align-items: center;";
@@ -44,7 +43,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             resultDiv.innerHTML = '<div style="color:#999; padding:10px;">名簿の読み込みが完了しました</div>';
         } catch (error) {
             console.error('Fetch error:', error);
-            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。GASのURLを確認してください。</div>';
+            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。URLを確認してください。</div>';
         }
     }
 
@@ -55,15 +54,13 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
         const selectedSex = sexSelect.value;
         const sortType = sortSelect.value;
 
-        // 何も指定されていない場合は結果をクリア（または全件表示にするならここを調整）
         if (!selectedClass && !query && !selectedSex) {
             resultDiv.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>';
             return;
         }
 
-        // 1. フィルタリング（絞り込み）
         let filtered = allData.filter(item => {
-            // クラス絞り込み (c1, c2, c3のいずれかに合致するか)
+            // クラス絞り込み (c1, c2, c3のいずれかに「1-1」等の値が合致するか)
             let matchClass = true;
             if (selectedClass) {
                 matchClass = (item.c1 === selectedClass || item.c2 === selectedClass || item.c3 === selectedClass);
@@ -84,14 +81,13 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             return matchClass && matchName && matchSex;
         });
 
-        // 2. ソート（並べ替え）
+        // ソート処理
         filtered.sort((a, b) => {
             if (sortType === 'kana_asc') {
                 return a.kana.localeCompare(b.kana, 'ja');
             } else if (sortType === 'kana_desc') {
                 return b.kana.localeCompare(a.kana, 'ja');
             } else if (sortType === 'class_asc') {
-                // クラス順（1年＞2年＞3年の優先度で比較）
                 return (a.c1 + a.c2 + a.c3).localeCompare(b.c1 + b.c2 + b.c3);
             }
             return 0;
@@ -104,21 +100,19 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     function renderResults(data, selectedClass) {
         resultDiv.innerHTML = '';
         if (data.length === 0) {
-            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">該当する同期生は見つかりませんでした</div>';
+            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">該当者は見つかりませんでした</div>';
             return;
         }
 
         const countDiv = document.createElement('div');
         countDiv.style.cssText = "font-size:12px; color:#005a80; margin-bottom:10px; font-weight:bold;";
-        countDiv.textContent = `検索結果: ${data.length}名`;
+        countDiv.textContent = `該当: ${data.length}名`;
         resultDiv.appendChild(countDiv);
 
         data.forEach(item => {
             const div = document.createElement('div');
             div.className = 'result-item';
-            div.style.borderLeft = '4px solid #87ceeb';
             
-            // クラス情報のバッジ作成（検索したクラスを強調）
             let badges = '';
             const cList = [
                 {label: '1年', val: item.c1, link: item.link1},
@@ -139,12 +133,12 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             });
 
             div.innerHTML = `
-                <div style="display:flex; flex-direction:column; gap:4px;">
-                    <div style="display:flex; align-items:center; gap:8px;">
+                <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
                         <span class="result-name">${item.name} 
                             <span style="font-size:0.7em; color:#777; font-weight:normal;">(${item.kana})</span>
                         </span>
-                        <span style="font-size:0.8em; color:#999;">[${item.sex || '-'}]</span>
+                        <span style="font-size:0.8em; color:#999;">${item.sex || ''}</span>
                     </div>
                     <div class="class-btn-container" style="margin-top:5px;">
                         ${badges}
@@ -155,12 +149,10 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
         });
     }
 
-    // イベントリスナー登録
     [classSelect, searchInput, sexSelect, sortSelect].forEach(el => {
         el.addEventListener('change', updateSearch);
         el.addEventListener('input', updateSearch);
     });
 
-    // 初回データ取得
     fetchData();
 }
