@@ -6,8 +6,8 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     const searchInput = document.getElementById(searchInputId);
     const resultDiv = document.getElementById(resultDivId);
 
-    // GASのウェブアプリURL（デプロイ後に発行されるURLに書き換えてください）
-    const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzcgLakCxMpq5Vgahc6smu_IfNChtrGnAgo5LCDlu6ljHiyaUyG8SZHSdFPV6rkFoObzA/exec';
+    // GASのウェブアプリURL（ご自身のURLに書き換えてください）
+    const GAS_ENDPOINT = 'https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec';
 
     let allData = [];
 
@@ -33,23 +33,36 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     const sexSelect = document.getElementById('dynamicSexSelect');
     const sortSelect = document.getElementById('dynamicSortSelect');
 
-    // データ読み込み
+    // データ読み込みと成形
     async function fetchData() {
         try {
             resultDiv.innerHTML = '<div style="color:#666; padding:10px;">データを同期中...</div>';
             const response = await fetch(GAS_ENDPOINT);
-            if (!response.ok) throw new Error('Network response was not ok');
-            allData = await response.json();
+            const rawData = await response.json();
+
+            // スプレッドシートの配列をオブジェクト形式に変換
+            // スプレッドシートの並び：name(0), kana(1), sex(2), c1(3), c2(4), c3(5), link1(6), link2(7), link3(8)
+            allData = rawData.slice(1).map(row => ({
+                name:  row[0] || "",
+                kana:  row[1] || "",
+                sex:   row[2] || "",
+                c1:    String(row[3] || ""),
+                c2:    String(row[4] || ""),
+                c3:    String(row[5] || ""),
+                link1: row[6] || "",
+                link2: row[7] || "",
+                link3: row[8] || ""
+            }));
+
             resultDiv.innerHTML = '<div style="color:#999; padding:10px;">名簿の読み込みが完了しました</div>';
         } catch (error) {
             console.error('Fetch error:', error);
-            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。URLを確認してください。</div>';
+            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました。</div>';
         }
     }
 
-    // 検索・絞り込み・ソート実行
     function updateSearch() {
-        const selectedClass = classSelect.value; // "1-1", "3-5" など
+        const selectedClass = classSelect.value;
         const query = searchInput.value.trim();
         const selectedSex = sexSelect.value;
         const sortType = sortSelect.value;
@@ -60,19 +73,17 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
         }
 
         let filtered = allData.filter(item => {
-            // クラス絞り込み (c1, c2, c3のいずれかに「1-1」等の値が合致するか)
+            // クラス検索：c1, c2, c3のいずれかが選択値と一致するか
             let matchClass = true;
             if (selectedClass) {
                 matchClass = (item.c1 === selectedClass || item.c2 === selectedClass || item.c3 === selectedClass);
             }
             
-            // 名前・フリガナ絞り込み
             let matchName = true;
             if (query) {
                 matchName = (item.name.includes(query) || item.kana.includes(query));
             }
 
-            // 性別絞り込み
             let matchSex = true;
             if (selectedSex) {
                 matchSex = (item.sex === selectedSex);
@@ -81,22 +92,17 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
             return matchClass && matchName && matchSex;
         });
 
-        // ソート処理
+        // ソート
         filtered.sort((a, b) => {
-            if (sortType === 'kana_asc') {
-                return a.kana.localeCompare(b.kana, 'ja');
-            } else if (sortType === 'kana_desc') {
-                return b.kana.localeCompare(a.kana, 'ja');
-            } else if (sortType === 'class_asc') {
-                return (a.c1 + a.c2 + a.c3).localeCompare(b.c1 + b.c2 + b.c3);
-            }
+            if (sortType === 'kana_asc') return a.kana.localeCompare(b.kana, 'ja');
+            if (sortType === 'kana_desc') return b.kana.localeCompare(a.kana, 'ja');
+            if (sortType === 'class_asc') return (a.c1 + a.c2 + a.c3).localeCompare(b.c1 + b.c2 + b.c3);
             return 0;
         });
 
         renderResults(filtered, selectedClass);
     }
 
-    // 結果表示
     function renderResults(data, selectedClass) {
         resultDiv.innerHTML = '';
         if (data.length === 0) {
@@ -140,9 +146,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
                         </span>
                         <span style="font-size:0.8em; color:#999;">${item.sex || ''}</span>
                     </div>
-                    <div class="class-btn-container" style="margin-top:5px;">
-                        ${badges}
-                    </div>
+                    <div class="class-btn-container" style="margin-top:5px;">${badges}</div>
                 </div>
             `;
             resultDiv.appendChild(div);
