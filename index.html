@@ -6,6 +6,22 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- カスタムスライドレバー（スクロールバー）の設定 --- */
+        ::-webkit-scrollbar {
+            width: 14px; /* バーの幅 */
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff0f5; /* レバーの通り道の背景色 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffb7c5; /* 動くレバー部分の色 */
+            border-radius: 10px;
+            border: 3px solid #fff0f5; /* レバーの周りに余白を作ってスッキリ見せる */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff8da1; /* マウスを乗せた時のレバーの色 */
+        }
+
         /* 強力な開始位置制御：読み込み完了まで非表示にし、ガタつきを防ぐ */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
@@ -364,11 +380,24 @@
         <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
             <select id="dynamicClassSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer; border-color: #87ceeb;">
                 <option value="">全クラス</option>
-                <option value="1組">1組</option><option value="2組">2組</option>
-                <option value="3組">3組</option><option value="4組">4組</option>
-                <option value="5組">5組</option><option value="6組">6組</option>
-                <option value="7組">7組</option><option value="8組">8組</option>
-                <option value="9組">9組</option><option value="10組">10組</option>
+                <optgroup label="1年">
+                    <option value="1-1">1-1</option><option value="1-2">1-2</option><option value="1-3">1-3</option>
+                    <option value="1-4">1-4</option><option value="1-5">1-5</option><option value="1-6">1-6</option>
+                    <option value="1-7">1-7</option><option value="1-8">1-8</option><option value="1-9">1-9</option>
+                    <option value="1-10">1-10</option>
+                </optgroup>
+                <optgroup label="2年">
+                    <option value="2-1">2-1</option><option value="2-2">2-2</option><option value="2-3">2-3</option>
+                    <option value="2-4">2-4</option><option value="2-5">2-5</option><option value="2-6">2-6</option>
+                    <option value="2-7">2-7</option><option value="2-8">2-8</option><option value="2-9">2-9</option>
+                    <option value="2-10">2-10</option>
+                </optgroup>
+                <optgroup label="3年">
+                    <option value="3-1">3-1</option><option value="3-2">3-2</option><option value="3-3">3-3</option>
+                    <option value="3-4">3-4</option><option value="3-5">3-5</option><option value="3-6">3-6</option>
+                    <option value="3-7">3-7</option><option value="3-8">3-8</option><option value="3-9">3-9</option>
+                    <option value="3-10">3-10</option>
+                </optgroup>
             </select>
             <input type="text" id="dynamicSearchInput" class="search-box" style="flex:1; border-color: #87ceeb;" placeholder="スプレッドシートから名前検索...">
         </div>
