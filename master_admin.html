@@ -2,64 +2,69 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>桜塚28期：名簿マスター管理（完全統合版）</title>
+    <title>桜塚28期：名簿マスター管理（固定ヘッダー版）</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; padding: 10px; font-size: 13px; }
+        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; font-size: 13px; overflow: hidden; /* 全体スクロール禁止 */ }
         
-        /* ヘッダー：中央寄せ */
-        .header { 
-            background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1); position: sticky; top: 0; z-index: 100;
-            border: 1px solid #ffc0cb; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-            max-width: 900px; margin: 0 auto 15px auto;
+        /* 操作パネル（最上部） */
+        .header-panel { 
+            background: rgba(255, 255, 255, 0.98); padding: 10px 15px; 
+            box-shadow: 0 2px 10px rgba(233, 30, 99, 0.1); position: relative; z-index: 200;
+            border-bottom: 1px solid #ffc0cb; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
         }
         h2 { margin: 0; font-size: 16px; color: #d81b60; white-space: nowrap; }
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; transition: 0.3s; }
-        .sync-loading { border-color: #f1c40f; color: #f1c40f; }
-        .sync-error { border-color: #ea4335; color: #ea4335; }
+        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
 
-        .controls { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; }
-        .search-input { padding: 5px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 130px; outline: none; }
-        .filter-sel { padding: 4px 6px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; background: white; color: #d81b60; cursor: pointer; outline: none; }
-        .btn-add { background: #d81b60; color: white; border: none; padding: 6px 14px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
-        .btn-add:hover { background: #ad1457; }
+        .controls { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+        .search-input { padding: 6px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 140px; outline: none; }
+        .filter-sel { padding: 5px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; background: white; color: #d81b60; outline: none; }
+        .btn-add { background: #d81b60; color: white; border: none; padding: 7px 15px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
-        /* テーブル配置 */
-        .table-wrap { display: flex; justify-content: center; overflow-x: auto; }
-        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 50px; }
+        /* スクロール可能なテーブルエリア */
+        .main-content {
+            height: calc(100vh - 65px); /* ヘッダー分を引いた高さ */
+            overflow-y: auto; /* ここだけスクロールさせる */
+            display: flex; justify-content: center;
+        }
+
+        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         
-        th { background: #a51d4d; color: white; padding: 8px 2px; font-size: 11px; cursor: pointer; position: sticky; top: 60px; border: 1px solid #8e153e; user-select: none; }
-        th:hover { background: #c2185b; }
-        td { padding: 6px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+        /* 表の見出し（ヘッダー）を固定 */
+        thead th { 
+            background: #a51d4d; color: white; padding: 10px 2px; font-size: 11px; 
+            cursor: pointer; position: sticky; top: 0; z-index: 150; 
+            border: 1px solid #8e153e; user-select: none;
+        }
+        thead th:hover { background: #c2185b; }
+        
+        td { padding: 8px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
 
-        /* 列幅：データの適正幅に固定 */
-        .w-no { width: 35px; color: #bbb; font-size: 10px; }
-        .w-name { width: 100px; font-weight: bold; text-align: left; padding-left: 10px; } 
-        .w-kana { width: 120px; color: #888; text-align: left; }
-        .w-gen { width: 45px; }
-        .w-cls { width: 45px; font-weight: bold; color: #d81b60; }
-        .w-act { width: 45px; }
+        /* --- 各列の幅をミリ単位で固定（ズレ防止） --- */
+        .w-no { width: 40px; color: #bbb; font-size: 10px; }
+        .w-name { width: 110px; font-weight: bold; text-align: left; padding-left: 10px; } 
+        .w-kana { width: 130px; color: #888; text-align: left; }
+        .w-gen { width: 50px; }
+        .w-cls { width: 50px; font-weight: bold; color: #d81b60; }
+        .w-act { width: 50px; }
 
-        /* 編集スタイル */
-        .editable { background: #fffafc; cursor: text; transition: 0.2s; }
+        /* 編集・その他スタイル */
+        .editable { background: #fffafc; cursor: text; }
         .editable:focus { background: #fff; outline: 1px solid #ff8da1; box-shadow: inset 0 0 5px rgba(216, 27, 96, 0.1); }
-        
-        .gender-tag { padding: 2px 6px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; user-select: none; }
+        .gender-tag { padding: 3px 7px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
         .gender-男 { background: #e3f2fd; color: #1e88e5; }
         .gender-女 { background: #fce4ec; color: #d81b60; }
-        
-        .del-link { color: #ccc; font-size: 11px; cursor: pointer; text-decoration: none; }
+        .del-link { color: #ccc; font-size: 11px; cursor: pointer; }
         .del-link:hover { color: #ea4335; text-decoration: underline; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h2>🌸 28期名簿マスター</h2>
+<div class="header-panel">
+    <h2>🌸 名簿マスター</h2>
     <div id="status" class="status-badge">同期済み</div>
     <div class="controls">
-        <input type="text" id="q" class="search-input" placeholder="氏名・カナ検索...">
+        <input type="text" id="q" class="search-input" placeholder="名前・カナ検索...">
         <select id="fGen" class="filter-sel"><option value="">性別</option><option value="男">男</option><option value="女">女</option></select>
         <select id="fC1" class="filter-sel"><option value="">1年</option></select>
         <select id="fC2" class="filter-sel"><option value="">2年</option></select>
@@ -69,7 +74,7 @@
     </div>
 </div>
 
-<div class="table-wrap">
+<div class="main-content">
     <table id="tbl">
         <thead>
             <tr>
@@ -80,7 +85,7 @@
                 <th class="w-cls" onclick="srt('c1')">1年</th>
                 <th class="w-cls" onclick="srt('c2')">2年</th>
                 <th class="w-cls" onclick="srt('c3')">3年</th>
-                <th class="w-act">削除</th>
+                <th class="w-act">操作</th>
             </tr>
         </thead>
         <tbody id="out"></tbody>
@@ -89,14 +94,12 @@
 
 <script>
     const CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    // ★ここにデプロイした最新のGAS URLを貼り付けてください
     const GAS = "https://script.google.com/macros/s/AKfycbyj-nWSJYOn2_ry9z7UNv9LBxeUyAQkO4ixdwNht6KaVX6UFW6EnXvPq733-jDw2vvz4w/exec";
 
     let data = [];
-    let sK = 'kana'; // 初期ソートはカナ
+    let sK = 'kana'; 
     let sA = true;
 
-    // クラス名整形（1-2 や 1月2日 を 2 に）
     function getG(v) {
         if(!v) return "";
         let s = String(v).trim();
@@ -113,7 +116,6 @@
             const rows = txt.replace(/\r/g, '').split('\n').slice(1);
             data = rows.map(r => {
                 const c = r.split(',');
-                // originalNameはGASの検索キーとして重要
                 return { 
                     originalName: (c[0]||"").trim(), 
                     name: (c[0]||"").trim(), 
@@ -124,13 +126,11 @@
                     gen: (c[8]||"男").trim() 
                 };
             }).filter(m => m.name);
-
             updateFilters();
             render();
         } catch (e) { console.error("Load Error"); }
     }
 
-    // フィルターの選択肢を動的に作る
     function updateFilters() {
         const setOpts = (id, key) => {
             const sel = document.getElementById(id);
@@ -178,20 +178,17 @@
 
     async function sync(oldName, col, newVal) {
         const st = document.getElementById('status');
-        st.innerText = "同期中..."; st.className = "status-badge sync-loading";
+        st.innerText = "同期中..."; st.className = "status-badge"; st.style.borderColor="#f1c40f"; st.style.color="#f1c40f";
         
         let val = String(newVal).trim();
-        // クラス保存用整形（1-x 形式へ）
         if(col.includes('組') && val && !val.includes('-')) {
             val = col.charAt(0) + "-" + val;
         }
 
         try {
             const res = await fetch(GAS, { method: "POST", body: JSON.stringify({ name: oldName, column: col, value: val }) });
-            if(!res.ok) throw new Error();
-            st.innerText = "同期済み"; st.className = "status-badge";
+            st.innerText = "同期済み"; st.style.borderColor="#2ecc71"; st.style.color="#2ecc71";
             
-            // ローカルデータの更新
             const target = data.find(m => m.originalName === oldName);
             if(target) {
                 if(col === '名前') target.originalName = val;
@@ -200,7 +197,7 @@
                 if(col.includes('組')) updateFilters();
             }
         } catch (e) { 
-            st.innerText = "同期失敗"; st.className = "status-badge sync-error";
+            st.innerText = "同期失敗"; st.style.borderColor="#ea4335"; st.style.color="#ea4335";
         }
     }
 
@@ -212,10 +209,7 @@
 
     function addM() {
         const n = prompt("新規追加する氏名を入力");
-        if(n) { 
-            data.unshift({originalName:n, name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); 
-            render(); sync(n, "名前", n); 
-        }
+        if(n) { data.unshift({originalName:n, name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); render(); sync(n, "名前", n); }
     }
 
     async function delM(name) {
@@ -243,4 +237,3 @@
 </script>
 </body>
 </html>
-
