@@ -5,112 +5,114 @@
     <title>桜塚28期：名簿マスター管理</title>
     <style>
         body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; background-color: #ffeef5; color: #555; padding: 10px; font-size: 13px; }
+        
+        /* ヘッダーの中央寄せ */
         .header { 
-            background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.95); padding: 8px 15px; border-radius: 12px; 
             box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1); position: sticky; top: 0; z-index: 100;
-            border: 1px solid #ffc0cb; display: flex; align-items: center; gap: 10px;
+            border: 1px solid #ffc0cb; display: flex; align-items: center; gap: 15px;
+            max-width: 800px; margin: 0 auto 10px auto; /* ヘッダーも中央寄せ */
         }
         h2 { margin: 0; font-size: 15px; color: #d81b60; white-space: nowrap; }
         .status { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold; border: 1px solid #2ecc71; color: #2ecc71; background: #fff; }
-        .syncing { border-color: #f1c40f; color: #f1c40f; }
 
-        .controls { display: flex; gap: 5px; align-items: center; margin-left: auto; }
-        .search-input { padding: 5px 10px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 130px; }
-        .filter-select { padding: 4px; border: 1px solid #ffc0cb; border-radius: 10px; font-size: 11px; }
-        .btn-add { background: #d81b60; color: white; border: none; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .controls { display: flex; gap: 8px; align-items: center; margin-left: auto; }
+        .search-input { padding: 5px 12px; border: 1px solid #ffc0cb; border-radius: 15px; font-size: 12px; width: 120px; }
+        .btn-add { background: #d81b60; color: white; border: none; padding: 5px 15px; border-radius: 15px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 8px; table-layout: fixed; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        th { background: #a51d4d; color: white; padding: 6px 2px; font-size: 11px; cursor: pointer; position: sticky; top: 65px; border: 1px solid #8e153e; }
-        th:hover { background: #c2185b; }
-        td { padding: 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+        /* テーブルの中央寄せと最適幅設定 */
+        .table-container { display: flex; justify-content: center; }
+        table { border-collapse: collapse; background: #fff; table-layout: fixed; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         
-        /* 横幅の最適化 */
-        .w-no { width: 25px; color: #bbb; font-size: 10px; }
-        .w-name { width: 80px; font-weight: bold; text-align: left; padding-left: 8px; }
-        .w-kana { width: 90px; color: #888; text-align: left; }
-        .w-gen { width: 30px; }
-        .w-cls { width: 35px; font-weight: bold; color: #d81b60; }
-        .w-act { width: 35px; }
+        th { background: #a51d4d; color: white; padding: 8px 2px; font-size: 11px; cursor: pointer; position: sticky; top: 55px; border: 1px solid #8e153e; }
+        th:hover { background: #c2185b; }
+        td { padding: 5px 4px; border: 1px solid #ffeef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+
+        /* --- 各列の幅をデータの長さに合わせて厳密に指定 --- */
+        .w-no { width: 35px; color: #bbb; font-size: 10px; }    /* No. */
+        .w-name { width: 100px; font-weight: bold; text-align: left; padding-left: 10px; } /* 氏名 */
+        .w-kana { width: 120px; color: #888; text-align: left; } /* カナ */
+        .w-gen { width: 40px; }                               /* 性別 */
+        .w-cls { width: 45px; font-weight: bold; color: #d81b60; } /* クラス(数字1桁) */
+        .w-act { width: 45px; }                               /* 削除ボタン */
 
         .editable { background: #fffafc; cursor: text; }
         .editable:focus { background: #fff; outline: 1px solid #ff8da1; }
-        .gender-tag { padding: 1px 4px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
+        
+        .gender-tag { padding: 2px 5px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; }
         .gender-男 { background: #e3f2fd; color: #1e88e5; }
         .gender-女 { background: #fce4ec; color: #d81b60; }
-        .del-link { color: #ccc; font-size: 10px; cursor: pointer; }
+        .del-link { color: #ccc; font-size: 11px; cursor: pointer; text-decoration: none; }
         .del-link:hover { color: #ea4335; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2>🌸 28期名簿管理</h2>
+    <h2>🌸 名簿メンテ</h2>
     <div id="status" class="status">同期済み</div>
     <div class="controls">
-        <input type="text" id="q" class="search-input" placeholder="氏名・カナ検索...">
-        <select id="fGen" class="filter-select"><option value="">性別</option><option value="男">男</option><option value="女">女</option></select>
-        <select id="fC1" class="filter-select"><option value="">1年</option></select>
+        <input type="text" id="q" class="search-input" placeholder="名前・カナ検索...">
         <button class="btn-add" onclick="addM()">＋追加</button>
-        <span style="font-size:11px; font-weight:bold; min-width:30px;">[<span id="cnt">0</span>]</span>
+        <span style="font-size:12px; font-weight:bold; color:#d81b60;">[<span id="cnt">0</span>]</span>
     </div>
 </div>
 
-<table id="tbl">
-    <thead>
-        <tr>
-            <th class="w-no">No</th>
-            <th class="w-name" onclick="srt('name')">氏名▼</th>
-            <th class="w-kana" onclick="srt('kana')">カナ▼</th>
-            <th class="w-gen" onclick="srt('gen')">性▼</th>
-            <th class="w-cls" onclick="srt('c1')">1年▼</th>
-            <th class="w-cls" onclick="srt('c2')">2年▼</th>
-            <th class="w-cls" onclick="srt('c3')">3年▼</th>
-            <th class="w-act">消</th>
-        </tr>
-    </thead>
-    <tbody id="out"></tbody>
-</table>
+<div class="table-container">
+    <table id="tbl">
+        <thead>
+            <tr>
+                <th class="w-no">No</th>
+                <th class="w-name" onclick="srt('name')">氏名 ▼▲</th>
+                <th class="w-kana" onclick="srt('kana')">カナ ▼▲</th>
+                <th class="w-gen" onclick="srt('gen')">性別</th>
+                <th class="w-cls" onclick="srt('c1')">1年</th>
+                <th class="w-cls" onclick="srt('c2')">2年</th>
+                <th class="w-cls" onclick="srt('c3')">3年</th>
+                <th class="w-act">操作</th>
+            </tr>
+        </thead>
+        <tbody id="out"></tbody>
+    </table>
+</div>
 
 <script>
     const CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    const GAS = "https://script.google.com/macros/s/AKfycbz0D_iO4VT3YTQH-THnVjOrZC0G4NajnXMLpQOMa3QYDZ53ZbvdQQK-23NP9KbNAtgsAg/exec"; // ★必ずGASのURLを貼ってください
+    const GAS = "ここにあなたのGASウェブアプリURLを貼り付けてください";
 
     let data = [];
     let sK = 'kana';
     let sA = true;
 
+    // クラス表記から数字(組)だけを抜き出す
     function getG(v) {
         if(!v) return "";
-        let m = String(v).match(/(\d+)[-月](\d+)/);
-        return m ? m[2] : (String(v).match(/\d+/) ? String(v).match(/\d+/)[0] : v);
+        let s = String(v).trim();
+        let m = s.match(/(\d+)[-月](\d+)/); 
+        if(m) return m[2];
+        let d = s.match(/\d+/);
+        return d ? d[0] : s;
     }
 
     async function load() {
-        const res = await fetch(CSV);
-        const txt = await res.text();
-        const rows = txt.replace(/\r/g, '').split('\n').slice(1);
-        data = rows.map(r => {
-            const c = r.split(',');
-            return { name: c[0]||"", kana: c[1]||"", c1: getG(c[2]), c2: getG(c[4]), c3: getG(c[6]), gen: (c[8]||"男").trim() };
-        }).filter(m => m.name);
-        
-        // クラスフィルターの動的生成
-        const c1s = [...new Set(data.map(m => m.c1))].sort((a,b)=>a-b);
-        c1s.forEach(c => { if(c) document.getElementById('fC1').innerHTML += `<option value="${c}">${c}組</option>`; });
-        
-        render();
+        try {
+            const res = await fetch(CSV);
+            const txt = await res.text();
+            const rows = txt.replace(/\r/g, '').split('\n').slice(1);
+            data = rows.map(r => {
+                const c = r.split(',');
+                return { name: c[0]||"", kana: c[1]||"", c1: getG(c[2]), c2: getG(c[4]), c3: getG(c[6]), gen: (c[8]||"男").trim() };
+            }).filter(m => m.name);
+            render();
+        } catch (e) { console.error("データ読み込み失敗"); }
     }
 
     function render() {
         const body = document.getElementById('out');
         const q = document.getElementById('q').value.toLowerCase();
-        const fg = document.getElementById('fGen').value;
-        const fc = document.getElementById('fC1').value;
         body.innerHTML = "";
 
-        const filtered = data.filter(m => 
-            (m.name.includes(q) || m.kana.includes(q)) && (!fg || m.gen === fg) && (!fc || m.c1 === fc)
-        );
+        const filtered = data.filter(m => m.name.includes(q) || m.kana.includes(q));
 
         filtered.forEach((m, i) => {
             const tr = document.createElement('tr');
@@ -122,7 +124,7 @@
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','1年組',this.innerText)">${m.c1}</td>
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','2年組',this.innerText)">${m.c2}</td>
                 <td class="w-cls editable" contenteditable="true" onblur="sync('${m.name}','3年組',this.innerText)">${m.c3}</td>
-                <td class="w-act"><span class="del-link" onclick="delM('${m.name}')">×</span></td>
+                <td class="w-act"><span class="del-link" onclick="delM('${m.name}')">削除</span></td>
             `;
             body.appendChild(tr);
         });
@@ -131,12 +133,16 @@
 
     async function sync(name, col, val) {
         const st = document.getElementById('status');
-        st.innerText = "同期中..."; st.classList.add('syncing');
+        st.innerText = "同期中..."; st.style.borderColor = "#f1c40f"; st.style.color = "#f1c40f";
+        
         let sv = val;
-        if(col.includes('組') && val && !val.includes('-')) sv = col.charAt(0) + "-" + val;
+        if(col.includes('組') && val && !val.includes('-')) {
+            sv = col.charAt(0) + "-" + val; // "1年組" -> "1-組番号"
+        }
+
         try {
             await fetch(GAS, { method: "POST", body: JSON.stringify({ name: name, column: col, value: sv }) });
-            st.innerText = "同期済み"; st.classList.remove('syncing');
+            st.innerText = "同期済み"; st.style.borderColor = "#2ecc71"; st.style.color = "#2ecc71";
         } catch (e) { st.innerText = "エラー"; }
     }
 
@@ -147,26 +153,33 @@
     }
 
     function addM() {
-        const n = prompt("名前を入力");
-        if(n) { data.unshift({name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); render(); sync(n, "名前", n); }
+        const n = prompt("追加するフルネームを入力してください");
+        if(n) { 
+            data.unshift({name:n, kana:"", c1:"", c2:"", c3:"", gen:"男"}); 
+            render(); 
+            sync(n, "名前", n); 
+        }
     }
 
     async function delM(name) {
-        if(confirm(name + "を削除？")) {
+        if(confirm(name + " さんのデータをスプレッドシートから完全に削除しますか？")) {
             await fetch(GAS, { method: "POST", body: JSON.stringify({ action: "delete", name: name }) });
-            data = data.filter(m => m.name !== name); render();
+            data = data.filter(m => m.name !== name); 
+            render();
         }
     }
 
     function srt(k) {
         sA = (sK === k) ? !sA : true; sK = k;
-        data.sort((a, b) => (a[k] < b[k] ? -1 : 1) * (sA ? 1 : -1));
+        data.sort((a, b) => {
+            let va = a[k], vb = b[k];
+            if(k.includes('c')) { va = parseInt(va)||0; vb = parseInt(vb)||0; } // クラスは数値で比較
+            return (va < vb ? -1 : 1) * (sA ? 1 : -1);
+        });
         render();
     }
 
     document.getElementById('q').oninput = render;
-    document.getElementById('fGen').onchange = render;
-    document.getElementById('fC1').onchange = render;
     load();
 </script>
 </body>
