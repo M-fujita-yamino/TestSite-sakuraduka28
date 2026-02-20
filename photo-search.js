@@ -1,65 +1,75 @@
-// photo-search.js (修正版)
-const API_URL = "https://script.google.com/macros/s/AKfycbzcgLakCxMpq5Vgahc6smu_IfNChtrGnAgo5LCDlu6ljHiyaUyG8SZHSdFPV6rkFoObzA/exec"; 
+/**
+ * スプレッドシート連動 検索機能モジュール
+ */
+export async function initPhotoSearch({ classSelectId, searchInputId, resultDivId }) {
+    const classSelect = document.getElementById(classSelectId);
+    const searchInput = document.getElementById(searchInputId);
+    const resultDiv = document.getElementById(resultDivId);
 
-export async function initPhotoSearch() {
-    const classSelect = document.getElementById('classSelect');
-    const searchInput = document.getElementById('searchInput');
-    const searchResult = document.getElementById('searchResult');
+    // GASのウェブアプリURL（デプロイ後に発行されるURLに書き換えてください）
+    const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzcgLakCxMpq5Vgahc6smu_IfNChtrGnAgo5LCDlu6ljHiyaUyG8SZHSdFPV6rkFoObzA/exec';
 
-    try {
-        const response = await fetch(API_URL);
-        const members = await response.json();
+    let allData = [];
 
-        const performSearch = () => {
-            const classVal = classSelect.value;
-            const searchVal = searchInput.value.toLowerCase().trim();
-            searchResult.innerHTML = '';
-
-            const filtered = members.filter(m => {
-                const matchClass = !classVal || [String(m.c1), String(m.c2), String(m.c3)].includes(classVal);
-                const matchText = !searchVal || (m.name + m.kana).includes(searchVal);
-                return matchClass && matchText;
-            });
-
-            if (filtered.length === 0) {
-                searchResult.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">該当者は見つかりませんでした。</p>';
-                return;
-            }
-
-            filtered.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'result-item';
-                
-                // 性別アイコン（sex列がある場合）
-                let sexIcon = m.sex === '女' ? '🌸 ' : (m.sex === '男' ? '🔹 ' : '');
-
-                // オリジナルの「訂正依頼」メールリンクを完全再現
-                const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
-                const body = encodeURIComponent(`管理者様\n\n訂正をお願いします。対象：${m.name}`);
-                const mailLink = `mailto:?subject=${subject}&body=${body}`;
-                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
-
-                let buttonsHtml = '<div class="class-btn-group">';
-                if(m.link1?.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-                if(m.link2?.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-                if(m.link3?.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
-                buttonsHtml += '</div>';
-
-                div.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span class="result-name">${sexIcon}${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>
-                        ${fixBtn}
-                    </div>
-                    ${buttonsHtml}`;
-                searchResult.appendChild(div);
-            });
-        };
-
-        classSelect.addEventListener('change', performSearch);
-        searchInput.addEventListener('input', performSearch);
-        performSearch(); // 初回表示実行
-
-    } catch (e) {
-        console.error("API Error:", e);
+    // データ読み込み
+    async function fetchData() {
+        try {
+            resultDiv.innerHTML = '<div style="color:#666; padding:10px;">データを読み込み中...</div>';
+            const response = await fetch(GAS_ENDPOINT);
+            allData = await response.json();
+            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">検索の準備ができました</div>';
+        } catch (error) {
+            console.error('Fetch error:', error);
+            resultDiv.innerHTML = '<div style="color:#d65f82; padding:10px;">データの取得に失敗しました</div>';
+        }
     }
+
+    // 検索実行
+    function updateSearch() {
+        const selectedClass = classSelect.value;
+        const query = searchInput.value.trim();
+
+        if (!selectedClass && !query) {
+            resultDiv.innerHTML = '';
+            return;
+        }
+
+        const filtered = allData.filter(item => {
+            const matchClass = selectedClass ? (item.class === selectedClass) : true;
+            const matchName = query ? (item.name.includes(query) || item.kana.includes(query)) : true;
+            return matchClass && matchName;
+        });
+
+        renderResults(filtered);
+    }
+
+    function renderResults(data) {
+        resultDiv.innerHTML = '';
+        if (data.length === 0) {
+            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">見つかりませんでした</div>';
+            return;
+        }
+
+        data.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.style.borderLeftColor = '#87ceeb'; // スプレッドシート版は青色で区別
+            
+            div.innerHTML = `
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="result-name">${item.name} <span style="font-size:0.8em; color:#777;">(${item.kana})</span></span>
+                </div>
+                <div class="class-btn-container">
+                    <a href="${item.link}" class="class-btn" target="_blank" style="background:#87ceeb;">写真をみる</a>
+                </div>
+            `;
+            resultDiv.appendChild(div);
+        });
+    }
+
+    classSelect.addEventListener('change', updateSearch);
+    searchInput.addEventListener('input', updateSearch);
+
+    // 初回データ取得
+    fetchData();
 }
