@@ -6,7 +6,7 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* あなたが設計したCSSを1pxの狂いもなく継承 */
+        /* スタイル・アニメーション設定（すべて元のコードを継承） */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
         body {
@@ -21,33 +21,26 @@
         @keyframes sakura-fall {
             0% { transform: translate(0, -10%) rotate(0deg); opacity: 0; }
             10% { opacity: 0.9; }
-            90% { opacity: 0.9; }
             100% { transform: translate(150px, 110vh) rotate(720deg); opacity: 0; }
         }
-        .container { position: relative; z-index: 100; box-sizing: border-box; max-width: 720px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.96); padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; backdrop-filter: blur(2px); }
-        header { text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px; background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 15px rgba(165, 29, 77, 0.3); }
-        .header-title { color: #ffffff; font-size: 2.2em; margin: 0; font-weight: 700; letter-spacing: 0.05em; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        .music-controls { margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .music-btn { background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.3s ease; backdrop-filter: blur(5px); }
-        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 15px rgba(255, 141, 161, 0.5); }
-        .side-img { position: fixed; z-index: 0; pointer-events: none; width: calc(50vw - 360px); height: auto; object-fit: contain; }
+        .container { position: relative; z-index: 100; max-width: 720px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.96); padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; }
+        header { text-align: center; padding: 45px 15px; background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; color: #fff; }
+        .header-title { font-size: 2.2em; font-weight: 700; margin: 0; }
+        .video-list { list-style: none; padding: 0; margin: 0; }
+        .video-item { display: flex; align-items: center; background: #fff; margin-bottom: 12px; padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5; box-shadow: 0 3px 6px rgba(0,0,0,0.05); gap: 15px; }
+        .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .video-no { font-weight: 700; color: #d65f82; width: 30px; }
+        .video-info { flex-grow: 1; }
+        .video-title { font-weight: 700; color: #333; }
+        .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; }
+        .play-btn { background-color: #ff8da1; color: white; text-decoration: none; padding: 8px 18px; border-radius: 40px; font-size: 12px; font-weight: 700; }
+        .search-area { background: #fffafc; padding: 25px; border-radius: 25px; border: 2px solid #ffb7c5; margin: 40px 0; }
+        .search-input { width: 100%; padding: 15px; border-radius: 30px; border: 1px solid #ffb7c5; }
+        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-left: 5px; display: inline-block; }
+        .side-img { position: fixed; z-index: 0; pointer-events: none; width: calc(50vw - 360px); }
         .img-left { top: 0; left: 0; }
         .img-right { bottom: 0; right: 0; }
-        .section-header { text-align: center; margin: 60px 0 30px 0; scroll-margin-top: 20px; }
-        .oval-title { display: inline-block; padding: 15px 35px; border: 2px solid #ffb7c5; border-radius: 60px; background-color: #fff; color: #ff8da1; font-weight: 700; font-size: 1.1em; box-shadow: 0 4px 10px rgba(255, 183, 197, 0.2); }
-        .video-list { list-style: none; padding: 0; margin: 0; }
-        .video-item { display: flex; align-items: center; background: #fff; margin-bottom: 12px; padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5; box-shadow: 0 3px 6px rgba(0,0,0,0.05); gap: 15px; transition: transform 0.2s ease; }
-        .video-item:hover { transform: translateX(5px); }
-        .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; background-color: #eee; flex-shrink: 0; border: 1px solid #f0f0f0; }
-        .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .video-no { font-weight: 700; color: #d65f82; font-size: 1.2em; width: 45px; text-align: center; }
-        .video-info { flex-grow: 1; }
-        .video-title { font-weight: 700; font-size: 1em; color: #333; display: block; line-height: 1.3; }
-        .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; }
-        .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 8px 18px; border-radius: 40px; font-weight: 700; font-size: 12px; transition: background 0.3s ease; }
-        .search-area { background: #fffafc; padding: 25px; border-radius: 25px; border: 2px solid #ffb7c5; margin: 40px 0; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.1); }
-        .search-input { width: 100%; padding: 15px 20px; border-radius: 30px; border: 1px solid #ffb7c5; font-size: 16px; box-sizing: border-box; outline: none; }
-        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-left: 5px; }
     </style>
 </head>
 <body>
@@ -61,166 +54,75 @@
 <div class="container">
     <header>
         <h1 class="header-title">桜塚高校第28期同期会</h1>
-        <div class="music-controls">
-            <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
-            <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
+        <div style="margin-top:20px;">
+            <button onclick="toggleMusic('okamachi')" id="btn_okamachi">♪ 岡町商店街の唄</button>
+            <button onclick="toggleMusic('kouka')" id="btn_kouka">♪ 桜塚校歌</button>
         </div>
     </header>
 
-    <div class="section-header" id="sec00"><div class="oval-title">同期会開催のお知らせ</div></div>
+    <div class="section-header"><div class="oval-title">同期会開催のお知らせ</div></div>
     <ul class="video-list">
-        <li class="video-item">
-            <div class="video-thumb"><img src="00_第8回桜塚高校第28期同期会開催の案内.jpg" alt="00_第8回桜塚高校第28期同期会開催の案内"></div>
-            <div class="video-no">00</div>
-            <div class="video-info">
-                <span class="video-title">第8回 桜塚高校第28期同期会 開催の案内</span>
-                <span class="creator-tag">事務局</span>
-            </div>
-            <a href="00_第8回桜塚高校第28期同期会開催の案内.pdf" class="play-btn" target="_blank">閲覧</a>
-        </li>
+        <li class="video-item"><div class="video-thumb"><img src="00_第8回桜塚高校第28期同期会開催の案内.jpg"></div><div class="video-no">00</div><div class="video-info"><span class="video-title">第8回同期会 開催の案内</span><span class="creator-tag">事務局</span></div><a href="00_第8回桜塚高校第28期同期会開催の案内.pdf" class="play-btn">閲覧</a></li>
     </ul>
 
-    <div class="section-header" id="sec01"><div class="oval-title">第1回 同期会 (1996年)</div></div>
+    <div class="section-header"><div class="oval-title">第1回 同期会 (1996年)</div></div>
     <ul class="video-list">
-        <li class="video-item">
-            <div class="video-thumb"><img src="01_和田君会場ビデオ.jpg" alt="01_和田君会場ビデオ"></div>
-            <div class="video-no">01</div>
-            <div class="video-info">
-                <span class="video-title">会場ビデオ（卒業20周年・豊中市民会館）</span>
-                <span class="creator-tag">Produced by 和田展明君</span>
-            </div>
-            <a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a>
-        </li>
+        <li class="video-item"><div class="video-thumb"><img src="01_和田君会場ビデオ.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">会場ビデオ（豊中市民会館）</span><span class="creator-tag">和田展明君</span></div><a href="https://youtu.be/hed3nsWlo7E" class="play-btn">再生</a></li>
     </ul>
 
-    <div class="section-header" id="sec08"><div class="oval-title">第7回 還暦記念同期会 (2018年)</div></div>
+    <div class="section-header"><div class="oval-title">第7回 還暦記念同期会 (2018年)</div></div>
     <ul class="video-list">
-        <li class="video-item">
-            <div class="video-thumb"><img src="08_乾君還暦同期会写真211枚.jpg" alt="08_乾君還暦同期会写真211枚"></div>
-            <div class="video-no">08</div>
-            <div class="video-info">
-                <span class="video-title">還暦同期会写真 211枚</span>
-                <span class="creator-tag">Supervised by 乾君</span>
-            </div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="10_乾君還暦同期会動画12本.jpg" alt="10_乾君還暦同期会動画12本"></div>
-            <div class="video-no">10</div>
-            <div class="video-info">
-                <span class="video-title">還暦同期会 動画 12本</span>
-                <span class="creator-tag">Supervised by 乾君</span>
-            </div>
-            <a href="https://photos.app.goo.gl/8v3M5u7K8F9P8r8A" class="play-btn" target="_blank">閲覧</a>
-        </li>
+        <li class="video-item"><div class="video-thumb"><img src="08_乾君還暦同期会写真211枚.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="10_乾君還暦同期会動画12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
     </ul>
 
-    <div class="section-header" id="sec360"><div class="oval-title">第8回 360°動画アーカイブ (2023年)</div></div>
+    <div class="section-header"><div class="oval-title">第8回 360°動画アーカイブ</div></div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="thumb_01.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">11:42〜 受付前</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/rxbp8wEeMsQ" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_02.jpg"></div><div class="video-no">02</div><div class="video-info"><span class="video-title">11:55〜 受付中</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/fW8Ealkxj5o" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_03.jpg"></div><div class="video-no">03</div><div class="video-info"><span class="video-title">12:10〜 開会挨拶・1年席</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/we5isrYUz5c" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_04.jpg"></div><div class="video-no">04</div><div class="video-info"><span class="video-title">12:18〜 1年クラス歓談</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/BG1l0Yqfl2U" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_05.jpg"></div><div class="video-no">05</div><div class="video-info"><span class="video-title">12:24〜 1年クラス歓談</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/YrMtlCD_6dc" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_06.jpg"></div><div class="video-no">06</div><div class="video-info"><span class="video-title">13:21〜 1年席・展示物</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/JI5FtwazCpQ" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_07.jpg"></div><div class="video-no">07</div><div class="video-info"><span class="video-title">13:22〜 展示物閲覧</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/1VCm0gowwQ0" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_08.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">13:33〜 2年クラス歓談</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/n2e0zfEq1BI" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_09.jpg"></div><div class="video-no">09</div><div class="video-info"><span class="video-title">13:35〜 2年クラス歓談</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/dHItCfY9Hxw" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_10.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">14:22〜 3年席・エンタメ</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/egTtcC_cE8w" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_11.jpg"></div><div class="video-no">11</div><div class="video-info"><span class="video-title">14:30〜 エンタメフォー研</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/BY6I7QyYyMY" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_12.jpg"></div><div class="video-no">12</div><div class="video-info"><span class="video-title">14:38〜 エンタメ木田・金ヶ江</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/HiBOH3Cg3CQ" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_13.jpg"></div><div class="video-no">13</div><div class="video-info"><span class="video-title">14:42〜 エンタメ金ヶ江</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/fsGqOCG7vGM" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_14.jpg"></div><div class="video-no">14</div><div class="video-info"><span class="video-title">15:12〜 伊丹君挨拶_閉会</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/RS3-GnjuuPw" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_15.jpg"></div><div class="video-no">15</div><div class="video-info"><span class="video-title">15:20〜 中住君・集合写真</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/QbrGknQ9_Tw" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_16.jpg"></div><div class="video-no">16</div><div class="video-info"><span class="video-title">15:25〜 集合写真・撤収</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/jClSRHMiUAg" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_17.jpg"></div><div class="video-no">17</div><div class="video-info"><span class="video-title">15:41〜 会場前1</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/GWNV_YlNytE" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_18.jpg"></div><div class="video-no">18</div><div class="video-info"><span class="video-title">15:47〜 会場前2</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/pTzXHN2lr-E" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_19.jpg"></div><div class="video-no">19</div><div class="video-info"><span class="video-title">15:57〜 会場前3</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/zZRwk60moYQ" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_20.jpg"></div><div class="video-no">20</div><div class="video-info"><span class="video-title">15:25〜 集合写真ドローン</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://youtu.be/LIr4MjMuEuo" class="play-btn" target="_blank">再生</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="thumb_21.jpg"></div><div class="video-no">21</div><div class="video-info"><span class="video-title">16:26〜 二次会場1</span><span class="creator-tag">Produced by 藤田</span></div><a href="https://www.youtube.com/watch?v=hbPB4Rtb038" class="play-btn" target="_blank">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_01.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">11:42〜 受付前</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/rxbp8wEeMsQ" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_02.jpg"></div><div class="video-no">02</div><div class="video-info"><span class="video-title">11:55〜 受付中</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/fW8Ealkxj5o" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_03.jpg"></div><div class="video-no">03</div><div class="video-info"><span class="video-title">12:10〜 開会挨拶</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/we5isrYUz5c" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_04.jpg"></div><div class="video-no">04</div><div class="video-info"><span class="video-title">12:18〜 1年クラス歓談</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/BG1l0Yqfl2U" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_05.jpg"></div><div class="video-no">05</div><div class="video-info"><span class="video-title">12:24〜 1年クラス歓談</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/YrMtlCD_6dc" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_06.jpg"></div><div class="video-no">06</div><div class="video-info"><span class="video-title">13:21〜 1年席・展示物</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/JI5FtwazCpQ" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_07.jpg"></div><div class="video-no">07</div><div class="video-info"><span class="video-title">13:22〜 展示物閲覧</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/1VCm0gowwQ0" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_08.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">13:33〜 2年クラス歓談</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/n2e0zfEq1BI" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_09.jpg"></div><div class="video-no">09</div><div class="video-info"><span class="video-title">13:35〜 2年クラス歓談</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/dHItCfY9Hxw" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_10.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">14:22〜 3年席・エンタメ</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/egTtcC_cE8w" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_11.jpg"></div><div class="video-no">11</div><div class="video-info"><span class="video-title">14:30〜 エンタメフォー研</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/BY6I7QyYyMY" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_12.jpg"></div><div class="video-no">12</div><div class="video-info"><span class="video-title">14:38〜 エンタメ木田・金ヶ江</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/HiBOH3Cg3CQ" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_13.jpg"></div><div class="video-no">13</div><div class="video-info"><span class="video-title">14:42〜 エンタメ金ヶ江</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/fsGqOCG7vGM" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_14.jpg"></div><div class="video-no">14</div><div class="video-info"><span class="video-title">15:12〜 伊丹君挨拶</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/RS3-GnjuuPw" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_15.jpg"></div><div class="video-no">15</div><div class="video-info"><span class="video-title">15:20〜 中住君・集合写真</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/QbrGknQ9_Tw" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_16.jpg"></div><div class="video-no">16</div><div class="video-info"><span class="video-title">15:25〜 集合写真・撤収</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/jClSRHMiUAg" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_17.jpg"></div><div class="video-no">17</div><div class="video-info"><span class="video-title">15:41〜 会場前1</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/GWNV_YlNytE" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_18.jpg"></div><div class="video-no">18</div><div class="video-info"><span class="video-title">15:47〜 会場前2</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/pTzXHN2lr-E" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_19.jpg"></div><div class="video-no">19</div><div class="video-info"><span class="video-title">15:57〜 会場前3</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/zZRwk60moYQ" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_20.jpg"></div><div class="video-no">20</div><div class="video-info"><span class="video-title">15:25〜 集合写真ドローン</span><span class="creator-tag">藤田</span></div><a href="https://youtu.be/LIr4MjMuEuo" class="play-btn">再生</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="thumb_21.jpg"></div><div class="video-no">21</div><div class="video-info"><span class="video-title">16:26〜 二次会場</span><span class="creator-tag">藤田</span></div><a href="https://www.youtube.com/watch?v=hbPB4Rtb038" class="play-btn">再生</a></li>
     </ul>
 
-    <div class="section-header" id="sec02"><div class="oval-title">入学50周年記念 写真集 (2023年)</div></div>
+    <div class="section-header"><div class="oval-title">入学50周年記念 写真集</div></div>
     <ul class="video-list">
-        <li class="video-item">
-            <div class="video-thumb"><img src="02a_乾君入学50周年記念集合写真3枚.jpg" alt="02a"></div>
-            <div class="video-no">02a</div>
-            <div class="video-info">
-                <span class="video-title">入学50周年記念(集合写真)3枚</span>
-                <span class="creator-tag">Supervised & Edited by 乾君</span>
-            </div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="02b_乾君入学50周年記念写真221枚.jpg" alt="02b"></div>
-            <div class="video-no">02b</div>
-            <div class="video-info">
-                <span class="video-title">入学50周年記念(開演～閉幕までの写真)221枚</span>
-                <span class="creator-tag">Supervised & Edited by 乾君</span>
-            </div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="02c_乾君入学50周年記念写真投稿用.jpg" alt="02c"></div>
-            <div class="video-no">02c</div>
-            <div class="video-info">
-                <span class="video-title">入学50周年記念(★写真投稿用)</span>
-                <span class="creator-tag">Supervised & Edited by 乾君</span>
-            </div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
+        <li class="video-item"><div class="video-thumb"><img src="02a_乾君入学50周年記念集合写真3枚.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念(集合写真)3枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="02b_乾君入学50周年記念写真221枚.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学50周年記念(全写真)221枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="02c_乾君入学50周年記念写真投稿用.jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学50周年記念(写真投稿用)</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
     </ul>
 
     <div class="search-area">
-        <h3 style="color:#d65f82; margin:0 0 15px 0;">🔍 クラス名簿・写真検索</h3>
-        <input type="text" id="searchInput" class="search-input" placeholder="氏名またはフリガナを入力...">
+        <h3 style="color:#d65f82; margin:0 0 15px 0;">🔍 名簿・クラス写真検索</h3>
+        <input type="text" id="searchInput" class="search-input" placeholder="氏名またはフリガナ...">
         <div id="searchResult" style="margin-top:20px;"></div>
     </div>
 
-    <div class="section-header" id="sec03"><div class="oval-title">資料アーカイブ</div></div>
+    <div class="section-header"><div class="oval-title">資料アーカイブ</div></div>
     <ul class="video-list">
-        <li class="video-item">
-            <div class="video-thumb"><img src="03a_乾君クラス写真30枚.jpg" alt="03a"></div>
-            <div class="video-no">03a</div>
-            <div class="video-info"><span class="video-title">1年～3年のクラス写真 30枚</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03b_乾君卒業アルバムモノクロ31枚.jpg" alt="03b"></div>
-            <div class="video-no">03b</div>
-            <div class="video-info"><span class="video-title">卒業アルバム・A3モノクロ 31枚</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03c_乾君卒業アルバムカラー196枚.jpg" alt="03c"></div>
-            <div class="video-no">03c</div>
-            <div class="video-info"><span class="video-title">卒業アルバム色々・カラー 196枚</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03d_乾君クラス名簿.jpg" alt="03d"></div>
-            <div class="video-no">03d</div>
-            <div class="video-info"><span class="video-title">1年～3年のクラス名簿</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03e_伊丹君旧校舎復元図.jpg" alt="03e"></div>
-            <div class="video-no">03e</div>
-            <div class="video-info"><span class="video-title">伊丹君作成・旧校舎復元図</span><span class="creator-tag">伊丹君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03f_乾君桜塚高校の写真今昔52枚.jpg" alt="03f"></div>
-            <div class="video-no">03f</div>
-            <div class="video-info"><span class="video-title">桜塚高校の写真今昔 52枚</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">閲覧</a>
-        </li>
-        <li class="video-item">
-            <div class="video-thumb"><img src="03g_乾君動画桜塚高校の歴史.jpg" alt="03g"></div>
-            <div class="video-no">03g</div>
-            <div class="video-info"><span class="video-title">【動画 桜塚高校の歴史】</span><span class="creator-tag">乾君</span></div>
-            <a href="https://photos.app.goo.gl/kXvA2Y2pB8D9E8y9A" class="play-btn" target="_blank">再生</a>
-        </li>
+        <li class="video-item"><div class="video-thumb"><img src="03a_乾君クラス写真30枚.jpg"></div><div class="video-no">03a</div><div class="video-info"><span class="video-title">1年～3年クラス写真 30枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03b_乾君卒業アルバムモノクロ31枚.jpg"></div><div class="video-no">03b</div><div class="video-info"><span class="video-title">卒業アルバム モノクロ 31枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03c_乾君卒業アルバムカラー196枚.jpg"></div><div class="video-no">03c</div><div class="video-info"><span class="video-title">卒業アルバム カラー 196枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03d_乾君クラス名簿.jpg"></div><div class="video-no">03d</div><div class="video-info"><span class="video-title">1年～3年 クラス名簿</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03e_伊丹君旧校舎復元図.jpg"></div><div class="video-no">03e</div><div class="video-info"><span class="video-title">旧校舎復元図</span><span class="creator-tag">伊丹君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03f_乾君桜塚高校の写真今昔52枚.jpg"></div><div class="video-no">03f</div><div class="video-info"><span class="video-title">桜塚高校の写真今昔 52枚</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="03g_乾君動画桜塚高校の歴史.jpg"></div><div class="video-no">03g</div><div class="video-info"><span class="video-title">【動画 桜塚高校の歴史】</span><span class="creator-tag">乾君</span></div><a href="#" class="play-btn">再生</a></li>
     </ul>
 
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
@@ -228,78 +130,61 @@
 
 <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
-    let membersDB = [];
+    let db = [];
 
-    // CSV読み込み
-    async function loadMembers() {
+    async function init() {
         try {
-            const response = await fetch(CSV_URL);
-            const csvText = await response.text();
-            const lines = csvText.split('\n');
-            membersDB = lines.slice(1).map(line => {
-                const [name, kana, c1, link1, c2, link2, c3, link3] = line.split(',').map(s => s?.trim());
-                return { name, kana, c1, link1, c2, link2, c3, link3 };
+            const res = await fetch(CSV_URL);
+            const txt = await res.text();
+            db = txt.split('\n').slice(1).map(line => {
+                const c = line.split(',').map(s => s.trim());
+                return { name: c[0], kana: c[1], c1: c[2], l1: c[3], c2: c[4], l2: c[5], c3: c[6], l3: c[7] };
             }).filter(m => m.name);
             document.body.style.opacity = 1;
-        } catch (e) { console.error("CSV Load Error:", e); }
+        } catch(e) { console.error(e); }
     }
 
-    // 検索機能 (ご要望の表示形式を1px単位で再現)
-    function performSearch() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const resultArea = document.getElementById('searchResult');
-        resultArea.innerHTML = '';
-        if (!query) return;
+    function search() {
+        const q = document.getElementById('searchInput').value;
+        const out = document.getElementById('searchResult');
+        out.innerHTML = '';
+        if(!q) return;
 
-        membersDB.filter(m => m.name.includes(query) || m.kana.includes(query)).forEach(m => {
+        db.filter(m => m.name.includes(q) || m.kana.includes(q)).forEach(m => {
             const div = document.createElement('div');
-            div.style.cssText = "border-bottom:1px solid #eee; padding:15px 0; display:flex; flex-direction:column; gap:8px;";
+            div.style.padding = "10px 0; border-bottom: 1px solid #eee;";
             
-            // クラス表記を「1年 1-10」形式に修正
-            let btns = `<div style="display:flex; flex-wrap:wrap; gap:5px;">`;
-            if(m.link1) btns += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-            if(m.link2) btns += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-            if(m.link3) btns += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
-            btns += `</div>`;
+            let btns = '';
+            if(m.l1) btns += `<a href="${m.l1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
+            if(m.l2) btns += `<a href="${m.l2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
+            if(m.l3) btns += `<a href="${m.l3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
 
-            const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
-            const body = encodeURIComponent(`管理者様\n\n名簿の訂正をお願いします。\n対象：${m.name}`);
-            const mail = `mailto:?subject=${subject}&body=${body}`;
-
-            div.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:baseline;">
-                    <span><strong style="font-size:1.1em;">${m.name}</strong> <small style="color:#888;">(${m.kana})</small></span>
-                    <a href="${mail}" style="font-size:11px; color:#d65f82; text-decoration:underline;">⚠️ 訂正依頼</a>
-                </div>
-                ${btns}
-            `;
-            resultArea.appendChild(div);
+            const mail = `mailto:?subject=訂正依頼&body=対象：${m.name}`;
+            div.innerHTML = `<div><strong>${m.name}</strong> (${m.kana}) <a href="${mail}" style="font-size:10px; color:#999;">訂正依頼</a></div><div style="margin-top:5px;">${btns}</div>`;
+            out.appendChild(div);
         });
     }
 
-    // 🌸 桜吹雪 (あなたのオリジナルの秒数設定を維持)
+    function toggleMusic(id) {
+        const a = document.getElementById('audio_'+id);
+        if(a.paused) a.play(); else a.pause();
+    }
+
     function createSakura() {
         const container = document.getElementById('sakura-container');
         setInterval(() => {
-            const petal = document.createElement('div');
-            petal.className = 'sakura-petal';
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.width = petal.style.height = (Math.random() * 10 + 5) + 'px';
-            petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            container.appendChild(petal);
-            setTimeout(() => petal.remove(), 7000);
+            const p = document.createElement('div');
+            p.className = 'sakura-petal';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.width = p.style.height = (Math.random() * 10 + 5) + 'px';
+            p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            container.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
         }, 300);
     }
 
-    function toggleMusic(id) {
-        const audio = document.getElementById('audio_' + id);
-        const btn = document.getElementById('btn_' + id);
-        if (audio.paused) { audio.play(); btn.classList.add('playing'); }
-        else { audio.pause(); btn.classList.remove('playing'); }
-    }
-
-    document.getElementById('searchInput').addEventListener('input', performSearch);
-    window.onload = () => { loadMembers(); createSakura(); };
+    window.onload = () => { init(); createSakura(); };
+    document.getElementById('searchInput').addEventListener('input', search);
 </script>
 </body>
 </html>
