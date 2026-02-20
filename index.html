@@ -6,7 +6,7 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 以前の完璧なデザインを完全に維持 */
+        /* 完璧なデザインを完全維持 */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
 
@@ -88,14 +88,22 @@
         }
         .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; }
 
+        /* 🌸 検索エリアの拡張スタイル */
         .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .search-box { padding: 12px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 16px; box-sizing: border-box; background-color: #fffafa; }
+        .search-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .search-box { padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; box-sizing: border-box; background-color: #fffafa; width: 100%; }
+        .full-width { grid-column: span 2; }
+        
         .search-result { margin-top: 20px; }
         .result-item {
             background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #eee; border-left: 4px solid #87ceeb;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
         }
         .result-name { font-weight: 700; font-size: 1.1em; color: #333; }
+        .gender-tag { font-size: 0.7em; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: normal; }
+        .gender-m { background: #e3f2fd; color: #1976d2; }
+        .gender-f { background: #fce4ec; color: #d81b60; }
+
         .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
         .class-btn {
             background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; font-size: 11px; font-weight: 700;
@@ -226,10 +234,13 @@
     </div>
 
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0;">🔍 クラス・写真検索</h3>
+        <h3 style="color:#d65f82; margin-top:0;">🔍 高度な検索・絞り込み</h3>
         <span id="dataStatus" style="font-size:0.7em; color:#888;">データ同期中...</span>
-        <div style="display: flex; gap: 10px; margin-top:10px; flex-wrap:wrap;">
-            <select id="classSelect" class="search-box" style="width: 35%;">
+        
+        <div class="search-controls">
+            <input type="text" id="searchInput" class="search-box full-width" placeholder="名前またはフリガナを入力...">
+            
+            <select id="classSelect" class="search-box">
                 <option value="">全学年・全組</option>
                 <optgroup label="3年">
                     <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
@@ -250,8 +261,19 @@
                     <option value="1-10">1年10組</option>
                 </optgroup>
             </select>
-            <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前を入力...">
+
+            <select id="genderSelect" class="search-box">
+                <option value="">性別: すべて</option>
+                <option value="男">男性</option>
+                <option value="女">女性</option>
+            </select>
+
+            <select id="sortOrder" class="search-box full-width">
+                <option value="name">並び順: 五十音順</option>
+                <option value="class">並び順: クラス番号順</option>
+            </select>
         </div>
+        
         <div id="searchResult" class="search-result"></div>
     </div>
 
@@ -272,7 +294,7 @@
 </div>
 
 <script>
-    /* 🌸 1・2・3年全共通・強化ロジック 🌸 */
+    /* 🌸 1・2・3年全共通・高度検索ロジック 🌸 */
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
 
@@ -297,19 +319,18 @@
 
     async function initData() {
         try {
-            // 1. 写真マスターを読み込み（全学年対応）
+            // 1. 写真マスター
             const resP = await fetch(PHOTO_MASTER_URL);
             const txtP = await resP.text();
             txtP.split(/\r?\n/).forEach(l => {
                 const c = l.split(',');
                 if(c[0]) {
-                    // キーを「1-1」「2-5」「3-10」などの形式に統一
                     const key = c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '');
                     photoMap[key] = (c[1] || "").trim();
                 }
             });
 
-            // 2. 名簿データを読み込み
+            // 2. 名簿（性別は9列目[インデックス8]にあると想定して処理）
             const resM = await fetch(SHEET_CSV_URL);
             const txtM = await resM.text();
             const rows = txtM.split(/\r?\n/).slice(1);
@@ -318,54 +339,74 @@
             memberData = rows.map(r => {
                 const c = r.split(',');
                 const c1 = clean(c[2]), c2 = clean(c[4]), c3 = clean(c[6]);
-                
-                // 補助関数：学年と組番号からURLを引く
                 const getLink = (grade, classVal, csvLink) => {
                     if (csvLink && csvLink.startsWith('http')) return csvLink.trim();
-                    const classNum = classVal.split('-').pop(); // 「1-3」から「3」を取り出す
+                    const classNum = classVal.split('-').pop();
                     return photoMap[`${grade}-${classNum}`] || "";
                 };
 
                 return {
-                    name: (c[0]||"").trim(), kana: (c[1]||"").trim(),
+                    name: (c[0]||"").trim(),
+                    kana: (c[1]||"").trim(),
+                    gender: (c[8]||"").trim(), // CSVの9列目を性別として取得
                     c1, c2, c3,
-                    // 全学年、共通ロジックでリンク判定
                     link1: getLink(1, c1, c[3]),
                     link2: getLink(2, c2, c[5]),
                     link3: getLink(3, c3, c[7])
                 };
             }).filter(m => m.name);
-            document.getElementById('dataStatus').textContent = "✓ 全学年データ同期完了";
-        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ 読込エラー"; }
+            document.getElementById('dataStatus').textContent = "✓ 同期完了";
+        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ 接続エラー"; }
     }
 
     function performSearch() {
-        const sel = document.getElementById('classSelect').value.replace('年','-').replace('組','');
+        const selClass = document.getElementById('classSelect').value.replace('年','-').replace('組','');
+        const selGender = document.getElementById('genderSelect').value;
+        const sortMode = document.getElementById('sortOrder').value;
         const q = document.getElementById('searchInput').value.trim();
         const out = document.getElementById('searchResult');
         out.innerHTML = '';
-        if(!sel && !q) return;
 
-        memberData.filter(m => {
-            const cM = !sel || (m.c1===sel || m.c2===sel || m.c3===sel);
-            const nM = !q || (m.name.includes(q) || m.kana.includes(q));
-            return cM && nM;
-        }).forEach(m => {
+        if(!selClass && !selGender && !q) return;
+
+        let filtered = memberData.filter(m => {
+            const classM = !selClass || (m.c1===selClass || m.c2===selClass || m.c3===selClass);
+            const genderM = !selGender || (m.gender === selGender);
+            const nameM = !q || (m.name.includes(q) || m.kana.includes(q));
+            return classM && genderM && nameM;
+        });
+
+        // 並び替え処理
+        filtered.sort((a, b) => {
+            if (sortMode === 'name') {
+                return a.kana.localeCompare(b.kana, 'ja');
+            } else {
+                // クラス順（最新の3年生のクラスを優先）
+                return a.c3.localeCompare(b.c3);
+            }
+        });
+
+        filtered.forEach(m => {
             const div = document.createElement('div');
             div.className = 'result-item';
+            const gTag = m.gender ? `<span class="gender-tag ${m.gender==='男'?'gender-m':'gender-f'}">${m.gender}</span>` : '';
+            
             let b = '<div class="class-btn-container">';
-            // 各学年のボタン表示（URLがある場合のみ）
             if(m.link1) b += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1.split('-').pop()}組</a>`;
             if(m.link2) b += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2.split('-').pop()}組</a>`;
             if(m.link3) b += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3.split('-').pop()}組</a>`;
             b += '</div>';
-            div.innerHTML = `<span class="result-name">${m.name}</span>${b}`;
+            
+            div.innerHTML = `<div><span class="result-name">${m.name}</span>${gTag}</div>${b}`;
             out.appendChild(div);
         });
     }
 
-    document.getElementById('classSelect').addEventListener('change', performSearch);
-    document.getElementById('searchInput').addEventListener('input', performSearch);
+    // イベントリスナー一括登録
+    ['searchInput', 'classSelect', 'genderSelect', 'sortOrder'].forEach(id => {
+        document.getElementById(id).addEventListener(id==='searchInput'?'input':'change', performSearch);
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
         initData();
         setTimeout(() => document.body.style.opacity = "1", 100);
