@@ -68,15 +68,10 @@
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
             position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.2);
         }
-        .info-box::before {
-            content: "50th Anniversary"; position: absolute; top: 18px; right: -38px;
-            background: #ff8da1; color: #fff; padding: 5px 45px;
-            transform: rotate(35deg); font-weight: bold; font-size: 11px; letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
         .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
         .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
-        .info-table th { width: 75px; color: #d65f82; font-weight: bold; vertical-align: top; text-align: left; padding: 10px 0; border-bottom: 1px solid #fff0f5; }
-        .info-table td { padding: 10px 0; color: #444; border-bottom: 1px solid #fff0f5; }
+        .info-table th { width: 75px; color: #d65f82; font-weight: bold; vertical-align: top; text-align: left; padding: 10px 0; }
+        .info-table td { padding: 10px 0; color: #444; }
 
         .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
         .contents-index h2 { font-size: 18px; color: #d65f82; border-bottom: 2px solid #ffeef5; margin-top: 0; }
@@ -85,39 +80,27 @@
         .contents-index a { color: #555; text-decoration: none; font-size: 15px; font-weight: 700; display: inline-block; }
         .contents-index a::before { content: "🌸 "; }
 
-        .neon-new {
-            display: inline-block; margin-left: 10px; font-size: 12px; font-weight: bold; color: #fff;
-            background: #ff00de; padding: 1px 6px; border-radius: 4px;
-            text-shadow: 0 0 5px #fff; animation: blink 1.5s infinite alternate;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
         .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
         .oval-title {
             display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5;
             border-radius: 60px; background-color: #fff; color: #ff8da1;
             font-weight: 700; font-size: 16px; line-height: 1.5;
         }
-        .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
-        .back-to-index:hover { background-color: #ffb7c5; color: #fff; }
-        .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; }
+        .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; }
 
         .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .search-box { padding: 12px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 16px; box-sizing: border-box; background-color: #fffafa; transition: border-color 0.3s; }
-        .search-box:focus { outline: none; border-color: #ff8da1; background-color: #fff; }
+        .search-box { padding: 12px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 16px; box-sizing: border-box; background-color: #fffafa; }
         .search-result { margin-top: 20px; }
         .result-item {
             background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #eee; border-left: 4px solid #87ceeb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
         }
-        .result-name { font-weight: 700; font-size: 1.1em; color: #333; margin: 0; line-height: 1.2; }
+        .result-name { font-weight: 700; font-size: 1.1em; color: #333; }
         .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
         .class-btn {
             background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; font-size: 11px; font-weight: 700;
-            display: inline-flex; align-items: center; gap: 3px; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 3px;
         }
-        .class-btn:hover { background: #5dafcf; transform: translateY(-1px); }
-        .class-btn::before { content: "📸"; font-size: 1.0em; }
 
         .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
         .video-item {
@@ -130,13 +113,8 @@
         .video-no { font-weight: 700; color: #d65f82; font-size: 1.2em; width: 45px; text-align: center; }
         .video-info { flex-grow: 1; }
         .video-title { font-weight: 700; font-size: 1em; color: #333; }
-        .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
+        .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
-
-        .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin-top: 30px; margin-bottom: 60px; text-align: left; }
-        .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
-        .howto-step { display: flex; margin-bottom: 20px; }
-        .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
 
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
@@ -165,65 +143,43 @@
 
     <section class="info-box">
         <h2>🌸 桜塚高校 28 期卒業50周年記念同期会 お知らせ</h2>
-        <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555; line-height: 1.8;">
-            みなさまいかがお過ごしですか。早速ですが下記のように同期会を開催を企画しています。ご参加お待ちしています！
-        </p>
-        
         <table class="info-table">
-            <tr><th>日時</th><td><strong>2026年5月24日(日)</strong><br>12:00 ～ 14:30（受付開始 11:30）</td></tr>
-            <tr><th>場所</th><td><strong><a href="https://ristorantesho21.owst.jp/" target="_blank" style="color: #a51d4d; text-decoration: underline;">リストランテ翔 21</a></strong><br>大阪梅田 OITタワー 21 階<br><span style="font-size: 0.85em; color: #777;">(大阪市北区茶屋町1-45 TEL: 06-6147-6269)</span></td></tr>
-            <tr><th>費用</th><td>8,000円 (当日払い)</td></tr>
-            <tr><th>内容</th><td>飲み放題・バイキング形式</td></tr>
+            <tr><th>日時</th><td><strong>2026年5月24日(日)</strong> 12:00 ～</td></tr>
+            <tr><th>場所</th><td><strong>リストランテ翔 21</strong></td></tr>
         </table>
-
-        <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
-            <p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.1em;">📮 4月20日までに返信用はがきをご投函下さい</p>
-            <p style="font-size: 0.9em; margin-top: 15px; line-height: 1.7; color: #666;">お問い合わせ：antoinetterose1789@gmail.com</p>
-            <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 15px 0;">
-            <p style="font-size: 0.95em; color: #d65f82; font-weight: 700; margin: 0;">📸 当日の写真は本HPにて順次公開いたします。</p>
-            <p style="text-align: right; margin: 20px 0 0 0; font-size: 12px; color: #bbb; font-style: italic;">Writer: 同窓会幹事 さやか</p>
-        </div>
     </section>
 
     <nav id="top-index" class="contents-index">
         <h2>目次一覧</h2>
         <ul>
-            <li><a href="#section_vol1">第1回 同期会</a><span class="neon-new">New!</span></li>
+            <li><a href="#section_vol1">第1回 同期会</a></li>
             <li><a href="#section_vol7">第7回 同期会</a></li>
-            <li><a href="#section_vol8_360">第8回 同期会 360°動画アーカイブ</a></li>
+            <li><a href="#section_vol8_360">第8回 360°動画アーカイブ</a></li>
             <li><a href="#section_vol8_photo">第8回 同期会 写真集</a></li>
-            <li><a href="#section_archive">特別付録（資料アーカイブ）</a></li>
+            <li><a href="#section_archive">特別付録（名簿・クラス写真検索）</a></li>
         </ul>
     </nav>
 
     <div id="section_vol1" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">第1回 同期会　1996年 3月 9日（土）<br>於 豊中市民会館 卒業20周年</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
+        <div class="oval-title">第1回 同期会 (1996年) 於 豊中市民会館</div>
+        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
     <ul class="video-list">
         <li class="video-item"><div class="video-thumb"><img src="第一回同期会.jpg"></div><div class="video-no">01</div><div class="video-info"><span class="video-title">会場ビデオ（卒業20周年）</span><br><span class="creator-tag">Produced by 和田展明君</span></div><a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a></li>
     </ul>
 
     <div id="section_vol7" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">第7回 同期会　2018年 4月 28日（土）<br>於 千里阪急ホテル 還暦記念同期会</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
+        <div class="oval-title">第7回 還暦記念同期会 (2018年) 於 千里阪急ホテル</div>
+        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会(★写真投稿用).jpg"></div><div class="video-no">09</div><div class="video-info"><span class="video-title">還暦同期会(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNWjKOAW37aLgpM8cYMiVyFFNluQ1oLh9O2Tq_4rRecVJf3hU4NLjsUm0hNnKvAhQ?key=OWU2ck5JeGJtaTUyeks0RTR2d1AwZVVXQmlOcUNR" class="play-btn" target="_blank">閲覧</a></li>
-        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
     <div id="section_vol8_360" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">第8回 同期会　2023年 9月 23日（土）<br>於 梅田 リストランテ・クロノス 360°動画</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
-        <a href="#howto" class="howto-link-btn">▼ 360°動画の楽しみ方はこちら</a>
+        <div class="oval-title">第8回 360°動画アーカイブ (2023年)</div>
+        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
     <ul class="video-list" id="vlist_360">
         <script>
@@ -256,50 +212,25 @@
         </script>
     </ul>
 
-    <div id="howto" class="howto-box">
-        <h2>📱 360°動画の楽しみ方</h2>
-        <div class="howto-step"><div class="step-num">1</div><div><strong>「再生」ボタンを押す</strong><br>YouTubeアプリが起動します。</div></div>
-        <div class="howto-step"><div class="step-num">2</div><div><strong>スマホを動かしてみる</strong><br>スマホの動きに合わせて映像のアングルが変わります。</div></div>
-    </div>
-
     <div id="section_vol8_photo" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">第8回 同期会　2023年 9月 23日（土） 写真集</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
+        <div class="oval-title">第8回 同期会 写真集 (2023年)</div>
+        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
     <ul class="video-list">
-        <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 集合写真.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学5０周年記念(集合写真)3枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
+        <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 集合写真.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学50周年記念 集合写真</span><br><span class="creator-tag">Supervised by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
     <div id="section_archive" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">特別付録：資料アーカイブ</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
+        <div class="oval-title">特別付録：資料アーカイブ ＆ 名簿検索</div>
+        <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
 
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0; border-bottom:1px dashed #ffb7c5; padding-bottom:10px;">
-            🔍 同期生クラス・写真検索
-            <span id="dataStatus" style="font-size:0.7em; color:#888; font-weight:normal; display:block; margin-top:5px;">データ同期中...</span>
-        </h3>
-        
-        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
-            <select id="classSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer;">
+        <h3 style="color:#d65f82; margin-top:0;">🔍 同期生クラス・写真検索</h3>
+        <span id="dataStatus" style="font-size:0.7em; color:#888;">データ同期中...</span>
+        <div style="display: flex; gap: 10px; margin-top:10px; flex-wrap:wrap;">
+            <select id="classSelect" class="search-box" style="width: 35%;">
                 <option value="">全クラス</option>
-                <optgroup label="1年">
-                    <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
-                    <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
-                    <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
-                    <option value="1-10">1年10組</option>
-                </optgroup>
-                <optgroup label="2年">
-                    <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
-                    <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
-                    <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
-                    <option value="2-10">2年10組</option>
-                </optgroup>
                 <optgroup label="3年">
                     <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
                     <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
@@ -307,22 +238,20 @@
                     <option value="3-10">3年10組</option>
                 </optgroup>
             </select>
-            <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前やフリガナを入力...">
+            <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前を入力...">
         </div>
         <div id="searchResult" class="search-result"></div>
     </div>
 
     <ul class="video-list">
         <script>
-            const v4 = [
-                {no:"03a", title:"1年～3年のクラス写真 30枚", url:"https://photos.google.com/share/AF1QipNeVEFFT83FTDV2s_FvJNZ_NdRB8-4POP1Js8RrUDkX0nX9hbHnAWXRZPB3ABYqLA?key=TlRCZ3FJdnlGYV91WEpENXFNcjRzTTMyRlh5Tl9n", tag:"Supervised & Edited by 乾君"},
-                {no:"03b", title:"卒業アルバム・A3モノクロ 31枚", url:"https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB", tag:"Supervised & Edited by 乾君"},
-                {no:"03c", title:"卒業アルバム色々・カラー 196枚", url:"https://photos.google.com/share/AF1QipO-h9Pu4J28t8zoS_x6xafuU2QjVfFs5CaoakWfM4X242BcaMsGBL7WOwNlg2PZoQ?key=QWdoNkttRUw2Zzg1a05heFJSYnc3bUZOUFVjNllR", tag:"Supervised & Edited by 乾君"},
-                {no:"03d", title:"1年～3年のクラス名簿", url:"https://photos.google.com/share/AF1QipOxk3cmfyjzpaZO-8M6za-SinsS6aB43S2b7c1P-eyuMp9xdw2pjygVyqE7CqYwAQ?key=VXVnOUQwZEJweTZjanBBaVg1NlltVUJDTzdQMzVR", tag:"Supervised & Edited by 乾君"},
-                {no:"03e", title:"伊丹君作成・旧校舎復元図", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"Artworks by 伊丹君"}
+            const vArchive = [
+                {no:"03a", title:"クラス写真 30枚", url:"https://photos.google.com/share/AF1QipNeVEFFT83FTDV2s_FvJNZ_NdRB8-4POP1Js8RrUDkX0nX9hbHnAWXRZPB3ABYqLA?key=TlRCZ3FJdnlGYV91WEpENXFNcjRzTTMyRlh5Tl9n", tag:"乾君"},
+                {no:"03b", title:"卒業アルバム・モノクロ", url:"https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB", tag:"乾君"},
+                {no:"03e", title:"伊丹君作成・旧校舎復元図", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"伊丹君"}
             ];
-            v4.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="特別付録「${v.title}」.jpg"></div><div class="video-no" style="font-size:0.75em">${v.no}</div><div class="video-info"><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.tag}</span></div><a href="${v.url}" class="play-btn" target="_blank">閲覧</a></li>`);
+            vArchive.forEach(v => {
+                document.write(`<li class="video-item"><div class="video-thumb"><img src="特別付録.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.tag} 制作</span></div><a href="${v.url}" class="play-btn" target="_blank">閲覧</a></li>`);
             });
         </script>
     </ul>
@@ -331,113 +260,90 @@
 </div>
 
 <script>
-    /* 🌸 データ同期設定 🌸 */
+    /* 🌸 3年生対応・強化ロジック 🌸 */
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
 
     let memberData = [];
     let photoMap = {};
 
-    // 桜を降らせる
-    const container = document.getElementById('sakura-container');
     function createSakura() {
-        const petal = document.createElement('div');
-        petal.className = 'sakura-petal';
-        const size = Math.random() * 10 + 8;
-        petal.style.width = size + 'px';
-        petal.style.height = size + 'px';
-        petal.style.left = Math.random() * 120 - 10 + 'vw';
-        const duration = Math.random() * 4 + 6;
-        petal.style.animationDuration = duration + 's';
-        petal.style.opacity = Math.random() * 0.4 + 0.4;
-        container.appendChild(petal);
-        setTimeout(() => { petal.remove(); }, duration * 1000);
+        const p = document.createElement('div'); p.className = 'sakura-petal';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        document.getElementById('sakura-container').appendChild(p);
+        setTimeout(() => p.remove(), 8000);
     }
-    setInterval(createSakura, 150);
+    setInterval(createSakura, 200);
 
-    // 音楽制御
-    const audios = { okamachi: document.getElementById('audio_okamachi'), kouka: document.getElementById('audio_kouka') };
-    const btns = { okamachi: document.getElementById('btn_okamachi'), kouka: document.getElementById('btn_kouka') };
-    function toggleMusic(type) {
-        const target = audios[type];
-        const other = audios[type === 'okamachi' ? 'kouka' : 'okamachi'];
-        const otherBtn = btns[type === 'okamachi' ? 'kouka' : 'okamachi'];
-        if (!target.paused) { target.pause(); btns[type].classList.remove('playing'); }
-        else { other.pause(); otherBtn.classList.remove('playing'); target.play().catch(e => console.log(e)); btns[type].classList.add('playing'); }
+    function toggleMusic(t) {
+        const a = document.getElementById('audio_'+t);
+        const b = document.getElementById('btn_'+t);
+        if(!a.paused){ a.pause(); b.classList.remove('playing'); }
+        else { a.play(); b.classList.add('playing'); }
     }
 
-    // データ読み込み
     async function initData() {
         try {
             const resP = await fetch(PHOTO_MASTER_URL);
             const txtP = await resP.text();
-            txtP.split(/\r?\n/).slice(1).forEach(l => {
+            txtP.split(/\r?\n/).forEach(l => {
                 const c = l.split(',');
-                if(c[0]) photoMap[c[0].trim()] = (c[1] || "").trim();
+                if(c[0]) {
+                    const key = c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '');
+                    photoMap[key] = (c[1] || "").trim();
+                }
             });
 
             const resM = await fetch(SHEET_CSV_URL);
             const txtM = await resM.text();
             const rows = txtM.split(/\r?\n/).slice(1);
-            const clean = (v) => v ? v.replace('月','-').replace('日','').trim() : "";
-            
+            const clean = (v) => v ? v.replace(/[年組月日]/g, '-').replace(/-0/g, '-').replace(/-$/, '').trim() : "";
+
             memberData = rows.map(r => {
                 const c = r.split(',');
                 const c1 = clean(c[2]), c2 = clean(c[4]), c3 = clean(c[6]);
                 return {
-                    name: (c[0] || "").trim(),
-                    kana: (c[1] || "").trim(),
-                    c1: c1, c2: c2, c3: c3,
-                    link1: (c[3] && c[3].startsWith('http')) ? c[3].trim() : photoMap["1-"+c1],
-                    link2: (c[5] && c[5].startsWith('http')) ? c[5].trim() : photoMap["2-"+c2],
-                    link3: (c[7] && c[7].startsWith('http')) ? c[7].trim() : photoMap["3-"+c3]
+                    name: (c[0]||"").trim(), kana: (c[1]||"").trim(),
+                    c1, c2, c3,
+                    link1: (c[3] && c[3].startsWith('http')) ? c[3].trim() : photoMap["1-" + c1.split('-').pop()],
+                    link2: (c[5] && c[5].startsWith('http')) ? c[5].trim() : photoMap["2-" + c2.split('-').pop()],
+                    link3: (c[7] && c[7].startsWith('http')) ? c[7].trim() : photoMap["3-" + c3.split('-').pop()]
                 };
             }).filter(m => m.name);
-            document.getElementById('dataStatus').textContent = "✓ データ同期完了";
-        } catch (e) {
-            document.getElementById('dataStatus').innerHTML = "<span style='color:red;'>⚠️ 読込エラー</span>";
-        }
+            document.getElementById('dataStatus').textContent = "✓ 同期完了";
+        } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ 読込エラー"; }
     }
 
-    // 検索実行
     function performSearch() {
-        const selectedClass = document.getElementById('classSelect').value;
-        const query = document.getElementById('searchInput').value.replace(/\s+/g, '');
+        const sel = document.getElementById('classSelect').value.replace('年','-').replace('組','');
+        const q = document.getElementById('searchInput').value.trim();
         const out = document.getElementById('searchResult');
         out.innerHTML = '';
-        if (!selectedClass && !query) return;
+        if(!sel && !q) return;
 
-        const filtered = memberData.filter(m => {
-            const cM = !selectedClass || (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass);
-            const nM = !query || (m.name.includes(query) || m.kana.includes(query));
+        memberData.filter(m => {
+            const cM = !sel || (m.c1===sel || m.c2===sel || m.c3===sel);
+            const nM = !q || (m.name.includes(q) || m.kana.includes(q));
             return cM && nM;
+        }).forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            let b = '<div class="class-btn-container">';
+            if(m.link1) b += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1.split('-').pop()}組</a>`;
+            if(m.link2) b += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2.split('-').pop()}組</a>`;
+            if(m.link3) b += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3.split('-').pop()}組</a>`;
+            b += '</div>';
+            div.innerHTML = `<span class="result-name">${m.name}</span>${b}`;
+            out.appendChild(div);
         });
-
-        if (filtered.length === 0) {
-            out.innerHTML = '<div style="color:#999; padding:10px;">なし</div>';
-        } else {
-            filtered.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'result-item';
-                let btns = '<div class="class-btn-container">';
-                if(m.link1) btns += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-                if(m.link2) btns += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-                if(m.link3) btns += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
-                btns += '</div>';
-                const subject = encodeURIComponent(`【名簿訂正】${m.name}さん`);
-                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.7em; color:#777;">(${m.kana})</span></span><a href="mailto:antoinetterose1789@gmail.com?subject=${subject}" style="font-size:10px; color:#aaa;">訂正</a></div>${btns}`;
-                out.appendChild(div);
-            });
-        }
     }
 
     document.getElementById('classSelect').addEventListener('change', performSearch);
     document.getElementById('searchInput').addEventListener('input', performSearch);
-    
     document.addEventListener('DOMContentLoaded', () => {
         initData();
-        window.scrollTo(0,0);
-        setTimeout(() => { document.body.style.opacity = "1"; }, 100);
+        setTimeout(() => document.body.style.opacity = "1", 100);
     });
 </script>
 </body>
