@@ -166,3 +166,4 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     fetchData();
 }
 
+
