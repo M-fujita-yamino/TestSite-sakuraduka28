@@ -1,137 +1,108 @@
-/**
- * スプレッドシート連動 高機能検索機能モジュール
- */
 export async function initPhotoSearch({ classSelectId, searchInputId, resultDivId }) {
-    const classSelect = document.getElementById(classSelectId);
-    const searchInput = document.getElementById(searchInputId);
+    const container = document.getElementById('dynamic-search-area');
     const resultDiv = document.getElementById(resultDivId);
-    
     const GAS_URL = 'https://script.google.com/macros/s/AKfycby6MV7JyQt2R9Wapooo8ZXTZAa-qVhD2k-rx0DG40vr826TtDLvOimFI1Ncs3OnStzDoA/exec'; // あなたのURL
+
+    // --- 1. UIの強制生成（デザイン崩れを防ぐため一括生成） ---
+    container.innerHTML = `
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <select id="classSelect" class="search-box" style="flex: 1; min-width: 140px;">
+                <option value="">全クラス</option>
+                ${Array.from({length:10}, (_, i) => `<option value="1-${i+1}">1-${i+1}</option>`).join('')}
+                ${Array.from({length:10}, (_, i) => `<option value="2-${i+1}">2-${i+1}</option>`).join('')}
+                ${Array.from({length:10}, (_, i) => `<option value="3-${i+1}">3-${i+1}</option>`).join('')}
+            </select>
+            <input type="text" id="searchInput" class="search-box" placeholder="名前・カナ検索" style="flex: 1; min-width: 140px;">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <select id="sexSelect" class="search-box" style="width: 35%;">
+                <option value="">性別すべて</option>
+                <option value="男">男性</option>
+                <option value="女">女性</option>
+            </select>
+            <select id="sortSelect" class="search-box" style="flex: 1;">
+                <option value="kana_asc">五十音(あ→ん)</option>
+                <option value="kana_desc">五十音(ん→あ)</option>
+                <option value="class_asc">クラス順</option>
+            </select>
+        </div>
+    `;
+
+    // 生成した要素を再取得
+    const classSelect = document.getElementById('classSelect');
+    const searchInput = document.getElementById('searchInput');
+    const sexSelect = document.getElementById('sexSelect');
+    const sortSelect = document.getElementById('sortSelect');
 
     let allData = [];
 
-    // --- 【安全策】UIを動的に、かつデザインを崩さず追加 ---
-    // 既に存在しない場合のみ、性別とソートのプルダウンを作成
-    if (!document.getElementById('dynamicSexSelect')) {
-        const controls = document.createElement('div');
-        controls.style.cssText = "display: flex; gap: 8px; margin-top: 8px;";
-        controls.innerHTML = `
-            <select id="dynamicSexSelect" class="search-box" style="flex: 1; height: 40px; border-radius: 8px; border: 1px solid #87ceeb; background: white; padding: 0 10px;">
-                <option value="">性別すべて</option>
-                <option value="男">男性のみ</option>
-                <option value="女">女性のみ</option>
-            </select>
-            <select id="dynamicSortSelect" class="search-box" style="flex: 1; height: 40px; border-radius: 8px; border: 1px solid #87ceeb; background: white; padding: 0 10px;">
-                <option value="kana_asc">五十音 (あ→ん)</option>
-                <option value="kana_desc">五十音 (ん→あ)</option>
-                <option value="class_asc">クラス順</option>
-            </select>
-        `;
-        // 入力フォームの親要素の末尾に追加（崩れ防止）
-        searchInput.parentNode.parentNode.appendChild(controls);
-    }
-
-    const sexSelect = document.getElementById('dynamicSexSelect');
-    const sortSelect = document.getElementById('dynamicSortSelect');
-
-    // データ取得（JSONP方式 - さっき成功した方式を維持）
+    // --- 2. データ取得（JSONP） ---
     async function fetchData() {
-        try {
-            resultDiv.innerHTML = '<div style="color:#666; padding:10px;">名簿を読み込み中...</div>';
-            const callbackName = 'cb_' + Date.now();
-            window[callbackName] = (data) => {
-                onDataReceived(data);
-                delete window[callbackName];
-            };
-            const script = document.createElement('script');
-            script.src = `${GAS_URL}?callback=${callbackName}`;
-            document.body.appendChild(script);
-        } catch (e) {
-            resultDiv.innerHTML = '通信エラーが発生しました';
-        }
+        resultDiv.innerHTML = '<div style="padding:20px; color:#666;">データを同期しています...</div>';
+        const cb = 'cb_' + Date.now();
+        window[cb] = (data) => {
+            allData = data.slice(1).map(r => ({
+                name: String(r[0]||""), kana: String(r[1]||""), sex: String(r[2]||""),
+                c1: String(r[3]||""), c2: String(r[4]||""), c3: String(r[5]||"")
+            }));
+            resultDiv.innerHTML = '<div style="padding:10px; color:#999;">同期が完了しました。</div>';
+            delete window[cb];
+        };
+        const s = document.createElement('script');
+        s.src = `${GAS_URL}?callback=${cb}`;
+        document.body.appendChild(s);
     }
 
-    function onDataReceived(rawData) {
-        if (!rawData || rawData.length < 2) return;
-        // データのマッピング（理系的に厳密に定義）
-        allData = rawData.slice(1).map(r => ({
-            name: String(r[0] || "").trim(),
-            kana: String(r[1] || "").trim(),
-            sex:  String(r[2] || "").trim(),
-            c1:   String(r[3] || "").trim(),
-            c2:   String(r[4] || "").trim(),
-            c3:   String(r[5] || "").trim(),
-            l1:   r[6], l2: r[7], l3: r[8]
-        }));
-        resultDiv.innerHTML = '<div style="color:#999; padding:10px;">同期完了しました。</div>';
-    }
-
+    // --- 3. 検索ロジック ---
     function updateSearch() {
-        const selC = classSelect.value;
-        const selS = sexSelect.value;
-        const query = searchInput.value.trim();
+        const valC = classSelect.value;
+        const valS = sexSelect.value;
+        const valQ = searchInput.value.trim();
         const sort = sortSelect.value;
 
-        // 【根本解決】「全クラス」の定義を広義に取る（空、undefined、全クラスという文字）
-        const isAllClass = (!selC || selC === "全クラス");
-
         let filtered = allData.filter(item => {
-            // 1. クラス絞り込み（全クラスなら常にパス）
-            const matchC = isAllClass || (item.c1 === selC || item.c2 === selC || item.c3 === selC);
-            // 2. 性別絞り込み
-            const matchS = !selS || (item.sex === selS);
-            // 3. 名前・カナ絞り込み
-            const matchQ = !query || (item.name.includes(query) || item.kana.includes(query));
-            
-            return matchC && matchS && matchQ;
+            const mC = (!valC) || (item.c1===valC || item.c2===valC || item.c3===valC);
+            const mS = (!valS) || (item.sex === valS);
+            const mQ = (!valQ) || (item.name.includes(valQ) || item.kana.includes(valQ));
+            return mC && mS && mQ;
         });
 
-        // ソート処理
+        // ソート
         filtered.sort((a, b) => {
             if (sort === 'kana_asc') return a.kana.localeCompare(b.kana, 'ja');
             if (sort === 'kana_desc') return b.kana.localeCompare(a.kana, 'ja');
-            const keyA = (a.c1 || "9") + (a.c2 || "9") + (a.c3 || "9");
-            const keyB = (b.c1 || "9") + (b.c2 || "9") + (b.c3 || "9");
+            const keyA = (a.c1||"9")+(a.c2||"9")+(a.c3||"9");
+            const keyB = (b.c1||"9")+(b.c2||"9")+(b.c3||"9");
             return keyA.localeCompare(keyB);
         });
 
-        renderResults(filtered, isAllClass ? "" : selC);
-    }
-
-    function renderResults(data, activeClass) {
+        // --- 4. 結果表示 ---
         resultDiv.innerHTML = "";
-        if (data.length === 0) {
-            resultDiv.innerHTML = '<div style="color:#999; padding:10px;">該当する同期生は見つかりませんでした</div>';
+        if (!filtered.length && (valC || valS || valQ)) {
+            resultDiv.innerHTML = '<div style="padding:20px; color:#d65f82;">該当者は見つかりませんでした</div>';
             return;
         }
 
-        data.forEach(m => {
+        filtered.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'result-item'; // CSSを適用
-            
-            // クラスバッジの作成（選択したクラスをピンクに）
-            const buildBadge = (val, label) => {
-                if (!val) return "";
-                const isTarget = (val === activeClass);
-                const bg = isTarget ? "#ff8da1" : "#87ceeb";
-                return `<span class="class-btn" style="background:${bg}; border:none;">${label} ${val}</span>`;
-            };
-
+            div.className = 'result-item'; // CSSに依存
             div.innerHTML = `
                 <div style="width:100%">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="result-name">${m.name} <small style="color:#888; font-weight:normal;">(${m.kana})</small></span>
-                        <span style="font-size:0.8em; color:#999;">${m.sex}</span>
+                        <span style="font-weight:bold; color:#333;">${item.name} <small style="font-weight:normal; color:#888;">(${item.kana})</small></span>
+                        <span style="font-size:0.8em; color:#aaa;">${item.sex}</span>
                     </div>
-                    <div class="class-btn-container" style="margin-top:8px;">
-                        ${buildBadge(m.c1, '1年')}${buildBadge(m.c2, '2年')}${buildBadge(m.c3, '3年')}
+                    <div style="margin-top:8px; display:flex; gap:5px;">
+                        ${item.c1 ? `<span class="class-btn" style="${item.c1===valC?'background:#ff8da1':'background:#87ceeb'}">1年 ${item.c1}</span>` : ''}
+                        ${item.c2 ? `<span class="class-btn" style="${item.c2===valC?'background:#ff8da1':'background:#87ceeb'}">2年 ${item.c2}</span>` : ''}
+                        ${item.c3 ? `<span class="class-btn" style="${item.c3===valC?'background:#ff8da1':'background:#87ceeb'}">3年 ${item.c3}</span>` : ''}
                     </div>
                 </div>`;
             resultDiv.appendChild(div);
         });
     }
 
-    // イベント登録をまとめる
+    // イベント登録
     [classSelect, searchInput, sexSelect, sortSelect].forEach(el => {
         el.oninput = el.onchange = updateSearch;
     });
