@@ -7,7 +7,7 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
     const resultDiv = document.getElementById(resultDivId);
 
     // GASのウェブアプリURL（デプロイ後に発行されるURLをここに貼り付けてください）
-    const GAS_ENDPOINT = 'https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec';
+    const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby7WJu8pCHpt4gzWxFNQHT_2ORoWyBcWM5SMqWmzZZb3Nl18PZXydEOLEbvxU8AGQ6SCA/exec';
 
     let allData = [];
 
@@ -165,3 +165,4 @@ export async function initPhotoSearch({ classSelectId, searchInputId, resultDivI
 
     fetchData();
 }
+
