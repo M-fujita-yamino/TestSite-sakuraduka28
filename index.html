@@ -221,21 +221,33 @@
     </ul>
 
     <div id="section_archive" class="section-header">
-        <div class="oval-title">特別付録：資料アーカイブ ＆ 名簿検索</div>
+        <div class="oval-title">特別付録：同期生クラス・写真検索</div>
         <a href="#top-index" class="back-to-index">↑ 目次へ</a>
     </div>
 
     <div class="search-area">
-        <h3 style="color:#d65f82; margin-top:0;">🔍 同期生クラス・写真検索</h3>
+        <h3 style="color:#d65f82; margin-top:0;">🔍 クラス・写真検索</h3>
         <span id="dataStatus" style="font-size:0.7em; color:#888;">データ同期中...</span>
         <div style="display: flex; gap: 10px; margin-top:10px; flex-wrap:wrap;">
             <select id="classSelect" class="search-box" style="width: 35%;">
-                <option value="">全クラス</option>
+                <option value="">全学年・全組</option>
                 <optgroup label="3年">
                     <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
                     <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
                     <option value="3-7">3年7組</option><option value="3-8">3年8組</option><option value="3-9">3年9組</option>
                     <option value="3-10">3年10組</option>
+                </optgroup>
+                <optgroup label="2年">
+                    <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
+                    <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
+                    <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
+                    <option value="2-10">2年10組</option>
+                </optgroup>
+                <optgroup label="1年">
+                    <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
+                    <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
+                    <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
+                    <option value="1-10">1年10組</option>
                 </optgroup>
             </select>
             <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前を入力...">
@@ -260,7 +272,7 @@
 </div>
 
 <script>
-    /* 🌸 3年生対応・強化ロジック 🌸 */
+    /* 🌸 1・2・3年全共通・強化ロジック 🌸 */
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv";
     const PHOTO_MASTER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxm8bS1RxZlhBjac5oQrMUVpurJbcYUKCPyMAl5Ut26gJ4U-g6pbvdlJryP1c2rUJsWt0eJm-H0Nee/pub?gid=0&single=true&output=csv";
 
@@ -285,16 +297,19 @@
 
     async function initData() {
         try {
+            // 1. 写真マスターを読み込み（全学年対応）
             const resP = await fetch(PHOTO_MASTER_URL);
             const txtP = await resP.text();
             txtP.split(/\r?\n/).forEach(l => {
                 const c = l.split(',');
                 if(c[0]) {
+                    // キーを「1-1」「2-5」「3-10」などの形式に統一
                     const key = c[0].trim().replace(/[年組]/g, '-').replace(/-0/g, '-').replace(/-$/, '');
                     photoMap[key] = (c[1] || "").trim();
                 }
             });
 
+            // 2. 名簿データを読み込み
             const resM = await fetch(SHEET_CSV_URL);
             const txtM = await resM.text();
             const rows = txtM.split(/\r?\n/).slice(1);
@@ -303,15 +318,24 @@
             memberData = rows.map(r => {
                 const c = r.split(',');
                 const c1 = clean(c[2]), c2 = clean(c[4]), c3 = clean(c[6]);
+                
+                // 補助関数：学年と組番号からURLを引く
+                const getLink = (grade, classVal, csvLink) => {
+                    if (csvLink && csvLink.startsWith('http')) return csvLink.trim();
+                    const classNum = classVal.split('-').pop(); // 「1-3」から「3」を取り出す
+                    return photoMap[`${grade}-${classNum}`] || "";
+                };
+
                 return {
                     name: (c[0]||"").trim(), kana: (c[1]||"").trim(),
                     c1, c2, c3,
-                    link1: (c[3] && c[3].startsWith('http')) ? c[3].trim() : photoMap["1-" + c1.split('-').pop()],
-                    link2: (c[5] && c[5].startsWith('http')) ? c[5].trim() : photoMap["2-" + c2.split('-').pop()],
-                    link3: (c[7] && c[7].startsWith('http')) ? c[7].trim() : photoMap["3-" + c3.split('-').pop()]
+                    // 全学年、共通ロジックでリンク判定
+                    link1: getLink(1, c1, c[3]),
+                    link2: getLink(2, c2, c[5]),
+                    link3: getLink(3, c3, c[7])
                 };
             }).filter(m => m.name);
-            document.getElementById('dataStatus').textContent = "✓ 同期完了";
+            document.getElementById('dataStatus').textContent = "✓ 全学年データ同期完了";
         } catch (e) { document.getElementById('dataStatus').innerHTML = "⚠️ 読込エラー"; }
     }
 
@@ -330,6 +354,7 @@
             const div = document.createElement('div');
             div.className = 'result-item';
             let b = '<div class="class-btn-container">';
+            // 各学年のボタン表示（URLがある場合のみ）
             if(m.link1) b += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1.split('-').pop()}組</a>`;
             if(m.link2) b += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2.split('-').pop()}組</a>`;
             if(m.link3) b += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3.split('-').pop()}組</a>`;
