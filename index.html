@@ -96,32 +96,39 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        /* セクションヘッダー：左寄せ配置用 */
-        .section-header { text-align: left; margin: 40px 0 20px 0; padding-left: 10px; display: block; scroll-margin-top: 20px; }
-        .oval-wrapper { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; width: 100%; }
+        /* セクションヘッダー */
+        .section-header { text-align: left; margin: 35px 0 15px 0; padding-left: 5px; display: block; scroll-margin-top: 20px; }
+        .oval-wrapper { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: 12px; width: 100%; }
 
-        /* ボタンデザイン：横長・薄い・スタイリッシュ左寄せ */
+        /* 🌸 新・ボタンデザイン：トーンを落ち着かせ、回り込みを徹底防御 */
         .oval-title {
-            display: inline-block; text-align: left; padding: 10px 24px; border: 1px solid #ffccd5;
-            border-radius: 8px; background-color: #ffffff; color: #e66a85;
-            font-weight: 700; font-size: 14.5px; line-height: 1.5; text-decoration: none;
-            flex-grow: 1; max-width: 82%; box-sizing: border-box;
+            display: inline-block; text-align: left; padding: 10px 20px; border: 1px solid #dcdad3;
+            border-radius: 6px; background-color: #fcfbfa; color: #6e6b64;
+            font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
+            flex-grow: 1; max-width: 84%; box-sizing: border-box;
+            
+            /* 文字の途中回り込み・意図しない改行を防ぐプロパティ */
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            word-break: keep-all; line-break: strict;
         }
         .oval-toggle-btn {
-            cursor: pointer; box-shadow: 0 2px 6px rgba(255, 183, 197, 0.1);
-            transition: all 0.25s ease;
+            cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease-in-out;
         }
         .oval-toggle-btn:hover {
-            background-color: #fffafb; border-color: #ff8da1; color: #a51d4d;
-            transform: translateX(3px); box-shadow: 0 3px 10px rgba(255, 141, 161, 0.2);
+            background-color: #f5f3ec; border-color: #bfae93; color: #403e38;
+            transform: translateX(4px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        .back-to-index { background-color: #fff; color: #d65f82; border: 1px solid #ffccd5; padding: 6px 14px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
-        .back-to-index:hover { background-color: #ffb7c5; color: #fff; border-color: #ffb7c5; }
+        .back-to-index { 
+            background-color: #fff; color: #8c887f; border: 1px solid #dcdad3; padding: 6px 12px; border-radius: 5px; font-size: 11px; text-decoration: none; font-weight: 700; transition: all 0.3s;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .back-to-index:hover { background-color: #8c887f; color: #fff; border-color: #8c887f; }
         .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; display: inline-block; margin-bottom: 15px; }
 
         /* 動画リストスタイル */
-        .video-list { list-style: none; padding: 0; margin-bottom: 30px; }
+        .video-list { list-style: none; padding: 0; margin-bottom: 25px; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
             padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5;
@@ -136,22 +143,23 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
-        /* リスト開閉用コントロール用ボタン */
+        /* パネル展開内の内蔵用ボタンデザイン：トーンダウン版 */
         .switch-view-btn {
-            display: block; width: 90%; max-width: 440px; margin: 20px 0 20px 10px;
-            background-color: #ffffff; color: #e66a85; text-decoration: none;
-            padding: 11px 20px; border-radius: 8px; font-weight: 700; font-size: 14px;
-            border: 1px solid #ffccd5; text-align: center; cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.25s ease;
+            display: block; width: 90%; max-width: 460px; margin: 15px 0 15px 5px;
+            background-color: #ffffff; color: #6e6b64; text-decoration: none;
+            padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 13.5px;
+            border: 1px solid #dcdad3; text-align: center; cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02); transition: all 0.2s ease;
+            white-space: nowrap; word-break: keep-all;
         }
-        .switch-view-btn:hover { background-color: #fff1f4; border-color: #ff8da1; color: #a51d4d; transform: translateX(3px); }
+        .switch-view-btn:hover { background-color: #f5f3ec; border-color: #bfae93; color: #403e38; transform: translateX(4px); }
         
         /* 表示・隠し制御の定義クラス */
         .v1-pane, .v7-pane, .v8-pane, .v8-photo-pane, .v50-pane, .archive-pane { display: none; }
         .v1-pane.active, .v7-pane.active, .v8-pane.active, .v8-photo-pane.active, .v50-pane.active, .archive-pane.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 独立固定コンポーネント用スタイル */
+        /* 固定配置用スタイル */
         .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin: 50px auto 30px auto; text-align: left; max-width: 95%; }
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
         .howto-step { display: flex; margin-bottom: 20px; }
@@ -232,7 +240,7 @@
         </div>
     </div>
 
-    <!-- 50周年：通常表示（01番と切り替えボタン） -->
+    <!-- 50周年：通常表示 -->
     <div id="v50_pane_main" class="v50-pane active">
         <ul class="video-list">
             <li class="video-item">
@@ -249,7 +257,7 @@
         <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらをクリックしてご覧になれます。</button>
     </div>
 
-    <!-- 50周年：折りたたみ部分 (02番〜16番) -->
+    <!-- 50周年：折りたたみ部分 -->
     <div id="v50_pane_archive" class="v50-pane">
         <button onclick="switchV50View('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7;">← メインメニューに戻る</button>
         <ul class="video-list">
@@ -326,7 +334,7 @@
                     {no:"16", title:"集合写真・撤収", time:"15:25〜", url:"https://youtu.be/jClSRHMiUAg"},
                     {no:"17", title:"会場前1", time:"15:41〜", url:"https://youtu.be/GWNV_YlNytE"},
                     {no:"18", title:"会場前2", time:"15:47〜", url:"https://youtu.be/pTzXHN2lr-E"},
-                    {no:"19", title:"会場前3", time:"15:57〜", url:"https://zZRwk60moYQ"},
+                    {no:"19", title:"会場前3", time:"15:57〜", url:"https://youtu.be/zZRwk60moYQ"},
                     {no:"20", title:"集合写真ドローン", time:"15:25〜", url:"https://youtu.be/LIr4MjMuEuo"},
                     {no:"21", title:"二次会場1", time:"16:26〜", url:"https://www.youtube.com/watch?v=hbPB4Rtb038"}
                 ];
@@ -407,7 +415,7 @@
     </div>
 
 
-    <!-- 🌸 独立固定コンポーネント枠（ページ最下部配置） 🌸 -->
+    <!-- 🌸 固定便利コンポーネント（最下部集約） 🌸 -->
     
     <!-- 🔍 同期生クラス・写真検索機能 -->
     <div class="search-area" style="margin-top: 60px;">
