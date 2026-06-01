@@ -6,22 +6,6 @@
     <title>桜塚高校第28期同期会ページ</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- カスタムスライドレバー（スクロールバー）の設定 --- */
-        ::-webkit-scrollbar {
-            width: 14px; /* バーの幅 */
-        }
-        ::-webkit-scrollbar-track {
-            background: #fff0f5; /* レバーの通り道の背景色 */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ffb7c5; /* 動くレバー部分の色 */
-            border-radius: 10px;
-            border: 3px solid #fff0f5; /* レバーの周りに余白を作ってスッキリ見せる */
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff8da1; /* マウスを乗せた時のレバーの色 */
-        }
-
         /* 強力な開始位置制御：読み込み完了まで非表示にし、ガタつきを防ぐ */
         body { opacity: 0; transition: opacity 0.8s ease-in; }
         html { scroll-behavior: auto !important; }
@@ -352,6 +336,41 @@
         </div>
     </div>
 
+    <div class="search-area">
+        <h3 style="color:#d65f82; margin-top:0; border-bottom:1px dashed #ffb7c5; padding-bottom:10px;">
+            🔍 同期生クラス・写真検索
+            <span style="font-size:0.7em; color:#888; font-weight:normal; display:block; margin-top:5px;">Coming Soon（近日実装予定）<br>※現在は1年のクラスと名前検索のみ仮運用可能です</span>
+        </h3>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
+            <select id="classSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer;">
+                <option value="">全クラス</option>
+                <optgroup label="1年">
+                    <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
+                    <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
+                    <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
+                    <option value="1-10">1年10組</option>
+                </optgroup>
+                <optgroup label="2年">
+                    <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
+                    <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
+                    <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
+                    <option value="2-10">2年10組</option>
+                </optgroup>
+                <optgroup label="3年">
+                    <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
+                    <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
+                    <option value="3-7">3年7組</option><option value="3-8">3年8組</option><option value="3-9">3年9組</option>
+                    <option value="3-10">3年10組</option>
+                </optgroup>
+            </select>
+
+            <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前やフリガナを入力...">
+        </div>
+        
+        <div id="searchResult" class="search-result"></div>
+    </div>
+
     <ul class="video-list">
         <script>
             const v4 = [
@@ -368,13 +387,6 @@
             });
         </script>
     </ul>
-
-<div id="dynamic-search-area">
-    </div>
-<div id="photo-search-results"></div>
-  
-  <div id="extra-controls-area"></div>
-</div>
 
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
 </div>
@@ -416,6 +428,70 @@
         }
     }
 
+    // 検索機能
+    const classSelect = document.getElementById('classSelect');
+    const searchInput = document.getElementById('searchInput');
+    const searchResult = document.getElementById('searchResult');
+
+    function performSearch() {
+        const selectedClass = classSelect.value; 
+        const query = searchInput.value.replace(/\s+/g, ''); 
+
+        searchResult.innerHTML = '';
+
+        if (!selectedClass && !query) {
+            searchResult.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>';
+            return;
+        }
+
+        if (typeof memberData === 'undefined') {
+            searchResult.innerHTML = '<div style="color:red; padding:10px;">データ読込エラー</div>';
+            return;
+        }
+
+        const filtered = memberData.filter(m => {
+            let classMatch = true;
+            if (selectedClass) {
+                classMatch = (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass);
+            }
+            let nameMatch = true;
+            if (query) {
+                const cleanName = m.name.replace(/\s+/g, '');
+                const cleanKana = m.kana.replace(/\s+/g, '');
+                nameMatch = cleanName.includes(query) || cleanKana.includes(query);
+            }
+            return classMatch && nameMatch;
+        });
+
+        if (filtered.length === 0) {
+            searchResult.innerHTML = '<div style="color:#999; padding:10px;">該当する方は見つかりませんでした</div>';
+        } else {
+            const countDiv = document.createElement('div');
+            countDiv.style.cssText = "font-size:12px; color:#d65f82; margin-bottom:10px; font-weight:bold;";
+            countDiv.textContent = `該当: ${filtered.length}名`;
+            searchResult.appendChild(countDiv);
+
+            filtered.forEach(m => {
+                const div = document.createElement('div');
+                div.className = 'result-item';
+                let buttonsHtml = '<div class="class-btn-container">';
+                if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
+                if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
+                if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
+                buttonsHtml += '</div>';
+                const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
+                const body = encodeURIComponent(`管理者様\n\n訂正をお願いします。対象：${m.name}`);
+                const mailLink = `mailto:?subject=${subject}&body=${body}`;
+                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
+                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>${fixBtn}</div>${buttonsHtml}`;
+                searchResult.appendChild(div);
+            });
+        }
+    }
+
+    if (classSelect) classSelect.addEventListener('change', performSearch);
+    if (searchInput) searchInput.addEventListener('input', performSearch);
+
     document.addEventListener('DOMContentLoaded', () => {
         resetToTop();
         setTimeout(() => {
@@ -428,16 +504,6 @@
         resetToTop();
     };
 </script>
-
-<script type="module">
-    import { initPhotoSearch } from './photo-search.js';
-    initPhotoSearch({
-        classSelectId: 'dynamicClassSelect',
-        searchInputId: 'dynamicSearchInput',
-        resultDivId: 'dynamicSearchResult'
-    });
-</script>
-
 </body>
 </html>
 
