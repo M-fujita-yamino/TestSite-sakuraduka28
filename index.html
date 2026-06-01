@@ -212,7 +212,7 @@
         
         <p class="msg-body">
             「俺たちの朝」のエンディングをイメージしてビデオを編集してみました。ご自身や懐かしい友人の姿が映っているはずです。<br>
-            360°で飲む修正版もUPしていますので、画面をぐるぐる回しながらお楽しみください。
+            360°での無修正版もUPしていますので、画面をぐるぐる回しながらお楽しみください。
         </p>
 
         <div style="background: #fff; padding: 14px 18px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 15px;">
@@ -510,40 +510,75 @@
     function togglePane(paneId, anchorId) {
         const targetPane = document.getElementById(paneId);
         const targetHeader = document.getElementById(anchorId);
-        if (targetPane.classList.contains('active')) { targetPane.classList.remove('active'); }
-        else { targetPane.classList.add('active'); }
-        if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
+        if (targetPane.classList.contains('active')) {
+            targetPane.classList.remove('active');
+            if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            targetPane.classList.add('active');
+            if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
-    // 検索機能のロジック
     const classSelect = document.getElementById('classSelect');
     const searchInput = document.getElementById('searchInput');
     const searchResult = document.getElementById('searchResult');
+
     function performSearch() {
         const selectedClass = classSelect.value;
         const query = searchInput.value.replace(/\s+/g, '');
         searchResult.innerHTML = '';
-        if (!selectedClass && !query) return;
-        if (typeof memberData === 'undefined') { searchResult.innerHTML = '<div style="color:red; padding:10px;">名簿データ未読込</div>'; return; }
+        if (!selectedClass && !query) {
+            searchResult.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>';
+            return;
+        }
+        if (typeof memberData === 'undefined') {
+            searchResult.innerHTML = '<div style="color:red; padding:10px;">データ読込エラー</div>';
+            return;
+        }
         const filtered = memberData.filter(m => {
             let classMatch = (selectedClass) ? (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass) : true;
-            let nameMatch = (query) ? (m.name.includes(query) || m.kana.includes(query)) : true;
+            let nameMatch = (query) ? (m.name.replace(/\s+/g, '').includes(query) || m.kana.replace(/\s+/g, '').includes(query)) : true;
             return classMatch && nameMatch;
         });
-        if (filtered.length === 0) { searchResult.innerHTML = '<div style="color:#999; padding:10px;">該当する方は見つかりませんでした</div>'; }
-        else {
+        if (filtered.length === 0) {
+            searchResult.innerHTML = '<div style="color:#999; padding:10px;">該当する方は見つかりませんでした</div>';
+        } else {
+            const countDiv = document.createElement('div');
+            countDiv.style.cssText = "font-size:12px; color:#d65f82; margin-bottom:10px; font-weight:bold;";
+            countDiv.textContent = `該当: ${filtered.length}名`;
+            searchResult.appendChild(countDiv);
             filtered.forEach(m => {
-                searchResult.innerHTML += `<div style="padding:8px; border-bottom:1px solid #eee;">${m.name} (${m.kana})</div>`;
+                const div = document.createElement('div');
+                div.className = 'result-item';
+                let buttonsHtml = '<div class="class-btn-container">';
+                if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
+                if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
+                if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
+                buttonsHtml += '</div>';
+                const subject = encodeURIComponent(`【名簿訂正依頼】${m.name}さんについて`);
+                const body = encodeURIComponent(`管理者様\n\n訂正をお願いします。対象：${m.name}`);
+                const mailLink = `mailto:?subject=${subject}&body=${body}`;
+                const fixBtn = `<a href="${mailLink}" style="font-size:11px; color:#888; text-decoration:underline;">⚠️ 訂正依頼</a>`;
+                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name} <span style="font-size:0.8em; color:#777;">(${m.kana})</span></span>${fixBtn}</div>${buttonsHtml}`;
+                searchResult.appendChild(div);
             });
         }
     }
+
     if (classSelect) classSelect.addEventListener('change', performSearch);
     if (searchInput) searchInput.addEventListener('input', performSearch);
 
     document.addEventListener('DOMContentLoaded', () => {
         resetToTop();
-        setTimeout(() => { resetToTop(); document.body.style.opacity = "1"; }, 50);
+        setTimeout(() => {
+            resetToTop();
+            document.body.style.opacity = "1";
+        }, 50);
     });
+
+    window.onbeforeunload = function() {
+        resetToTop();
+    };
 </script>
 </body>
 </html>
