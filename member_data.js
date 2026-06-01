@@ -1,5 +1,5 @@
 // スプレッドシートの公開CSV URL
-const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JiLfJQW...'; 
+const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv '; 
 
 let memberData = [];
 
