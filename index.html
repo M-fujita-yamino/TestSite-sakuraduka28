@@ -149,10 +149,24 @@
         .video-thumb { width: 110px; height: 70px; border-radius: 12px; overflow: hidden; background-color: #f0f0f0; flex-shrink: 0; }
         .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .video-no { font-weight: 700; color: #d65f82; font-size: 1.2em; width: 45px; text-align: center; }
+        .video-collapse-no { font-weight: 700; color: #d65f82; font-size: 1.2em; width: 45px; text-align: center; }
         .video-info { flex-grow: 1; }
         .video-title { font-weight: 700; font-size: 1em; color: #333; }
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
+
+        /* 🌸 タブ切り替え用の固有デザイン */
+        .switch-view-btn {
+            display: block; width: 85%; max-width: 320px; margin: 30px auto;
+            background-color: #ff8da1; color: white; text-decoration: none;
+            padding: 14px 20px; border-radius: 50px; font-weight: 700; font-size: 15px;
+            border: 2px solid #ffb7c5; text-align: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255,141,161,0.3); transition: all 0.3s ease;
+        }
+        .switch-view-btn:hover { background-color: #a51d4d; border-color: #a51d4d; transform: translateY(-2px); }
+        .v50-pane { display: none; }
+        .v50-pane.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin-top: 30px; margin-bottom: 60px; text-align: left; }
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
@@ -195,7 +209,7 @@
         <p style="margin: 20px auto; max-width: 95%; color: #444; font-size: 15px; line-height: 1.8; text-align: left;">
             当日はゲームや歓談などで大いに盛り上がり、終始和やかで楽しいひとときとなりました。<br><br>
             ご参加いただいた方には当日の思い出として、また今回は残念ながら参加できなかった方にも会場の雰囲気を少しでも感じていただければと思い、当日の動画を公開いたします。<br><br>
-            ダイジェスト版は、懐かしい「俺たちの朝」風のイメージで編集してみました。また、360°動画では、どこかにご自身や懐かしい友人の姿が映っているはずです。ぜひ画面をぐる混しながらお楽しみください。
+            ダイジェスト版は、懐かしい「俺たちの朝」風のイメージで編集してみました。また、360°動画では、どこかにご自身や懐かしい友人の姿が映っているはずです。ぜひ画面をぐるぐる回しながらお楽しみください。
         </p>
 
         <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 25px;">
@@ -245,7 +259,7 @@
 
     <div id="section_vol7" class="section-header">
         <div class="oval-wrapper">
-            <div class="oval-title">第7回 同期会　2018年 4月 28日（土')<br>於 千里阪急ホテル 還暦記念同期会</div>
+            <div class="oval-title">第7回 同期会　2018年 4月 28日（土）<br>於 千里阪急ホテル 還暦記念同期会</div>
             <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
@@ -312,38 +326,60 @@
         <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(★写真投稿用).jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学5０周年記念(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
-    <!-- 🌸 卒業50周年記念同期会 動画アーカイブセクション（「ﾓｸｼﾞ.csv」より自動構築） 🌸 -->
+    <!-- 🌸 卒業50周年記念同期会 動画アーカイブセクション（画面遷移風切り替え実装） 🌸 -->
     <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
             <div class="oval-title">卒業50周年記念同期会　2026年 5月 24日（日）<br>於 梅田 リストランテ翔 21 動画アーカイブ</div>
             <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
-    <ul class="video-list">
-        <script>
-            const v50 = [
-                {no:"01", title:"卒業50周年記念同期会ビデオ", time:"6:33", url:"https://youtu.be/FvHFUDS4O70", type:"2Dビデオ", thumb:"sam01"},
-                {no:"02", title:"① 受付準備", time:"0:38", url:"https://youtu.be/DF6iUurpLAM", type:"360°動画", thumb:"sam02"},
-                {no:"03", title:"② 乾杯前", time:"1:52", url:"https://youtu.be/Hy8AjaAnkic", type:"360°動画", thumb:"sam03"},
-                {no:"04", title:"③ 豪華なお料理", time:"1:56", url:"https://youtu.be/TsjZoxockDA", type:"360°動画", thumb:"sam04"},
-                {no:"05", title:"④ しばし歓談 その1", time:"6:09", url:"https://youtu.be/CesuTeRAKT0", type:"360°動画", thumb:"sam05"},
-                {no:"06", title:"⑤ しばし歓談 その2 カメラマン 井関君", time:"3:40", url:"https://youtu.be/zP_7NzzGDyQ", type:"360°動画", thumb:"sam06"},
-                {no:"07", title:"⑥ しばし歓談 その3 カメラマン 井関君", time:"1:41", url:"https://youtu.be/gIwMOANsCLE", type:"360°動画", thumb:"sam07"},
-                {no:"08", title:"⑦ 初参加者紹介", time:"1:56", url:"https://youtu.be/94kLWPJalkc", type:"2Dビデオ", thumb:"sam08"},
-                {no:"09", title:"⑧ 茶道部OG 幹事さんたち", time:"0:17", url:"https://youtu.be/ksvgRO7i75M", type:"2Dビデオ", thumb:"sam09"},
-                {no:"10", title:"⑨ しばし歓談 その4", time:"5:56", url:"https://youtu.be/HTOM1B_Uooc", type:"2Dビデオ", thumb:"sam10"},
-                {no:"11", title:"⑩ しばし歓談 その5", time:"1:02", url:"https://youtu.be/Kby5QABiK6M", type:"2Dビデオ", thumb:"sam11"},
-                {no:"12", title:"⑪ しばし歓談 その6", time:"10:58", url:"https://youtu.be/L8r4WClSpJ8", type:"360°動画", thumb:"sam12"},
-                {no:"13", title:"⑫ テラスからの大阪の絶景", time:"5:42", url:"https://youtu.be/_wxvB2NCeuQ", type:"360°動画", thumb:"sam13"},
-                {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
-                {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
-                {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
-            ];
-            v50.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
-            });
-        </script>
-    </ul>
+
+    <!-- 1. 通常表示パネル (01番の動画と切り替えボタン) -->
+    <div id="v50_pane_main" class="v50-pane active">
+        <ul class="video-list">
+            <li class="video-item">
+                <div class="video-thumb"><img src="sam01.jpg"></div>
+                <div class="video-no">01</div>
+                <div class="video-info">
+                    <span style="font-size:0.8em;color:#888;">6:33</span><br>
+                    <span class="video-title">卒業50周年記念同期会ビデオ</span><br>
+                    <span class="creator-tag">2Dビデオ</span>
+                </div>
+                <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
+            </li>
+        </ul>
+        <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°動画・歓談の様子はこちら</button>
+    </div>
+
+    <!-- 2. 360°動画アーカイブパネル (02番〜16番のリストと戻るボタン) -->
+    <div id="v50_pane_archive" class="v50-pane">
+        <button onclick="switchV50View('main')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-bottom: 25px;">← メインメニューに戻る</button>
+        <ul class="video-list">
+            <script>
+                const v50Data = [
+                    {no:"02", title:"① 受付準備", time:"0:38", url:"https://youtu.be/DF6iUurpLAM", type:"360°動画", thumb:"sam02"},
+                    {no:"03", title:"② 乾杯前", time:"1:52", url:"https://youtu.be/Hy8AjaAnkic", type:"360°動画", thumb:"sam03"},
+                    {no:"04", title:"③ 豪華なお料理", time:"1:56", url:"https://youtu.be/TsjZoxockDA", type:"360°動画", thumb:"sam04"},
+                    {no:"05", title:"④ しばし歓談 その1", time:"6:09", url:"https://youtu.be/CesuTeRAKT0", type:"360°動画", thumb:"sam05"},
+                    {no:"06", title:"⑤ しばし歓談 その2 カメラマン 井関君", time:"3:40", url:"https://youtu.be/zP_7NzzGDyQ", type:"360°動画", thumb:"sam06"},
+                    {no:"07", title:"⑥ しばし歓談 その3 カメラマン 井関君", time:"1:41", url:"https://youtu.be/gIwMOANsCLE", type:"360°動画", thumb:"sam07"},
+                    {no:"08", title:"⑦ 初参加者紹介", time:"1:56", url:"https://youtu.be/94kLWPJalkc", type:"2Dビデオ", thumb:"sam08"},
+                    {no:"09", title:"⑧ 茶道部OG 幹事さんたち", time:"0:17", url:"https://youtu.be/ksvgRO7i75M", type:"2Dビデオ", thumb:"sam09"},
+                    {no:"10", title:"⑨ しばし歓談 その4", time:"5:56", url:"https://youtu.be/HTOM1B_Uooc", type:"2Dビデオ", thumb:"sam10"},
+                    {no:"11", title:"⑩ しばし歓談 その5", time:"1:02", url:"https://youtu.be/Kby5QABiK6M", type:"2Dビデオ", thumb:"sam11"},
+                    {no:"12", title:"⑪ しばし歓談 その6", time:"10:58", url:"https://youtu.be/L8r4WClSpJ8", type:"360°動画", thumb:"sam12"},
+                    {no:"13", title:"⑫ テラスからの大阪の絶景", time:"5:42", url:"https://youtu.be/_wxvB2NCeuQ", type:"360°動画", thumb:"sam13"},
+                    {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
+                    {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
+                    {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
+                ];
+                v50Data.forEach(v => {
+                    document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-collapse-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+                });
+            </script>
+        </ul>
+        <button onclick="switchV50View('main')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">← メインメニューに戻る</button>
+    </div>
 
     <div id="section_archive" class="section-header">
         <div class="oval-wrapper">
@@ -441,6 +477,24 @@
         window.scrollTo(0, 0);
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
+        }
+    }
+
+    // 🌸 50周年アーカイブの表示切り替え（画面遷移風）関数
+    function switchV50View(viewState) {
+        const paneMain = document.getElementById('v50_pane_main');
+        const paneArchive = document.getElementById('v50_pane_archive');
+        const targetHeader = document.getElementById('section_50th');
+        
+        if (viewState === 'archive') {
+            paneMain.classList.remove('active');
+            paneArchive.classList.add('active');
+            // 切り替わった際、リストの先頭位置へ自動スクロール
+            if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            paneArchive.classList.remove('active');
+            paneMain.classList.add('active');
+            if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
