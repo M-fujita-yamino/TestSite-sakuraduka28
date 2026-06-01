@@ -70,6 +70,7 @@
         }
         .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
 
+        /* 🌸 お知らせ枠：読みやすく文字の回り込みを考慮した最大幅調整 */
         .info-box {
             margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
@@ -100,14 +101,13 @@
         .section-header { text-align: left; margin: 35px 0 15px 0; padding-left: 5px; display: block; scroll-margin-top: 20px; }
         .oval-wrapper { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: 12px; width: 100%; }
 
-        /* 🌸 新・ボタンデザイン：トーンを落ち着かせ、回り込みを徹底防御 */
+        /* ボタンデザイン：トーンを落ち着かせ、回り込みを徹底防御 */
         .oval-title {
             display: inline-block; text-align: left; padding: 10px 20px; border: 1px solid #dcdad3;
             border-radius: 6px; background-color: #fcfbfa; color: #6e6b64;
             font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
             flex-grow: 1; max-width: 84%; box-sizing: border-box;
             
-            /* 文字の途中回り込み・意図しない改行を防ぐプロパティ */
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             word-break: keep-all; line-break: strict;
         }
@@ -143,7 +143,7 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
-        /* パネル展開内の内蔵用ボタンデザイン：トーンダウン版 */
+        /* パネル展開内の内蔵用ボタンデザイン */
         .switch-view-btn {
             display: block; width: 90%; max-width: 460px; margin: 15px 0 15px 5px;
             background-color: #ffffff; color: #6e6b64; text-decoration: none;
@@ -164,6 +164,10 @@
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
+
+        /* スマートフォン向け最適化（メッセージ内の回り込みを抑制するヘルパークラス） */
+        .msg-lead { font-size: 16px; text-align: center; font-weight: bold; margin-bottom: 22px; color: #444; line-height: 1.8; word-break: keep-all; }
+        .msg-body { margin: 20px auto; max-width: 96%; color: #444; font-size: 15px; line-height: 1.9; text-align: left; }
 
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
@@ -190,15 +194,16 @@
         </div>
     </header>
 
-    <!-- ご挨拶案内枠 -->
+    <!-- 🌸 ご挨拶案内枠（回り込みや勝手な改行を防ぐかっこいい調整版） 🌸 -->
     <section class="info-box">
         <h2>🎬 卒業50周年記念同期会 動画公開のお知らせ</h2>
-        <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555; line-height: 1.8;">
-            先日5月24日、「リストランテ翔21」にて開催されました「卒業50周年記念同期会」は、<br>
-            幹事の皆様のご尽力により無事終了いたしました。ご参加いただいた皆様、本当にお疲れさまでした。
+        <p class="msg-lead">
+            先日5月24日、「リストランテ翔21」にて開催されました「卒業50周年記念同期会」は、<br style="display:none;" class="sp-hide">
+            幹事の皆様のご尽力により無事終了いたしました。<br style="display:none;" class="sp-hide">
+            ご参加いただいた皆様、本当にお疲れさまでした。
         </p>
         
-        <p style="margin: 20px auto; max-width: 95%; color: #444; font-size: 15px; line-height: 1.8; text-align: left;">
+        <p class="msg-body">
             当日はゲームや歓談などで大いに盛り上がり、終始和やかで楽しいひとときとなりました。<br><br>
             ご参加いただいた方には当日の思い出として、また今回は残念ながら参加できなかった方にも会場の雰囲気を少しでも感じていただければと思い、当日の動画を公開いたします。<br><br>
             ダイジェスト版は、懐かしい「俺たちの朝」風のイメージで編集してみました。また、360°動画では、どこかにご自身や懐かしい友人の姿が映っているはずです。ぜひ画面をぐるぐる回しながらお楽しみください。
@@ -206,7 +211,7 @@
 
         <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 25px;">
             <p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.05em;">💬 動画のコメント欄でもお気軽にお楽しみください</p>
-            <p style="font-size: 0.9em; margin-top: 12px; line-height: 1.7; color: #666; text-align: left;">
+            <p style="font-size: 0.9em; margin-top: 12px; line-height: 1.7; color: #666; text-align: left; word-break: keep-all;">
                 当日ゆっくりお話しできなかった方とも、動画のコメント欄を通じて交流していただければ幸いです。動画の感想やご意見などもお気軽にお寄せください。今後の励みになります。
             </p>
             <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 15px 0;">
@@ -246,9 +251,10 @@
             <li class="video-item">
                 <div class="video-thumb"><img src="sam01.jpg"></div>
                 <div class="video-no">01</div>
+                <!-- 🌸 タイトル指示に基づきダイジェスト版に修正 🌸 -->
                 <div class="video-info">
                     <span style="font-size:0.8em;color:#888;">6:33</span><br>
-                    <span class="video-title">卒業50周年記念同期会ビデオ</span><br>
+                    <span class="video-title">卒業50周年記念同期会ビデオ ダイジェスト版</span><br>
                     <span class="creator-tag">2Dビデオ</span>
                 </div>
                 <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
@@ -402,7 +408,7 @@
                     {no:"03b", title:"卒業アルバム・A3モノクロ 31枚", url:"https://photos.google.com/share/AF1QipOUEy2nbtNarE9XjsjZUjTRHBFabFUiA_3-9pdVZ6PzIT3exWu93zwPCxQwN0V85A?key=alR4ckRGZFF4Y1gtR2VQVURuV0YyT3EzdDFYUzhB", tag:"Supervised & Edited by 乾君"},
                     {no:"03c", title:"卒業アルバム色々・カラー 196枚", url:"https://photos.google.com/share/AF1QipO-h9Pu4J28t8zoS_x6xafuU2QjVfFs5CaoakWfM4X242BcaMsGBL7WOwNlg2PZoQ?key=QWdoNkttRUw2Zzg1a05heFJSYnc3bUZOUFVjNllR", tag:"Supervised & Edited by 乾君"},
                     {no:"03d", title:"1年～3年のクラス名簿", url:"https://photos.google.com/share/AF1QipOxk3cmfyjzpaZO-8M6za-SinsS6aB43S2b7c1P-eyuMp9xdw2pjygVyqE7CqYwAQ?key=VXVnOUQwZEJweTZjanBBaVg1NlltVUJDTzdQMzVR", tag:"Supervised & Edited by 乾君"},
-                    {no:"03e", title:"伊丹君作成・旧校舎復元図", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"Artworks by 伊丹君"},
+                    {no:"03e", title:"伊丹君作成・旧校舎復元図", url:"https://photos.google.com/share/AF1QipMgEp4Wg8RWwdfI6dPeeXkAd5sZchJAnhimAzf-1uN3Y1kj0TrEFRKHbYWO7DGWxw?key=R01hTVBsOE50T3pHbGtVN0dvcDl3YjVaR29qTE5B", tag:"Artworks by 伊丹君"},
                     {no:"03f", title:"桜塚高校の写真今昔 52枚", url:"https://photos.google.com/share/AF1QipNo1u_GJM2kfGJHfMMH6TIWjDE-dKTN_lRwGvbYiQwhA25vGCtayJMWEulYC5zbHA?key=V21IbnNzdGNYRjZGZ2xCQVM4dXZQNUw2a3VPTUF3", tag:"Supervised & Edited by 乾君"},
                     {no:"03g", title:"【動画 桜塚高校の歴史】", url:"https://photos.google.com/share/AF1QipO5cOi_QfPmECzO0Qc58xj8W_mKTqKU-sQ_du7_8Jax259Yc__KTIHgq0H1bh7TuQ?key=WVdLb2tPbmU3enc2SkhfX3NXWWhPQlZFQ3VpR2hn", tag:"Supervised & Edited by 乾君"}
                 ];
@@ -415,7 +421,7 @@
     </div>
 
 
-    <!-- 🌸 固定便利コンポーネント（最下部集約） 🌸 -->
+    <!-- 🌸 固定便利コンポーネント枠（最下部集約） 🌸 -->
     
     <!-- 🔍 同期生クラス・写真検索機能 -->
     <div class="search-area" style="margin-top: 60px;">
