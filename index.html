@@ -70,9 +70,9 @@
         }
         .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
 
-        /* ご挨拶案内枠（最大幅と内側パディングの最適化） */
+        /* ご挨拶案内枠 */
         .info-box {
-            margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
+            margin: 15px auto 30px auto; padding: 25px 25px; max-width: 92%; 
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
             position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255, 183, 197, 0.2);
         }
@@ -81,30 +81,50 @@
             background: #ff8da1; color: #fff; padding: 5px 45px;
             transform: rotate(35deg); font-weight: bold; font-size: 11px; letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
+        .info-box h2 { font-size: 19px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 10px; margin-bottom: 15px; }
 
-        .neon-new {
-            display: inline-block; margin-left: 8px; font-size: 11px; font-weight: bold; color: #fff;
-            background: #ff00de; padding: 2px 6px; border-radius: 4px;
-            text-shadow: 0 0 5px #fff; animation: blink 1.5s infinite alternate;
+        /* 🌸 点滅するサクラのフリック用新着アイコン */
+        .flick-new-icon {
+            display: inline-block;
+            font-size: 15px;
+            margin-right: 6px;
+            animation: flickBlink 1.2s infinite alternate ease-in-out;
             vertical-align: middle;
         }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes flickBlink {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.15); text-shadow: 0 0 8px #ff00de; }
+        }
 
         /* セクションヘッダー */
-        .section-header { text-align: left; margin: 25px 0 15px 0; padding: 0 5px; display: block; scroll-margin-top: 20px; }
+        .section-header { text-align: left; margin: 20px 0 12px 0; padding: 0 5px; display: block; scroll-margin-top: 20px; }
         .oval-wrapper { display: flex; width: 100%; box-sizing: border-box; }
 
-        /* アコーディオンボタン：横幅MAX・シックなトーン・文言の回り込み防御 */
+        /* 通常のアコーディオンボタン（第8回以降用：1行固定） */
         .oval-title {
-            display: inline-block; text-align: left; padding: 12px 24px; border: 1px solid #d5d2c9;
+            display: inline-block; text-align: left; padding: 10px 20px; border: 1px solid #d5d2c9;
             border-radius: 6px; background-color: #faf9f6; color: #4a4843;
-            font-weight: 700; font-size: 14.5px; line-height: 1.4; text-decoration: none;
+            font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
             width: 100%; max-width: 100%; box-sizing: border-box;
             
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             word-break: keep-all; line-break: strict;
         }
+        
+        /* 🌸 新設・50周年専用アコーディオンボタン（2段折返し許可・回り込み防止解除） */
+        .oval-title-v50 {
+            display: inline-block; text-align: left; padding: 11px 20px; border: 1px solid #d5d2c9;
+            border-radius: 6px; background-color: #faf9f6; color: #4a4843;
+            font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
+            width: 100%; max-width: 100%; box-sizing: border-box;
+            
+            /* 2段までの自然な折り返しを許可する設定 */
+            white-space: normal; 
+            word-break: break-all;
+            line-break: normal;
+        }
+
+        /* 共通ボタンホバーエフェクト */
         .oval-toggle-btn {
             cursor: pointer; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -134,7 +154,7 @@
 
         /* パネル展開内の内蔵用ボタンデザイン */
         .switch-view-btn {
-            display: block; width: 100%; max-width: 100%; margin: 15px 0 5px 0;
+            display: block; width: 100%; max-width: 100%; margin: 12px 0 5px 0;
             background-color: #ffffff; color: #5a5751; text-decoration: none;
             padding: 12px 18px; border-radius: 6px; font-weight: 700; font-size: 13.5px;
             border: 1px solid #dcdad3; text-align: center; cursor: pointer;
@@ -154,9 +174,9 @@
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
 
-        /* メッセージクラス（回り込みを完全抑制し体裁を整える） */
-        .msg-lead { font-size: 16px; text-align: center; font-weight: bold; margin-bottom: 22px; color: #444; line-height: 1.8; word-break: keep-all; }
-        .msg-body { margin: 20px auto; max-width: 96%; color: #444; font-size: 15px; line-height: 1.9; text-align: left; }
+        /* メッセージ用ヘルパークラス */
+        .msg-lead { font-size: 15.5px; text-align: center; font-weight: bold; margin-bottom: 15px; color: #444; line-height: 1.7; word-break: keep-all; }
+        .msg-body { margin: 15px auto; max-width: 96%; color: #444; font-size: 14.5px; line-height: 1.8; text-align: left; }
 
         /* 50周年のグループ全体を包み込むインナーコンテナ */
         .v50-group-box {
@@ -189,7 +209,7 @@
         </div>
     </header>
 
-    <!-- 🌸 ご挨拶案内枠（ご提示いただいた新しい文章を綺麗に最適化） 🌸 -->
+    <!-- ご挨拶案内枠 -->
     <section class="info-box">
         <h2>🎬 卒業50周年記念同期会 動画公開しました</h2>
         <p class="msg-lead">
@@ -203,25 +223,32 @@
             懐かしい「俺たちの朝」風のイメージでビデオ編集してみましたので是非ご覧ください。ご自身や懐かしい友人の姿が映っているはずです。360°で各詳細を画面をぐるぐる回しながらお楽しみください。
         </p>
 
-        <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 25px;">
+        <div style="background: #fff; padding: 18px 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 20px;">
             <p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.05em;">💬 お願い。動画のコメント欄にぜひお寄せください</p>
-            <p style="font-size: 0.9em; margin-top: 12px; line-height: 1.7; color: #666; text-align: left; word-break: keep-all;">
-                動画のコメント欄にぜひこのビデオの感想や、映ってる方への呼びかけ等で盛り上がってください。みんな見てくれてるのか、心配になっちゃうので...ﾄﾎﾎ
+            <p style="font-size: 0.9em; margin-top: 12px; line-height: 1.6; color: #666; text-align: left; word-break: keep-all; margin-bottom: 0;">
+                動画のコメント欄にぜひこのビデオの感想や、映ってる方への呼びかけ等で盛り上がってください。<br>
+                みんな見てくれてるのか、心配になっちゃうので...ﾄﾎﾎ
             </p>
-            <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 15px 0;">
+            <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 12px 0;">
             <p style="font-size: 1.1em; color: #d65f82; font-weight: 700; margin: 0; animation: blink 2s infinite alternate;">
                 ✨ それでは、あの日の楽しい時間をもう一度お楽しみください！ ✨
             </p>
-            <p style="text-align: right; margin: 20px 0 0 0; font-size: 12px; color: #bbb; font-style: italic;">
+            <p style="text-align: right; margin: 15px 0 0 0; font-size: 11px; color: #bbb; font-style: italic;">
                 お問い合わせ：<a href="mailto:antoinetterose1789@gmail.com" style="color: #d65f82; text-decoration: underline;">antoinetterose1789@gmail.com</a>
             </p>
         </div>
     </section>
 
-    <!-- 🌸 1. 卒業50周年記念同期会 動画アーカイブ セクション（ハイライトNew!をここにバッチリ追加） 🌸 -->
+    <!-- 目次一覧（目次戻りのスクロール用アンカー先として維持） -->
+    <div id="top-index"></div>
+
+    <!-- 🌸 1. 卒業50周年記念同期会 動画アーカイブ セクション（2段折り返し対応・点滅サクラアイコン内蔵） 🌸 -->
     <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title oval-toggle-btn">卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）はこちらをクリック <span class="neon-new">New!</span></button>
+            <!-- 50周年専用の oval-title-v50 クラスを適用し、先頭にフリックする🌸アイコンを配置 -->
+            <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title-v50 oval-toggle-btn">
+                <span class="flick-new-icon">🌸</span>卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）はこちらをクリック
+            </button>
         </div>
     </div>
 
@@ -267,17 +294,17 @@
                             {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
                             {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
                             {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
-                        ];
-                        v50Data.forEach(v => {
-                            document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-collapse-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
-                        });
-                    </script>
-                </ul>
-                <button onclick="switchV50InnerView('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7; margin-top: 15px;">← メインメニューに戻る</button>
-            </div>
+                    ];
+                    v50Data.forEach(v => {
+                        document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-collapse-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+                    });
+                </script>
+            </ul>
+            <button onclick="switchV50InnerView('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7; margin-top: 15px;">← メインメニューに戻る</button>
         </div>
-        <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7; width:100%; max-width:100%; margin: 15px 0 0 0;">▲ 50周年 アーカイブを閉じる</button>
     </div>
+    <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7; width:100%; max-width:100%; margin: 15px 0 0 0;">▲ 50周年 アーカイブを閉じる</button>
+</div>
 
 
     <!-- 2. 第8回 同期会 写真集 セクション -->
@@ -412,7 +439,7 @@
     </div>
 
 
-    <!-- 固定便利コンポーネント枠（最下部集約） -->
+    <!-- 独立便利コンポーネント枠（最下部集約） -->
     
     <!-- 🔍 同期生クラス・写真検索機能 -->
     <div class="search-area" style="margin-top: 50px;">
