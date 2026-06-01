@@ -1,11 +1,12 @@
 // スプレッドシートの公開CSV URL
-const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv '; 
+const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzLqpB8e6tiN06L-urFd1agctJ6JIlfJQW-JcybZ_VrVYOh7D9uwk6PlIlO8wCpcQKVyUKRJOnchn-/pub?gid=0&single=true&output=csv'; 
 
 let memberData = [];
 
 async function fetchMemberData() {
     try {
         const response = await fetch(SPREADSHEET_URL);
+        if (!response.ok) throw new Error('ネットワークエラー');
         const csvText = await response.text();
         
         // 1行目はヘッダー、かつ空行を除外して処理
