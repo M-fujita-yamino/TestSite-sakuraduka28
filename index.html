@@ -464,19 +464,32 @@
             countDiv.style.cssText = "font-size:12px; color:#d65f82; margin-bottom:10px; font-weight:bold;";
             countDiv.textContent = `該当: ${filtered.length}名`;
             searchResult.appendChild(countDiv);
-            filtered.forEach(m => {
+　　　　　　　filtered.forEach(m => {
                 const div = document.createElement('div');
                 div.className = 'result-item';
+                
+                // ボタンのHTMLを生成
                 let buttonsHtml = '<div class="class-btn-container">';
-                if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-                if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-                if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
+                
+                // 1年・2年・3年のボタンをそれぞれ生成（リンクがある場合のみ表示）
+                if(m.link1 && m.link1.startsWith('http')) 
+                    buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
+                if(m.link2 && m.link2.startsWith('http')) 
+                    buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
+                if(m.link3 && m.link3.startsWith('http')) 
+                    buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
+                
                 buttonsHtml += '</div>';
-                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name}</span></div>${buttonsHtml}`;
+                
+                // 名前とボタンを組み合わせて表示
+                div.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:5px;">
+                        <span class="result-name">${m.name}</span>
+                    </div>
+                    ${buttonsHtml}
+                `;
                 searchResult.appendChild(div);
             });
-        }
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
         // スプレッドシート読み込みを待ってから検索機能を有効化
