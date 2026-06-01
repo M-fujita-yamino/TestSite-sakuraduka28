@@ -100,11 +100,24 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
         .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
+        
+        /* 楕円見出しのデザイン（ボタン化対応用ベーススタイル） */
         .oval-title {
             display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5;
             border-radius: 60px; background-color: #fff; color: #ff8da1;
-            font-weight: 700; font-size: 16px; line-height: 1.5;
+            font-weight: 700; font-size: 16px; line-height: 1.5; text-decoration: none;
         }
+        
+        /* 🌸 第8回用の楕円ボタン特有のデザインスタイル */
+        .oval-btn-v8 {
+            cursor: pointer; box-shadow: 0 4px 10px rgba(255,141,161,0.15);
+            transition: all 0.3s ease; display: inline-block;
+        }
+        .oval-btn-v8:hover {
+            background-color: #fff1f4; border-color: #ff8da1; color: #a51d4d;
+            transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,141,161,0.25);
+        }
+
         .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
         .back-to-index:hover { background-color: #ffb7c5; color: #fff; }
         .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; }
@@ -155,17 +168,19 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
-        /* 🌸 タブ切り替え用の固有デザイン */
+        /* 🌸 タブ切り替え・折りたたみ用の固有デザイン */
         .switch-view-btn {
-            display: block; width: 85%; max-width: 320px; margin: 30px auto;
+            display: block; width: 85%; max-width: 420px; margin: 30px auto;
             background-color: #ff8da1; color: white; text-decoration: none;
             padding: 14px 20px; border-radius: 50px; font-weight: 700; font-size: 15px;
             border: 2px solid #ffb7c5; text-align: center; cursor: pointer;
             box-shadow: 0 4px 10px rgba(255,141,161,0.3); transition: all 0.3s ease;
         }
         .switch-view-btn:hover { background-color: #a51d4d; border-color: #a51d4d; transform: translateY(-2px); }
-        .v50-pane { display: none; }
-        .v50-pane.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        /* 表示制御用クラス */
+        .v50-pane, .v8-pane { display: none; }
+        .v50-pane.active, .v8-pane.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin-top: 30px; margin-bottom: 60px; text-align: left; }
@@ -198,7 +213,7 @@
         </div>
     </header>
 
-    <!-- 🌸 案内枠：終了したお知らせから「動画公開のご挨拶」へ刷新（image_5c74a4.jpgのデザインを完全継承） 🌸 -->
+    <!-- 🌸 案内枠：動画公開のご挨拶（image_5c74a4.jpgのデザインを完全継承） 🌸 -->
     <section class="info-box">
         <h2>🎬 卒業50周年記念同期会 動画公開のお知らせ</h2>
         <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555; line-height: 1.8;">
@@ -269,43 +284,49 @@
         <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
+    <!-- 🌸 第8回 同期会 360°動画（画像 image_51a2ba.png の指示に基づき、楕円ボタンによる折りたたみ式に改良） 🌸 -->
     <div id="section_vol8_360" class="section-header">
         <div class="oval-wrapper">
-            <div class="oval-title">第8回 同期会　2023年 9月 23日（土）<br>於 梅田 リストランテ・クロノス 360°動画 アーカイブ</div>
-            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+            <button onclick="toggleV8Archive()" id="oval_btn_v8" class="oval-title oval-btn-v8">第8回 同期会　2023年 9月 23日（土）<br>於 梅田 リストランテ・クロノス 360°動画 アーカイブ　はこちらから</button>
+            <a href="#top-index" class="back-to-index" style="margin-top:10px; display:inline-block;">↑ 目次へ</a>
         </div>
         <a href="#howto" class="howto-link-btn">▼ 360°動画の楽しみ方はこちら</a>
     </div>
-    <ul class="video-list">
-        <script>
-            const v1 = [
-                {no:"01", title:"受付前", time:"11:42〜", url:"https://youtu.be/rxbp8wEeMsQ"},
-                {no:"02", title:"受付中", time:"11:55〜", url:"https://youtu.be/fW8Ealkxj5o"},
-                {no:"03", title:"開会挨拶・1年クラス席", time:"12:10〜", url:"https://youtu.be/we5isrYUz5c"},
-                {no:"04", title:"1年クラス歓談", time:"12:18〜", url:"https://youtu.be/BG1l0Yqfl2U"},
-                {no:"05", title:"1年クラス歓談", time:"12:24〜", url:"https://youtu.be/YrMtlCD_6dc"},
-                {no:"06", title:"1年クラス歓談・展示物", time:"13:21〜", url:"https://youtu.be/JI5FtwazCpQ"},
-                {no:"07", title:"展示物閲覧", time:"13:22〜", url:"https://youtu.be/1VCm0gowwQ0"},
-                {no:"08", title:"2年クラス歓談", time:"13:33〜", url:"https://youtu.be/n2e0zfEq1BI"},
-                {no:"09", title:"2年クラス歓談", time:"13:35〜", url:"https://youtu.be/dHItCfY9Hxw"},
-                {no:"10", title:"3年クラス歓談・エンタメ", time:"14:22〜", url:"https://youtu.be/egTtcC_cE8w"},
-                {no:"11", title:"エンタメフォー研", time:"14:30〜", url:"https://youtu.be/BY6I7QyYyMY"},
-                {no:"12", title:"エンタメ木田君・金ヶ江君", time:"14:38〜", url:"https://youtu.be/HiBOH3Cg3CQ"},
-                {no:"13", title:"エンタメ金ヶ江君", time:"14:42〜", url:"https://youtu.be/fsGqOCG7vGM"},
-                {no:"14", title:"伊丹君挨拶_閉会", time:"15:12〜", url:"https://youtu.be/RS3-GnjuuPw"},
-                {no:"15", title:"エンタメ中住君・集合写真", time:"15:20〜", url:"https://youtu.be/QbrGknQ9_Tw"},
-                {no:"16", title:"集合写真・撤収", time:"15:25〜", url:"https://youtu.be/jClSRHMiUAg"},
-                {no:"17", title:"会場前1", time:"15:41〜", url:"https://youtu.be/GWNV_YlNytE"},
-                {no:"18", title:"会場前2", time:"15:47〜", url:"https://youtu.be/pTzXHN2lr-E"},
-                {no:"19", title:"会場前3", time:"15:57〜", url:"https://youtu.be/zZRwk60moYQ"},
-                {no:"20", title:"集合写真ドローン", time:"15:25〜", url:"https://youtu.be/LIr4MjMuEuo"},
-                {no:"21", title:"二次会場1", time:"16:26〜", url:"https://www.youtube.com/watch?v=hbPB4Rtb038"}
-            ];
-            v1.forEach(v => {
-                document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
-            });
-        </script>
-    </ul>
+
+    <!-- 第8回の折りたたみコンテナパネル (01〜21番) -->
+    <div id="v8_archive_pane" class="v8-pane">
+        <ul class="video-list">
+            <script>
+                const v1 = [
+                    {no:"01", title:"受付前", time:"11:42〜", url:"https://youtu.be/rxbp8wEeMsQ"},
+                    {no:"02", title:"受付中", time:"11:55〜", url:"https://youtu.be/fW8Ealkxj5o"},
+                    {no:"03", title:"開会挨拶・1年クラス席", time:"12:10〜", url:"https://youtu.be/we5isrYUz5c"},
+                    {no:"04", title:"1年クラス歓談", time:"12:18〜", url:"https://youtu.be/BG1l0Yqfl2U"},
+                    {no:"05", title:"1年クラス歓談", time:"12:24〜", url:"https://youtu.be/YrMtlCD_6dc"},
+                    {no:"06", title:"1年クラス歓談・展示物", time:"13:21〜", url:"https://youtu.be/JI5FtwazCpQ"},
+                    {no:"07", title:"展示物閲覧", time:"13:22〜", url:"https://youtu.be/1VCm0gowwQ0"},
+                    {no:"08", title:"2年クラス歓談", time:"13:33〜", url:"https://youtu.be/n2e0zfEq1BI"},
+                    {no:"09", title:"2年クラス歓談", time:"13:35〜", url:"https://youtu.be/dHItCfY9Hxw"},
+                    {no:"10", title:"3年クラス歓談・エンタメ", time:"14:22〜", url:"https://youtu.be/egTtcC_cE8w"},
+                    {no:"11", title:"エンタメフォー研", time:"14:30〜", url:"https://youtu.be/BY6I7QyYyMY"},
+                    {no:"12", title:"エンタメ木田君・金ヶ江君", time:"14:38〜", url:"https://youtu.be/HiBOH3Cg3CQ"},
+                    {no:"13", title:"エンタメ金ヶ江君", time:"14:42〜", url:"https://youtu.be/fsGqOCG7vGM"},
+                    {no:"14", title:"伊丹君挨拶_閉会", time:"15:12〜", url:"https://youtu.be/RS3-GnjuuPw"},
+                    {no:"15", title:"エンタメ中住君・集合写真", time:"15:20〜", url:"https://youtu.be/QbrGknQ9_Tw"},
+                    {no:"16", title:"集合写真・撤収", time:"15:25〜", url:"https://youtu.be/jClSRHMiUAg"},
+                    {no:"17", title:"会場前1", time:"15:41〜", url:"https://youtu.be/GWNV_YlNytE"},
+                    {no:"18", title:"会場前2", time:"15:47〜", url:"https://youtu.be/pTzXHN2lr-E"},
+                    {no:"19", title:"会場前3", time:"15:57〜", url:"https://youtu.be/zZRwk60moYQ"},
+                    {no:"20", title:"集合写真ドローン", time:"15:25〜", url:"https://youtu.be/LIr4MjMuEuo"},
+                    {no:"21", title:"二次会場1", time:"16:26〜", url:"https://www.youtube.com/watch?v=hbPB4Rtb038"}
+                ];
+                v1.forEach(v => {
+                    document.write(`<li class="video-item"><div class="video-thumb"><img src="thumb_${v.no}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">Produced by 藤田</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+                });
+            </script>
+        </ul>
+        <button onclick="toggleV8Archive()" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 第8回 アーカイブを閉じる</button>
+    </div>
 
     <div id="howto" class="howto-box">
         <h2>📱 360°動画の楽しみ方</h2>
@@ -326,7 +347,7 @@
         <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(★写真投稿用).jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学5０周年記念(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
-    <!-- 🌸 卒業50周年記念同期会 動画アーカイブセクション（画面遷移風切り替え実装） 🌸 -->
+    <!-- 🌸 卒業50周年記念同期会 動画アーカイブセクション 🌸 -->
     <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
             <div class="oval-title">卒業50周年記念同期会　2026年 5月 24日（日）<br>於 梅田 リストランテ翔 21 動画アーカイブ</div>
@@ -348,7 +369,8 @@
                 <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
             </li>
         </ul>
-        <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°動画・歓談の様子はこちら</button>
+        <!-- 文言指示に基づき変更 -->
+        <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらからご覧になれます。</button>
     </div>
 
     <!-- 2. 360°動画アーカイブパネル (02番〜16番のリストと戻るボタン) -->
@@ -480,7 +502,7 @@
         }
     }
 
-    // 🌸 50周年アーカイブの表示切り替え（画面遷移風）関数
+    // 🌸 50周年アーカイブの表示切り替え関数
     function switchV50View(viewState) {
         const paneMain = document.getElementById('v50_pane_main');
         const paneArchive = document.getElementById('v50_pane_archive');
@@ -489,12 +511,25 @@
         if (viewState === 'archive') {
             paneMain.classList.remove('active');
             paneArchive.classList.add('active');
-            // 切り替わった際、リストの先頭位置へ自動スクロール
             if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
         } else {
             paneArchive.classList.remove('active');
             paneMain.classList.add('active');
             if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // 🌸 第8回アーカイブ（2023年）の開閉制御関数
+    function toggleV8Archive() {
+        const paneV8 = document.getElementById('v8_archive_pane');
+        const v8Header = document.getElementById('section_vol8_360');
+        
+        if (paneV8.classList.contains('active')) {
+            paneV8.classList.remove('active');
+            if(v8Header) v8Header.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            paneV8.classList.add('active');
+            if(v8Header) v8Header.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
