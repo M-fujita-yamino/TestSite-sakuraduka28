@@ -259,7 +259,6 @@
             </div>
             </div>
             <div id="v50_pane_archive" style="display: none;">
-            <div id="v50_pane_archive" style="display: none;">
                 <button onclick="switchV50InnerView('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7; margin-bottom: 15px;">← メインメニューに戻る</button>
                 <ul class="video-list" style="margin-bottom: 0;">
                     <script>
@@ -477,12 +476,11 @@
             });
         }
     }
-
-document.addEventListener('DOMContentLoaded', () => {
-        // fetchMemberData が定義されていることを確認してから実行
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // スプレッドシート読み込みを待ってから検索機能を有効化
         if (typeof fetchMemberData === 'function') {
             fetchMemberData().then(() => {
-                // データ読み込みが終わってからイベントを設定
                 const classSelect = document.getElementById('classSelect');
                 const searchInput = document.getElementById('searchInput');
                 if (classSelect) classSelect.addEventListener('change', performSearch);
@@ -494,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetToTop(); 
         setTimeout(() => { resetToTop(); document.body.style.opacity = "1"; }, 50); 
     });
-    
+
     window.onbeforeunload = function() { resetToTop(); };
 </script>
 </body>
