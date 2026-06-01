@@ -14,13 +14,13 @@ async function fetchMemberData() {
             const cols = row.split(',');
             // スプレッドシートの列順に合わせてインデックスを調整してください
             // 例: 名前(0), カナ(1), c1(2), link1(3), c2(4), link2(5), c3(6), link3(7)
-            return {
-                name: cols[0],
-                kana: cols[1],
-                c1: cols[2], link1: cols[3],
-                c2: cols[4], link2: cols[5],
-                c3: cols[6], link3: cols[7]
-            };
+　　　　return {
+            name: cols[0],
+            kana: cols[1],
+            c1: cols[3], link1: cols[6],
+            c2: cols[4], link2: cols[7],
+            c3: cols[5], link3: cols[8]
+        };
         });
         console.log("データ読み込み完了");
     } catch (e) {
