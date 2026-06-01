@@ -70,7 +70,7 @@
         }
         .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
 
-        /* ご挨拶案内枠 */
+        /* ご挨拶案内枠（最大幅と内側パディングの最適化） */
         .info-box {
             margin: 20px auto 40px auto; padding: 35px 25px; max-width: 92%; 
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
@@ -84,25 +84,24 @@
         .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
 
         .neon-new {
-            display: inline-block; margin-left: 10px; font-size: 11px; font-weight: bold; color: #fff;
-            background: #ff00de; padding: 1px 5px; border-radius: 4px;
+            display: inline-block; margin-left: 8px; font-size: 11px; font-weight: bold; color: #fff;
+            background: #ff00de; padding: 2px 6px; border-radius: 4px;
             text-shadow: 0 0 5px #fff; animation: blink 1.5s infinite alternate;
             vertical-align: middle;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        /* 🌸 新・セクションヘッダー：目次戻りを削除し、横幅を限界まで100%拡張 */
+        /* セクションヘッダー */
         .section-header { text-align: left; margin: 25px 0 15px 0; padding: 0 5px; display: block; scroll-margin-top: 20px; }
         .oval-wrapper { display: flex; width: 100%; box-sizing: border-box; }
 
-        /* 🌸 新・最高にかっこいいアコーディオンボタン：横幅MAX・シックなトーン・文言の回り込み防御 */
+        /* アコーディオンボタン：横幅MAX・シックなトーン・文言の回り込み防御 */
         .oval-title {
             display: inline-block; text-align: left; padding: 12px 24px; border: 1px solid #d5d2c9;
             border-radius: 6px; background-color: #faf9f6; color: #4a4843;
             font-weight: 700; font-size: 14.5px; line-height: 1.4; text-decoration: none;
             width: 100%; max-width: 100%; box-sizing: border-box;
             
-            /* 文字の途中改行（回り込み）を徹底して防ぐ設定 */
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             word-break: keep-all; line-break: strict;
         }
@@ -110,7 +109,6 @@
             cursor: pointer; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        /* マウスを乗せると右へ滑らかにスライドし、大人のサクラグレーに変化 */
         .oval-toggle-btn:hover {
             background-color: #f1ede4; border-color: #a3967f; color: #1a1917;
             transform: translateX(5px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -156,7 +154,7 @@
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
 
-        /* 領頭メッセージクラス（回り込みを完全抑制） */
+        /* メッセージクラス（回り込みを完全抑制し体裁を整える） */
         .msg-lead { font-size: 16px; text-align: center; font-weight: bold; margin-bottom: 22px; color: #444; line-height: 1.8; word-break: keep-all; }
         .msg-body { margin: 20px auto; max-width: 96%; color: #444; font-size: 15px; line-height: 1.9; text-align: left; }
 
@@ -191,25 +189,24 @@
         </div>
     </header>
 
-    <!-- ご挨拶案内枠 -->
+    <!-- 🌸 ご挨拶案内枠（ご提示いただいた新しい文章を綺麗に最適化） 🌸 -->
     <section class="info-box">
-        <h2>🎬 卒業50周年記念同期会 動画公開のお知らせ</h2>
+        <h2>🎬 卒業50周年記念同期会 動画公開しました</h2>
         <p class="msg-lead">
-            先日5月24日、「リストランテ翔21」にて開催されました「卒業50周年記念同期会」は、<br style="display:none;" class="sp-hide">
-            幹事の皆様のご尽力により無事終了いたしました。<br style="display:none;" class="sp-hide">
+            「卒業50周年記念同期会」は幹事の皆様のご尽力により盛大に執り行われました。<br>
             ご参加いただいた皆様、本当にお疲れさまでした。
         </p>
         
         <p class="msg-body">
-            当日はゲームや歓談などで大いに盛り上がり、終始和やかで楽しいひとときとなりました。<br><br>
-            ご参加いただいた方には当日の思い出として、また今回は残念ながら参加できなかった方にも会場の雰囲気を少しでも感じていただければと思い、当日の動画を公開いたします。<br><br>
-            ダイジェスト版は、懐かしい「俺たちの朝」風のイメージで編集してみました。また、360°動画では、どこかにご自身や懐かしい友人の姿が映っているはずです。ぜひ画面をぐるぐる回しながらお楽しみください。
+            ゲームや歓談などで大いに盛り上がり、終始和やかで楽しいひとときとなりました。<br><br>
+            当日の思い出として、また残念ながら参加できなかった方に会場の雰囲気を感じていただきたく動画をＵＰしました。<br><br>
+            懐かしい「俺たちの朝」風のイメージでビデオ編集してみましたので是非ご覧ください。ご自身や懐かしい友人の姿が映っているはずです。360°で各詳細を画面をぐるぐる回しながらお楽しみください。
         </p>
 
         <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 25px;">
-            <p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.05em;">💬 動画のコメント欄でもお気軽にお楽しみください</p>
+            <p style="color: #a51d4d; font-weight: bold; margin: 0; font-size: 1.05em;">💬 お願い。動画のコメント欄にぜひお寄せください</p>
             <p style="font-size: 0.9em; margin-top: 12px; line-height: 1.7; color: #666; text-align: left; word-break: keep-all;">
-                当日ゆっくりお話しできなかった方とも、動画のコメント欄を通じて交流していただければ幸いです。動画の感想やご意見などもお気軽にお寄せください。今後の励みになります。
+                動画のコメント欄にぜひこのビデオの感想や、映ってる方への呼びかけ等で盛り上がってください。みんな見てくれてるのか、心配になっちゃうので...ﾄﾎﾎ
             </p>
             <hr style="border: 0; border-top: 1px solid #ffeef5; margin: 15px 0;">
             <p style="font-size: 1.1em; color: #d65f82; font-weight: 700; margin: 0; animation: blink 2s infinite alternate;">
@@ -221,7 +218,7 @@
         </div>
     </section>
 
-    <!-- 🌸 1. 卒業50周年記念同期会 動画アーカイブ セクション 🌸 -->
+    <!-- 🌸 1. 卒業50周年記念同期会 動画アーカイブ セクション（ハイライトNew!をここにバッチリ追加） 🌸 -->
     <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
             <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title oval-toggle-btn">卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）はこちらをクリック <span class="neon-new">New!</span></button>
@@ -283,7 +280,7 @@
     </div>
 
 
-    <!-- 🌸 2. 第8回 同期会 写真集 セクション 🌸 -->
+    <!-- 2. 第8回 同期会 写真集 セクション -->
     <div id="section_vol8_photo" class="section-header">
         <div class="oval-wrapper">
             <button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="oval-title oval-toggle-btn">第8回 同期会 写真集（2023年9月23日）はこちらをクリック</button>
@@ -301,7 +298,7 @@
     </div>
 
 
-    <!-- 🌸 3. 第8回 同期会 360°動画アーカイブ セクション 🌸 -->
+    <!-- 3. 第8回 同期会 360°動画アーカイブ セクション -->
     <div id="section_vol8_360" class="section-header">
         <div class="oval-wrapper">
             <button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="oval-title oval-toggle-btn">第8回 同期会 360°動画アーカイブ（2023年9月23日 於：梅田 クロノス）はこちらをクリック</button>
@@ -415,7 +412,7 @@
     </div>
 
 
-    <!-- 🌸 指定に基づき、完全に一番最後に集約させた独立便利コンポーネント枠 🌸 -->
+    <!-- 固定便利コンポーネント枠（最下部集約） -->
     
     <!-- 🔍 同期生クラス・写真検索機能 -->
     <div class="search-area" style="margin-top: 50px;">
