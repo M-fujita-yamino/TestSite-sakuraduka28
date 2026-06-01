@@ -234,10 +234,11 @@
     <nav id="top-index" class="contents-index">
         <h2>目次一覧</h2>
         <ul>
-            <li><a href="#section_vol1">第1回 同期会</a><span class="neon-new">New!</span></li>
+            <li><a href="#section_vol1">第1回 同期会</a></li>
             <li><a href="#section_vol7">第7回 同期会</a></li>
             <li><a href="#section_vol8_360">第8回 同期会 360°動画アーカイブ</a></li>
             <li><a href="#section_vol8_photo">第8回 同期会 写真集</a></li>
+            <li><a href="#section_50th">卒業50周年記念同期会 動画アーカイブ</a><span class="neon-new">New!</span></li>
             <li><a href="#section_archive">特別付録（資料アーカイブ）</a></li>
         </ul>
     </nav>
@@ -329,6 +330,37 @@
         <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(★写真投稿用).jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学5０周年記念(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
     </ul>
 
+    <div id="section_50th" class="section-header">
+        <div class="oval-wrapper">
+            <div class="oval-title">卒業50周年記念同期会　2026年 5月 24日（日）<br>於 梅田 リストランテ翔 21 動画アーカイブ</div>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        </div>
+    </div>
+    <ul class="video-list">
+        <script>
+            const v50 = [
+                {no:"01", title:"卒業50周年記念同期会ビデオ", time:"6:33", url:"https://youtu.be/FvHFUDS4O70", type:"2Dビデオ", thumb:"sam01"},
+                {no:"02", title:"① 受付準備", time:"0:38", url:"https://youtu.be/DF6iUurpLAM", type:"360°動画", thumb:"sam02"},
+                {no:"03", title:"② 乾杯前", time:"1:52", url:"https://youtu.be/Hy8AjaAnkic", type:"360°動画", thumb:"sam03"},
+                {no:"04", title:"③ 豪華なお料理", time:"1:56", url:"https://youtu.be/TsjZoxockDA", type:"360°動画", thumb:"sam04"},
+                {no:"05", title:"④ しばし歓談 その1", time:"6:09", url:"https://youtu.be/CesuTeRAKT0", type:"360°動画", thumb:"sam05"},
+                {no:"06", title:"⑤ しばし歓談 その2 カメラマン 井関君", time:"3:40", url:"https://youtu.be/zP_7NzzGDyQ", type:"360°動画", thumb:"sam06"},
+                {no:"07", title:"⑥ しばし歓談 その3 カメラマン 井関君", time:"1:41", url:"https://youtu.be/gIwMOANsCLE", type:"360°動画", thumb:"sam07"},
+                {no:"08", title:"⑦ 初参加者紹介", time:"1:56", url:"https://youtu.be/94kLWPJalkc", type:"2Dビデオ", thumb:"sam08"},
+                {no:"09", title:"⑧ 茶道部OG 幹事さんたち", time:"0:17", url:"https://youtu.be/ksvgRO7i75M", type:"2Dビデオ", thumb:"sam09"},
+                {no:"10", title:"⑨ しばし歓談 その4", time:"5:56", url:"https://youtu.be/HTOM1B_Uooc", type:"2Dビデオ", thumb:"sam10"},
+                {no:"11", title:"⑩ しばし歓談 その5", time:"1:02", url:"https://youtu.be/Kby5QABiK6M", type:"2Dビデオ", thumb:"sam11"},
+                {no:"12", title:"⑪ しばし歓談 その6", time:"10:58", url:"https://youtu.be/L8r4WClSpJ8", type:"360°動画", thumb:"sam12"},
+                {no:"13", title:"⑫ テラスからの大阪の絶景", time:"5:42", url:"https://youtu.be/_wxvB2NCeuQ", type:"360°動画", thumb:"sam13"},
+                {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
+                {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
+                {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
+            ];
+            v50.forEach(v => {
+                document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+            });
+        </script>
+    </ul>
     <div id="section_archive" class="section-header">
         <div class="oval-wrapper">
             <div class="oval-title">特別付録：資料アーカイブ</div>
@@ -396,8 +428,8 @@
     const container = document.getElementById('sakura-container');
     function createSakura() {
         const petal = document.createElement('div');
-        petal.className = 'sakura-petal';
         const size = Math.random() * 10 + 8;
+        petal.className = 'sakura-petal';
         petal.style.width = size + 'px';
         petal.style.height = size + 'px';
         petal.style.left = Math.random() * 120 - 10 + 'vw';
@@ -506,6 +538,3 @@
 </script>
 </body>
 </html>
-
-
-
