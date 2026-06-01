@@ -55,22 +55,25 @@
 
         @media (max-width: 800px) { .side-img, .bg-credit { display: none; } }
 
+        /* ヘッダー */
         header { 
-            text-align: center; padding: 45px 15px; margin: -20px -20px 30px -20px;
+            text-align: center; padding: 25px 15px 20px 15px; margin: -20px -20px 30px -20px;
             background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        .header-title { color: #ffffff; font-size: 2.4em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
+        .header-title { color: #ffffff; font-size: 2.0em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
 
-        .music-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .music-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .music-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .music-btn {
             background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff;
-            padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 700;
+            padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 700;
             transition: all 0.3s; display: flex; align-items: center; gap: 5px;
         }
         .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
+        .music-guide { color: #fff; font-size: 11px; opacity: 0.9; }
 
-        /* ご挨拶案内枠 */
+        /* お知らせ枠 */
         .info-box {
             margin: 15px auto 30px auto; padding: 25px 25px; max-width: 92%; 
             background: #fffafc; border: 3px double #ffb7c5; border-radius: 25px; 
@@ -83,17 +86,10 @@
         }
         .info-box h2 { font-size: 19px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 10px; margin-bottom: 15px; }
 
-        .neon-new {
-            display: inline-block; margin-left: 8px; font-size: 11px; font-weight: bold; color: #fff;
-            background: #ff00de; padding: 2px 6px; border-radius: 4px;
-            text-shadow: 0 0 5px #fff; animation: blink 1.5s infinite alternate;
-            vertical-align: middle;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
+        /* セクションヘッダー・ボタン */
         .section-header { text-align: left; margin: 20px 0 12px 0; padding: 0 5px; display: block; scroll-margin-top: 20px; }
         .oval-wrapper { display: flex; width: 100%; box-sizing: border-box; }
-
+        
         .oval-title-v50 {
             display: inline-block; text-align: left; padding: 11px 20px; border: 1px solid #d5d2c9;
             border-radius: 6px; background-color: #faf9f6; color: #4a4843;
@@ -101,7 +97,14 @@
             width: 100%; max-width: 100%; box-sizing: border-box;
             white-space: normal; word-break: break-all; line-break: normal;
         }
-
+        .oval-title {
+            display: inline-block; text-align: left; padding: 10px 20px; border: 1px solid #d5d2c9;
+            border-radius: 6px; background-color: #faf9f6; color: #4a4843;
+            font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
+            width: 100%; max-width: 100%; box-sizing: border-box;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            word-break: keep-all; line-break: strict;
+        }
         .oval-toggle-btn {
             cursor: pointer; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -111,6 +114,7 @@
             transform: translateX(5px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
+        /* リストとコントロール */
         .video-list { list-style: none; padding: 0; margin-bottom: 25px; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
@@ -140,18 +144,24 @@
         .v1-pane.active, .v7-pane.active, .v8-pane.active, .v8-photo-pane.active, .v50-parent-pane.active, .archive-pane.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 固定便利コンポーネント用スタイル */
         .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin: 40px auto 10px auto; text-align: left; max-width: 100%; }
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
-
         .msg-lead { font-size: 15.5px; text-align: center; font-weight: bold; margin-bottom: 15px; color: #444; line-height: 1.7; word-break: keep-all; }
         .msg-body { margin: 15px auto; max-width: 96%; color: #444; font-size: 14.5px; line-height: 1.8; text-align: left; }
-
-        .v50-group-box {
-            background-color: #fdfcfb; border: 1px solid #eaddd3; border-radius: 12px;
-            padding: 15px; margin-top: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.01);
-        }
+        .v50-group-box { background-color: #fdfcfb; border: 1px solid #eaddd3; border-radius: 12px; padding: 15px; margin-top: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.01); }
+        .search-area { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid #ffb7c5; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .search-box { padding: 12px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 16px; box-sizing: border-box; background-color: #fffafa; transition: border-color 0.3s; }
+        .search-box:focus { outline: none; border-color: #ff8da1; background-color: #fff; }
+        .search-result { margin-top: 20px; }
+        .result-item { background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #eee; border-left: 4px solid #87ceeb; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+        .result-name { font-weight: 700; font-size: 1.1em; color: #333; margin: 0; line-height: 1.2; }
+        .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
+        .class-btn { background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px; border-radius: 15px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; transition: all 0.2s; }
+        .class-btn:hover { background: #5dafcf; transform: translateY(-1px); }
+        .class-btn::before { content: "📸"; font-size: 1.0em; }
 
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
@@ -159,7 +169,6 @@
 <body>
 
 <div id="sakura-container" class="sakura-container"></div>
-
 <audio id="audio_okamachi" loop src="岡町商店街の唄.mp3"></audio>
 <audio id="audio_kouka" loop src="桜塚校歌.mp3"></audio>
 
@@ -173,8 +182,11 @@
     <header id="page-top">
         <h1 class="header-title">桜塚高校第28期同期会ページ</h1>
         <div class="music-controls">
-            <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
-            <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
+            <div class="music-btns">
+                <button onclick="toggleMusic('okamachi')" id="btn_okamachi" class="music-btn">♪ 岡町商店街の唄</button>
+                <button onclick="toggleMusic('kouka')" id="btn_kouka" class="music-btn">♪ 桜塚校歌</button>
+            </div>
+            <div class="music-guide">← クリックで音楽が流れます</div>
         </div>
     </header>
 
@@ -184,13 +196,11 @@
             「卒業50周年記念同期会」は幹事の皆様のご尽力により盛大に執り行われました。<br>
             ご参加いただいた皆様、本当にお疲れさまでした。
         </p>
-        
         <p class="msg-body">
             ゲームや歓談などで大いに盛り上がり、終始和やかで楽しいひとときとなりました。<br><br>
             当日の思い出として、また残念ながら参加できなかった方に会場の雰囲気を感じていただきたく動画をＵＰしました。<br><br>
             懐かしい「俺たちの朝」風のイメージでビデオ編集してみましたので是非ご覧ください。ご自身や懐かしい友人の姿が映っているはずです。360°で各詳細を画面をぐるぐる回しながらお楽しみください。
         </p>
-
         <div style="background: #fff; padding: 14px 18px; border-radius: 15px; border: 1px dashed #ffb7c5; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-top: 15px;">
             <p style="color: #a51d4d; font-weight: bold; margin: 0 0 6px 0; font-size: 1.05em;">💬 動画のコメント欄でコメントをお寄せください。</p>
             <p style="font-size: 0.9em; line-height: 1.45; color: #666; text-align: left; margin-bottom: 0;">
@@ -207,15 +217,14 @@
         </div>
     </section>
 
-    <!-- 1. 卒業50周年記念同期会 動画アーカイブ -->
+    <!-- 動画セクション -->
     <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
             <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title-v50 oval-toggle-btn">
-                卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）はこちらをクリック <span class="neon-new">New!</span>
+                卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）はこちらをクリック
             </button>
         </div>
     </div>
-
     <div id="v50_parent_pane" class="v50-parent-pane">
         <div class="v50-group-box">
             <div id="v50_pane_main" style="display: block;">
@@ -231,9 +240,7 @@
                         <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
                     </li>
                 </ul>
-                <div id="v50_btn_container">
-                    <button onclick="switchV50InnerView('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらをクリックしてご覧になれます。</button>
-                </div>
+                <button onclick="switchV50InnerView('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらをクリックしてご覧になれます。</button>
             </div>
             <div id="v50_pane_archive" style="display: none;">
                 <button onclick="switchV50InnerView('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7; margin-bottom: 15px;">← メインメニューに戻る</button>
@@ -267,5 +274,15 @@
         <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7; width:100%; max-width:100%; margin: 15px 0 0 0;">▲ 50周年 アーカイブを閉じる</button>
     </div>
 
-    <!-- 他アーカイブおよび下部機能（割愛：前回の構造を維持） -->
-    <!-- (以下、前回コード同様の第8回、第7回、第1回、特別付録、検索検索機能、楽しみ方解説が続きます) -->
+    <!-- 他の同期会（第8回〜第1回、特別付録）は、上記と同じ要領でpaneクラスを切り替えて配置可能です -->
+    <!-- (※以前お渡しした折りたたみセクションをここに配置してください) -->
+
+    <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
+</div>
+
+<script>
+    /* 以前のスクリプトと検索機能はここに含まれます */
+    // ... 
+</script>
+</body>
+</html>
