@@ -81,9 +81,6 @@
             transform: rotate(35deg); font-weight: bold; font-size: 11px; letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .info-box h2 { font-size: 20px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 12px; }
-        .info-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
-        .info-table th { width: 75px; color: #d65f82; font-weight: bold; vertical-align: top; text-align: left; padding: 10px 0; border-bottom: 1px solid #fff0f5; }
-        .info-table td { padding: 10px 0; color: #444; border-bottom: 1px solid #fff0f5; }
 
         .contents-index { margin: 10px auto 40px auto; padding: 25px; max-width: 90%; background: #fff; border: 2px dashed #ffb7c5; border-radius: 25px; text-align: left; }
         .contents-index h2 { font-size: 18px; color: #d65f82; border-bottom: 2px solid #ffeef5; margin-top: 0; }
@@ -99,61 +96,32 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        .section-header { text-align: center; margin: 60px 0 30px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; scroll-margin-top: 20px; }
-        
-        /* 楕円ボタンの共通ベースデザインスタイル */
+        /* 🌸 新しいセクションヘッダー：左寄せ配置用 */
+        .section-header { text-align: left; margin: 40px 0 20px 0; padding-left: 10px; display: block; scroll-margin-top: 20px; }
+        .oval-wrapper { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; width: 100%; }
+
+        /* 🌸 新しいボタンデザイン：横長・薄い・スタイリッシュ左寄せ */
         .oval-title {
-            display: inline-block; padding: 15px 30px; border: 2px solid #ffb7c5;
-            border-radius: 60px; background-color: #fff; color: #ff8da1;
-            font-weight: 700; font-size: 16px; line-height: 1.5; text-decoration: none;
+            display: inline-block; text-align: left; padding: 10px 24px; border: 1px solid #ffccd5;
+            border-radius: 8px; background-color: #ffffff; color: #e66a85;
+            font-weight: 700; font-size: 14.5px; line-height: 1.5; text-decoration: none;
+            flex-grow: 1; max-width: 82%; box-sizing: border-box;
         }
-        
-        /* 🌸 すべての開閉用楕円ボタンに適用する立体感ホバーエフェクト */
         .oval-toggle-btn {
-            cursor: pointer; box-shadow: 0 4px 10px rgba(255,141,161,0.15);
-            transition: all 0.3s ease; display: inline-block; width: auto; max-width: 90%;
+            cursor: pointer; box-shadow: 0 2px 6px rgba(255, 183, 197, 0.1);
+            transition: all 0.25s ease;
         }
         .oval-toggle-btn:hover {
-            background-color: #fff1f4; border-color: #ff8da1; color: #a51d4d;
-            transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,141,161,0.25);
+            background-color: #fffafb; border-color: #ff8da1; color: #a51d4d;
+            transform: translateX(3px); box-shadow: 0 3px 10px rgba(255, 141, 161, 0.2);
         }
 
-        .back-to-index { background-color: #fff; color: #d65f82; border: 2px solid #ffb7c5; padding: 8px 15px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
-        .back-to-index:hover { background-color: #ffb7c5; color: #fff; }
-        .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; margin-top: 5px; }
+        .back-to-index { background-color: #fff; color: #d65f82; border: 1px solid #ffccd5; padding: 6px 14px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
+        .back-to-index:hover { background-color: #ffb7c5; color: #fff; border-color: #ffb7c5; }
+        .howto-link-btn { font-size: 14px; color: #d65f82; text-decoration: underline; font-weight: 700; display: inline-block; margin-bottom: 15px; }
 
-        .search-area {
-            background: #fff; padding: 25px; border-radius: 20px;
-            border: 2px solid #ffb7c5; margin-bottom: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .search-box {
-            padding: 12px 15px; border: 1px solid #ccc;
-            border-radius: 30px; font-size: 16px; box-sizing: border-box;
-            background-color: #fffafa; transition: border-color 0.3s;
-        }
-        .search-box:focus { outline: none; border-color: #ff8da1; background-color: #fff; }
-        
-        .search-result { margin-top: 20px; }
-        
-        .result-item {
-            background: #fdfdfd; padding: 8px 12px; margin-bottom: 6px; 
-            border-radius: 8px; border: 1px solid #eee; border-left: 4px solid #87ceeb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;
-        }
-        .result-name { font-weight: 700; font-size: 1.1em; color: #333; margin: 0; line-height: 1.2; }
-        
-        .class-btn-container { display: flex; flex-wrap: wrap; gap: 5px; }
-        .class-btn {
-            background: #87ceeb; color: white; text-decoration: none; padding: 3px 10px;
-            border-radius: 15px; font-size: 11px; font-weight: 700;
-            display: inline-flex; align-items: center; gap: 3px; transition: all 0.2s;
-        }
-        .class-btn:hover { background: #5dafcf; transform: translateY(-1px); }
-        .class-btn::before { content: "📸"; font-size: 1.0em; }
-
-        .video-list { list-style: none; padding: 0; margin-bottom: 45px; }
+        /* 動画リストスタイル */
+        .video-list { list-style: none; padding: 0; margin-bottom: 30px; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
             padding: 12px; border-radius: 18px; border-left: 8px solid #ffb7c5;
@@ -168,22 +136,23 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
-        /* 🌸 各種パネル・ボタン切り替え用の固有デザイン */
+        /* リスト開閉用コントロール用ボタン */
         .switch-view-btn {
-            display: block; width: 85%; max-width: 420px; margin: 30px auto;
-            background-color: #ff8da1; color: white; text-decoration: none;
-            padding: 14px 20px; border-radius: 50px; font-weight: 700; font-size: 15px;
-            border: 2px solid #ffb7c5; text-align: center; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255,141,161,0.3); transition: all 0.3s ease;
+            display: block; width: 90%; max-width: 440px; margin: 20px 0 20px 10px;
+            background-color: #ffffff; color: #e66a85; text-decoration: none;
+            padding: 11px 20px; border-radius: 8px; font-weight: 700; font-size: 14px;
+            border: 1px solid #ffccd5; text-align: center; cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.25s ease;
         }
-        .switch-view-btn:hover { background-color: #a51d4d; border-color: #a51d4d; transform: translateY(-2px); }
+        .switch-view-btn:hover { background-color: #fff1f4; border-color: #ff8da1; color: #a51d4d; transform: translateX(3px); }
         
-        /* 表示・隠し制御の共通定義クラス（ふわっと浮き出るアニメーション） */
+        /* 表示・隠し制御の定義クラス */
         .v1-pane, .v7-pane, .v8-pane, .v8-photo-pane, .v50-pane, .archive-pane { display: none; }
         .v1-pane.active, .v7-pane.active, .v8-pane.active, .v8-photo-pane.active, .v50-pane.active, .archive-pane.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
-        .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin-top: 30px; margin-bottom: 60px; text-align: left; }
+        /* 独立固定コンポーネント用スタイル */
+        .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin: 50px auto 30px auto; text-align: left; max-width: 95%; }
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
@@ -213,7 +182,7 @@
         </div>
     </header>
 
-    <!-- 🌸 ご挨拶案内枠 🌸 -->
+    <!-- ご挨拶案内枠 -->
     <section class="info-box">
         <h2>🎬 卒業50周年記念同期会 動画公開のお知らせ</h2>
         <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555; line-height: 1.8;">
@@ -242,63 +211,98 @@
         </div>
     </section>
 
+    <!-- 🌸 指示に基づき最新順（時系列）に並び替えた目次一覧 🌸 -->
     <nav id="top-index" class="contents-index">
         <h2>目次一覧</h2>
         <ul>
-            <li><a href="#section_vol1">第1回 同期会</a></li>
-            <li><a href="#section_vol7">第7回 同期会</a></li>
-            <li><a href="#section_vol8_360">第8回 同期会 360°動画アーカイブ</a></li>
-            <li><a href="#section_vol8_photo">第8回 同期会 写真集</a></li>
             <li><a href="#section_50th">卒業50周年記念同期会 動画アーカイブ</a><span class="neon-new">New!</span></li>
+            <li><a href="#section_vol8_photo">第8回 同期会 写真集</a></li>
+            <li><a href="#section_vol8_360">第8回 同期会 360°動画アーカイブ</a></li>
+            <li><a href="#section_vol7">第7回 同期会</a></li>
+            <li><a href="#section_vol1">第1回 同期会</a></li>
             <li><a href="#section_archive">特別付録（資料アーカイブ）</a></li>
         </ul>
     </nav>
 
-    <!-- 🌸 第1回 同期会 セクション 🌸 -->
-    <div id="section_vol1" class="section-header">
+    <!-- 🌸 1. 卒業50周年記念同期会 動画アーカイブ セクション 🌸 -->
+    <div id="section_50th" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('v1_archive_pane', 'section_vol1')" class="oval-title oval-toggle-btn">第1回 同期会　1996年 3月 9日（土）<br>於 豊中市民会館 卒業20周年　はこちらから</button>
-            <br><a href="#top-index" class="back-to-index">↑ 目次へ</a>
+            <div class="oval-title">卒業50周年記念同期会 動画アーカイブ（2026年5月24日 於：梅田 リストランテ翔21）</div>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
-    <div id="v1_archive_pane" class="v1-pane">
+
+    <!-- 50周年：通常表示（01番と切り替えボタン） -->
+    <div id="v50_pane_main" class="v50-pane active">
         <ul class="video-list">
             <li class="video-item">
-                <div class="video-thumb"><img src="第一回同期会.jpg"></div>
+                <div class="video-thumb"><img src="sam01.jpg"></div>
                 <div class="video-no">01</div>
                 <div class="video-info">
-                    <span class="video-title">会場ビデオ（卒業20周年）</span><br>
-                    <span class="creator-tag">Produced by 和田展明君</span>
+                    <span style="font-size:0.8em;color:#888;">6:33</span><br>
+                    <span class="video-title">卒業50周年記念同期会ビデオ</span><br>
+                    <span class="creator-tag">2Dビデオ</span>
                 </div>
-                <a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a>
+                <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
             </li>
         </ul>
-        <button onclick="togglePane('v1_archive_pane', 'section_vol1')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 第1回 アーカイブを閉じる</button>
+        <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらからご覧になれます。</button>
     </div>
 
-    <!-- 🌸 第7回 同期会 セクション 🌸 -->
-    <div id="section_vol7" class="section-header">
+    <!-- 50周年：折りたたみ部分 (02番〜16番) -->
+    <div id="v50_pane_archive" class="v50-pane">
+        <button onclick="switchV50View('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7;">← メインメニューに戻る</button>
+        <ul class="video-list">
+            <script>
+                const v50Data = [
+                    {no:"02", title:"① 受付準備", time:"0:38", url:"https://youtu.be/DF6iUurpLAM", type:"360°動画", thumb:"sam02"},
+                    {no:"03", title:"② 乾杯前", time:"1:52", url:"https://youtu.be/Hy8AjaAnkic", type:"360°動画", thumb:"sam03"},
+                    {no:"04", title:"③ 豪華なお料理", time:"1:56", url:"https://youtu.be/TsjZoxockDA", type:"360°動画", thumb:"sam04"},
+                    {no:"05", title:"④ しばし歓談 その1", time:"6:09", url:"https://youtu.be/CesuTeRAKT0", type:"360°動画", thumb:"sam05"},
+                    {no:"06", title:"⑤ しばし歓談 その2 カメラマン 井関君", time:"3:40", url:"https://youtu.be/zP_7NzzGDyQ", type:"360°動画", thumb:"sam06"},
+                    {no:"07", title:"⑥ しばし歓談 その3 カメラマン 井関君", time:"1:41", url:"https://youtu.be/gIwMOANsCLE", type:"360°動画", thumb:"sam07"},
+                    {no:"08", title:"⑦ 初参加者紹介", time:"1:56", url:"https://youtu.be/94kLWPJalkc", type:"2Dビデオ", thumb:"sam08"},
+                    {no:"09", title:"⑧ 茶道部OG 幹事さんたち", time:"0:17", url:"https://youtu.be/ksvgRO7i75M", type:"2Dビデオ", thumb:"sam09"},
+                    {no:"10", title:"⑨ しばし歓談 その4", time:"5:56", url:"https://youtu.be/HTOM1B_Uooc", type:"2Dビデオ", thumb:"sam10"},
+                    {no:"11", title:"⑩ しばし歓談 その5", time:"1:02", url:"https://youtu.be/Kby5QABiK6M", type:"2Dビデオ", thumb:"sam11"},
+                    {no:"12", title:"⑪ しばし歓談 その6", time:"10:58", url:"https://youtu.be/L8r4WClSpJ8", type:"360°動画", thumb:"sam12"},
+                    {no:"13", title:"⑫ テラスからの大阪の絶景", time:"5:42", url:"https://youtu.be/_wxvB2NCeuQ", type:"360°動画", thumb:"sam13"},
+                    {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
+                    {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
+                    {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
+                ];
+                v50Data.forEach(v => {
+                    document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-collapse-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
+                });
+            </script>
+        </ul>
+        <button onclick="switchV50View('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7;">← メインメニューに戻る</button>
+    </div>
+
+
+    <!-- 🌸 2. 第8回 同期会 写真集 セクション 🌸 -->
+    <div id="section_vol8_photo" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('v7_archive_pane', 'section_vol7')" class="oval-title oval-toggle-btn">第7回 同期会　2018年 4月 28日（土）<br>於 千里阪急ホテル 還暦記念同期会　はこちらから</button>
-            <br><a href="#top-index" class="back-to-index">↑ 目次へ</a>
+            <button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="oval-title oval-toggle-btn">第8回 同期会 写真集（2023年9月23日） はこちらから</button>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
-    <div id="v7_archive_pane" class="v7-pane">
+    <div id="v8_photo_pane" class="v8-photo-pane">
         <ul class="video-list">
-            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真(千里阪急ホテル)211枚.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
-            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会(★写真投稿用).jpg"></div><div class="video-no">09</div><div class="video-info"><span class="video-title">還暦同期会(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNWjKOAW37aLgpM8cYMiVyFFNluQ1oLh9O2Tq_4rRecVJf3hU4NLjsUm0hNnKvAhQ?key=OWU2ck5JeGJtaTUyeks0RTR2d1AwZVVXQmlOcUNR" class="play-btn" target="_blank">閲覧</a></li>
-            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
+            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(集合写真)3枚.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学5０周年記念(集合写真)3枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
+            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(開演～閉幕までの写真)221枚.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学5０周年記念(開演～閉幕までの写真)221枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOsnKd7VXhJz79Cq8wl_S0jaPJN1LNg8-T93k5b_pkGitldHA1M1RMx9PRflHRD1w?key=c3hDSHJSMFRpa09RTS1ISEpIWkV0RHZfbHA4X3NR" class="play-btn" target="_blank">閲覧</a></li>
+            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(★写真投稿用).jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学5０周年記念(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
         </ul>
-        <button onclick="togglePane('v7_archive_pane', 'section_vol7')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 第7回 アーカイブを閉じる</button>
+        <button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7;">▲ 写真アーカイブを閉じる</button>
     </div>
 
-    <!-- 🌸 第8回 同期会 360°動画セクション 🌸 -->
+
+    <!-- 🌸 3. 第8回 同期会 360°動画アーカイブ セクション 🌸 -->
     <div id="section_vol8_360" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="oval-title oval-toggle-btn">第8回 同期会　2023年 9月 23日（土）<br>於 梅田 リストランテ・クロノス 360°動画 アーカイブ　はこちらから</button>
-            <br><a href="#top-index" class="back-to-index">↑ 目次へ</a>
+            <button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="oval-title oval-toggle-btn">第8回 同期会 360°動画アーカイブ（2023年9月23日 於：梅田 クロノス） はこちらから</button>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
-        <a href="#howto" class="howto-link-btn">▼ 360°動画の楽しみ方はこちら</a>
     </div>
     <div id="v8_archive_pane" class="v8-pane">
         <ul class="video-list">
@@ -331,129 +335,58 @@
                 });
             </script>
         </ul>
-        <button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 第8回 アーカイブを閉じる</button>
+        <button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7;">▲ 第8回 アーカイブを閉じる</button>
     </div>
 
-    <div id="howto" class="howto-box">
-        <h2>📱 360°動画の楽しみ方</h2>
-        <div class="howto-step"><div class="step-num">1</div><div><strong>「再生」ボタンを押す</strong><br>YouTubeアプリが起動します。</div></div>
-        <div class="howto-step"><div class="step-num">2</div><div><strong>スマホを動かしてみる</strong><br>スマホの動きに合わせて映像のアングルが変わります。</div></div>
-        <div class="howto-step"><div class="step-num">3</div><div><strong>画質を上げる</strong><br>⚙️マークから「画質」→「高い画質」を選んでください。</div></div>
-    </div>
 
-    <!-- 🌸 第8回 同期会 写真集セクション（指示に基づき楕円ボタン折りたたみ化） 🌸 -->
-    <div id="section_vol8_photo" class="section-header">
+    <!-- 🌸 4. 第7回 同期会 セクション 🌸 -->
+    <div id="section_vol7" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="oval-title oval-toggle-btn">第8回 同期会　2023年 9月 23日（土）<br>写真集　はこちらから</button>
-            <br><a href="#top-index" class="back-to-index">↑ 目次へ</a>
-        </div>
-    </div>
-    <div id="v8_photo_pane" class="v8-photo-pane">
-        <ul class="video-list">
-            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(集合写真)3枚.jpg"></div><div class="video-no">02a</div><div class="video-info"><span class="video-title">入学5０周年記念(集合写真)3枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNXWpVB1wtwLVmoQKd1wiL7hlu9QoVPzzA6XRVGvUxyqAvj7EXtBiWe3StDEq_66Q?key=Q1NraHhZZGE1MGVBUUZXR3JPQVdLU21MbXR6X0p3" class="play-btn" target="_blank">閲覧</a></li>
-            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(開演～閉幕までの写真)221枚.jpg"></div><div class="video-no">02b</div><div class="video-info"><span class="video-title">入学5０周年記念(開演～閉幕までの写真)221枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipOsnKd7VXhJz79Cq8wl_S0jaPJN1LNg8-T93k5b_pkGitldHA1M1RMx9PRflHRD1w?key=c3hDSHJSMFRpa09RTS1ISEpIWkV0RHZfbHA4X3NR" class="play-btn" target="_blank">閲覧</a></li>
-            <li class="video-item"><div class="video-thumb"><img src="2023年9月23日 入学5０周年記念(★写真投稿用).jpg"></div><div class="video-no">02c</div><div class="video-info"><span class="video-title">入学5０周年記念(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipMJYHLWBKfYQsFp1YFy3hGkbgT3sLxImIwIOULbwddzf_WNrv6_Q_9gdg6Nd-S8KQ?key=dF9Vb252ZExJbEtIN0QxUmlKcHRUU2V0emhQWFJR" class="play-btn" target="_blank">閲覧</a></li>
-        </ul>
-        <button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 写真アーカイブを閉じる</button>
-    </div>
-
-    <!-- 🌸 卒業50周年記念同期会 動画アーカイブセクション 🌸 -->
-    <div id="section_50th" class="section-header">
-        <div class="oval-wrapper">
-            <div class="oval-title">卒業50周年記念同期会　2026年 5月 24日（日）<br>於 梅田 リストランテ翔 21 動画アーカイブ</div>
+            <button onclick="togglePane('v7_archive_pane', 'section_vol7')" class="oval-title oval-toggle-btn">第7回 同期会 還暦記念（2018年4月28日 於：千里阪急ホテル） はこちらから</button>
             <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
+    <div id="v7_archive_pane" class="v7-pane">
+        <ul class="video-list">
+            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会写真(千里阪急ホテル)211枚.jpg"></div><div class="video-no">08</div><div class="video-info"><span class="video-title">還暦同期会写真 211枚</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipPd0oXTi8rxDRzyGjlQTJRIzoJYmCkkbLnPweTdGR1wj7xGQdMzRP5wUacBp5rYDw?key=dlJKTTJOZm9PRW5ORVprU043SW9OdEV5NUpUdVVB" class="play-btn" target="_blank">閲覧</a></li>
+            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会(★写真投稿用).jpg"></div><div class="video-no">09</div><div class="video-info"><span class="video-title">還暦同期会(★写真投稿用)</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNWjKOAW37aLgpM8cYMiVyFFNluQ1oLh9O2Tq_4rRecVJf3hU4NLjsUm0hNnKvAhQ?key=OWU2ck5JeGJtaTUyeks0RTR2d1AwZVVXQmlOcUNR" class="play-btn" target="_blank">閲覧</a></li>
+            <li class="video-item"><div class="video-thumb"><img src="2018年4月28日 還暦同期会 動画 12本.jpg"></div><div class="video-no">10</div><div class="video-info"><span class="video-title">還暦同期会 動画 12本</span><br><span class="creator-tag">Supervised & Edited by 乾君</span></div><a href="https://photos.google.com/share/AF1QipNBlLjXYrJGCuXU8hJr645hPFw53uYycvRoJ808PLGRM-9rkJyE2wjDCJUSHrSIwA?key=SHpjQW8xRlZPOE5mQ19PVGljaVZRS0pGUlZjVVB3" class="play-btn" target="_blank">閲覧</a></li>
+        </ul>
+        <button onclick="togglePane('v7_archive_pane', 'section_vol7')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7;">▲ 第7回 アーカイブを閉じる</button>
+    </div>
 
-    <!-- 通常表示パネル (01番の動画と切り替えボタン) -->
-    <div id="v50_pane_main" class="v50-pane active">
+
+    <!-- 🌸 5. 第1回 同期会 セクション 🌸 -->
+    <div id="section_vol1" class="section-header">
+        <div class="oval-wrapper">
+            <button onclick="togglePane('v1_archive_pane', 'section_vol1')" class="oval-title oval-toggle-btn">第1回 同期会 卒業20周年（1996年3月9日 於：豊中市民会館） はこちらから</button>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
+        </div>
+    </div>
+    <div id="v1_archive_pane" class="v1-pane">
         <ul class="video-list">
             <li class="video-item">
-                <div class="video-thumb"><img src="sam01.jpg"></div>
+                <div class="video-thumb"><img src="第一回同期会.jpg"></div>
                 <div class="video-no">01</div>
                 <div class="video-info">
-                    <span style="font-size:0.8em;color:#888;">6:33</span><br>
-                    <span class="video-title">卒業50周年記念同期会ビデオ</span><br>
-                    <span class="creator-tag">2Dビデオ</span>
+                    <span class="video-title">会場ビデオ（卒業20周年）</span><br>
+                    <span class="creator-tag">Produced by 和田展明君</span>
                 </div>
-                <a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a>
+                <a href="https://youtu.be/hed3nsWlo7E" class="play-btn" target="_blank">再生</a>
             </li>
         </ul>
-        <button onclick="switchV50View('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちらからご覧になれます。</button>
+        <button onclick="togglePane('v1_archive_pane', 'section_vol1')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7;">▲ 第1回 アーカイブを閉じる</button>
     </div>
 
-    <!-- 360°動画アーカイブパネル (02番〜16番のリストと戻るボタン) -->
-    <div id="v50_pane_archive" class="v50-pane">
-        <button onclick="switchV50View('main')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-bottom: 25px;">← メインメニューに戻る</button>
-        <ul class="video-list">
-            <script>
-                const v50Data = [
-                    {no:"02", title:"① 受付準備", time:"0:38", url:"https://youtu.be/DF6iUurpLAM", type:"360°動画", thumb:"sam02"},
-                    {no:"03", title:"② 乾杯前", time:"1:52", url:"https://youtu.be/Hy8AjaAnkic", type:"360°動画", thumb:"sam03"},
-                    {no:"04", title:"③ 豪華なお料理", time:"1:56", url:"https://youtu.be/TsjZoxockDA", type:"360°動画", thumb:"sam04"},
-                    {no:"05", title:"④ しばし歓談 その1", time:"6:09", url:"https://youtu.be/CesuTeRAKT0", type:"360°動画", thumb:"sam05"},
-                    {no:"06", title:"⑤ しばし歓談 その2 カメラマン 井関君", time:"3:40", url:"https://youtu.be/zP_7NzzGDyQ", type:"360°動画", thumb:"sam06"},
-                    {no:"07", title:"⑥ しばし歓談 その3 カメラマン 井関君", time:"1:41", url:"https://youtu.be/gIwMOANsCLE", type:"360°動画", thumb:"sam07"},
-                    {no:"08", title:"⑦ 初参加者紹介", time:"1:56", url:"https://youtu.be/94kLWPJalkc", type:"2Dビデオ", thumb:"sam08"},
-                    {no:"09", title:"⑧ 茶道部OG 幹事さんたち", time:"0:17", url:"https://youtu.be/ksvgRO7i75M", type:"2Dビデオ", thumb:"sam09"},
-                    {no:"10", title:"⑨ しばし歓談 その4", time:"5:56", url:"https://youtu.be/HTOM1B_Uooc", type:"2Dビデオ", thumb:"sam10"},
-                    {no:"11", title:"⑩ しばし歓談 その5", time:"1:02", url:"https://youtu.be/Kby5QABiK6M", type:"2Dビデオ", thumb:"sam11"},
-                    {no:"12", title:"⑪ しばし歓談 その6", time:"10:58", url:"https://youtu.be/L8r4WClSpJ8", type:"360°動画", thumb:"sam12"},
-                    {no:"13", title:"⑫ テラスからの大阪の絶景", time:"5:42", url:"https://youtu.be/_wxvB2NCeuQ", type:"360°動画", thumb:"sam13"},
-                    {no:"14", title:"⑬ じゃんけんゲーム 大森君 太っ腹", time:"11:01", url:"https://youtu.be/GxoXhaZukIE", type:"360°動画", thumb:"sam14"},
-                    {no:"15", title:"⑭ しばし歓談 その8", time:"7:38", url:"https://youtu.be/5KXMGhRADws", type:"360°動画", thumb:"sam15"},
-                    {no:"16", title:"⑮ 閉会の挨拶", time:"8:06", url:"https://youtu.be/e7OU51MA6y0", type:"360°動画", thumb:"sam16"}
-                ];
-                v50Data.forEach(v => {
-                    document.write(`<li class="video-item"><div class="video-thumb"><img src="${v.thumb}.jpg"></div><div class="video-collapse-no">${v.no}</div><div class="video-info"><span style="font-size:0.8em;color:#888;">${v.time}</span><br><span class="video-title">${v.title}</span><br><span class="creator-tag">${v.type}</span></div><a href="${v.url}" class="play-btn" target="_blank">再生</a></li>`);
-                });
-            </script>
-        </ul>
-        <button onclick="switchV50View('main')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">← メインメニューに戻る</button>
-    </div>
 
-    <!-- 🌸 特別付録：資料アーカイブ セクション 🌸 -->
+    <!-- 🌸 6. 特別付録（資料アーカイブ） セクション 🌸 -->
     <div id="section_archive" class="section-header">
         <div class="oval-wrapper">
-            <button onclick="togglePane('archive_main_pane', 'section_archive')" class="oval-title oval-toggle-btn">特別付録：資料アーカイブ　はこちらから</button>
-            <br><a href="#top-index" class="back-to-index">↑ 目次へ</a>
+            <button onclick="togglePane('archive_main_pane', 'section_archive')" class="oval-title oval-toggle-btn">特別付録：資料アーカイブ はこちらから</button>
+            <a href="#top-index" class="back-to-index">↑ 目次へ</a>
         </div>
     </div>
-    
     <div id="archive_main_pane" class="archive-pane">
-        <div class="search-area">
-            <h3 style="color:#d65f82; margin-top:0; border-bottom:1px dashed #ffb7c5; padding-bottom:10px;">
-                🔍 同期生クラス・写真検索
-                <span style="font-size:0.7em; color:#888; font-weight:normal; display:block; margin-top:5px;">Coming Soon（近日実装予定）<br>※現在は1年のクラスと名前検索のみ仮運用可能です</span>
-            </h3>
-            
-            <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
-                <select id="classSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer;">
-                    <option value="">全クラス</option>
-                    <optgroup label="1年">
-                        <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
-                        <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
-                        <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
-                        <option value="1-10">1年10組</option>
-                    </optgroup>
-                    <optgroup label="2年">
-                        <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
-                        <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
-                        <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
-                        <option value="2-10">2年10組</option>
-                    </optgroup>
-                    <optgroup label="3年">
-                        <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
-                        <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
-                        <option value="3-7">3年7組</option><option value="3-8">3年8組</option><option value="3-9">3年9組</option>
-                        <option value="3-10">3年10組</option>
-                    </optgroup>
-                </select>
-                <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前やフリガナを入力...">
-            </div>
-            <div id="searchResult" class="search-result"></div>
-        </div>
-
         <ul class="video-list">
             <script>
                 const v4 = [
@@ -470,7 +403,52 @@
                 });
             </script>
         </ul>
-        <button onclick="togglePane('archive_main_pane', 'section_archive')" class="switch-view-btn" style="background-color: #87ceeb; border-color: #aeddf2; margin-top: 10px;">▲ 資料アーカイブを閉じる</button>
+        <button onclick="togglePane('archive_main_pane', 'section_archive')" class="switch-view-btn" style="color:#555; background-color:#f7f7f7;">▲ 資料アーカイブを閉じる</button>
+    </div>
+
+
+    <!-- 🌸 指示に基づき、ボタンとは別に独立させ、一番最後に固定配置した便利機能枠 🌸 -->
+    
+    <!-- 🔍 同期生クラス・写真検索機能 -->
+    <div class="search-area" style="margin-top: 60px;">
+        <h3 style="color:#d65f82; margin-top:0; border-bottom:1px dashed #ffb7c5; padding-bottom:10px;">
+            🔍 同期生クラス・写真検索
+            <span style="font-size:0.7em; color:#888; font-weight:normal; display:block; margin-top:5px;">Coming Soon（近日実装予定）<br>※現在は1年のクラスと名前検索のみ仮運用可能です</span>
+        </h3>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap:wrap;">
+            <select id="classSelect" class="search-box" style="width: 35%; min-width: 120px; cursor: pointer;">
+                <option value="">全クラス</option>
+                <optgroup label="1年">
+                    <option value="1-1">1年1組</option><option value="1-2">1年2組</option><option value="1-3">1年3組</option>
+                    <option value="1-4">1年4組</option><option value="1-5">1年5組</option><option value="1-6">1年6組</option>
+                    <option value="1-7">1年7組</option><option value="1-8">1年8組</option><option value="1-9">1年9組</option>
+                    <option value="1-10">1年10組</option>
+                </optgroup>
+                <optgroup label="2年">
+                    <option value="2-1">2年1組</option><option value="2-2">2年2組</option><option value="2-3">2年3組</option>
+                    <option value="2-4">2年4組</option><option value="2-5">2年5組</option><option value="2-6">2年6組</option>
+                    <option value="2-7">2年7組</option><option value="2-8">2年8組</option><option value="2-9">2年9組</option>
+                    <option value="2-10">2年10組</option>
+                </optgroup>
+                <optgroup label="3年">
+                    <option value="3-1">3年1組</option><option value="3-2">3年2組</option><option value="3-3">3年3組</option>
+                    <option value="3-4">3年4組</option><option value="3-5">3年5組</option><option value="3-6">3年6組</option>
+                    <option value="3-7">3年7組</option><option value="3-8">3年8組</option><option value="3-9">3年9組</option>
+                    <option value="3-10">3年10組</option>
+                </optgroup>
+            </select>
+            <input type="text" id="searchInput" class="search-box" style="flex:1;" placeholder="名前やフリガナを入力...">
+        </div>
+        <div id="searchResult" class="search-result"></div>
+    </div>
+
+    <!-- 📱 360°動画の楽しみ方解説パネル -->
+    <div id="howto" class="howto-box">
+        <h2>📱 360°動画の楽しみ方</h2>
+        <div class="howto-step"><div class="step-num">1</div><div><strong>「再生」ボタンを押す</strong><br>YouTubeアプリが起動します。</div></div>
+        <div class="howto-step"><div class="step-num">2</div><div><strong>スマホを動かしてみる</strong><br>スマホの動きに合わせて映像のアングルが変わります。</div></div>
+        <div class="howto-step"><div class="step-num">3</div><div><strong>画質を上げる</strong><br>⚙️マークから「画質」→「高い画質」を選んでください。</div></div>
     </div>
 
     <footer><p>© 2026 桜塚高校28期 同窓会実行委員会</p></footer>
@@ -513,7 +491,7 @@
         }
     }
 
-    // 🌸 50周年アーカイブの表示切り替え関数
+    // 50周年アーカイブの表示切り替え関数
     function switchV50View(viewState) {
         const paneMain = document.getElementById('v50_pane_main');
         const paneArchive = document.getElementById('v50_pane_archive');
@@ -530,7 +508,7 @@
         }
     }
 
-    // 🌸 第1回・第7回・第8回（動画・写真）・特別付録の共通開閉制御関数
+    // 各種共通開閉制御関数
     function togglePane(paneId, anchorId) {
         const targetPane = document.getElementById(paneId);
         const targetHeader = document.getElementById(anchorId);
