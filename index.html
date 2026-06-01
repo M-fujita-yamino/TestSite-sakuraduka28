@@ -84,6 +84,7 @@
         }
         .info-box h2 { font-size: 19px; color: #a51d4d; margin-top: 0; text-align: center; border-bottom: 2px solid #ffeef5; padding-bottom: 10px; margin-bottom: 15px; }
 
+        /* 🌸 「New!」ネオンハイライトバッジデザイン */
         .neon-new {
             display: inline-block; margin-left: 8px; font-size: 11px; font-weight: bold; color: #fff;
             background: #ff00de; padding: 2px 6px; border-radius: 4px;
@@ -101,9 +102,7 @@
             border-radius: 6px; background-color: #faf9f6; color: #4a4843;
             font-weight: 700; font-size: 14px; line-height: 1.4; text-decoration: none;
             width: 100%; max-width: 100%; box-sizing: border-box;
-            
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            word-break: keep-all; line-break: strict;
         }
         
         .oval-title-v50 {
@@ -125,6 +124,7 @@
             transform: translateX(5px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
+        /* 動画リストスタイル */
         .video-list { list-style: none; padding: 0; margin-bottom: 25px; }
         .video-item {
             display: flex; align-items: center; background: #fff; margin-bottom: 12px;
@@ -140,6 +140,7 @@
         .creator-tag { font-size: 0.75em; color: #a51d4d; background: #ffeef5; padding: 2px 10px; border-radius: 10px; margin-top: 5px; display: inline-block; font-weight: 700; border: 1px solid rgba(165,29,77,0.2); }
         .play-btn { display: inline-block; background-color: #ff8da1; color: white; text-decoration: none; padding: 10px 20px; border-radius: 40px; font-weight: 700; font-size: 12px; }
 
+        /* パネル展開内の内蔵用ボタンデザイン */
         .switch-view-btn {
             display: block; width: 100%; max-width: 100%; margin: 12px 0 5px 0;
             background-color: #ffffff; color: #5a5751; text-decoration: none;
@@ -150,15 +151,18 @@
         }
         .switch-view-btn:hover { background-color: #f5f3ec; border-color: #bfae93; color: #403e38; transform: translateX(4px); }
         
+        /* 表示・隠し制御の定義クラス */
         .v1-pane, .v7-pane, .v8-pane, .v8-photo-pane, .v50-parent-pane, .archive-pane { display: none; }
         .v1-pane.active, .v7-pane.active, .v8-pane.active, .v8-photo-pane.active, .v50-parent-pane.active, .archive-pane.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 固定配置用スタイル */
         .howto-box { background-color: rgba(253, 253, 253, 0.95); border: 2px solid #ffeef5; border-radius: 20px; padding: 30px; margin: 40px auto 10px auto; text-align: left; max-width: 100%; }
         .howto-box h2 { font-size: 20px; color: #555; border-left: 6px solid #87ceeb; padding-left: 12px; margin-bottom: 25px; margin-top: 0; }
         .howto-step { display: flex; margin-bottom: 20px; }
         .step-num { background: #87ceeb; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-block; text-align: center; line-height: 28px; margin-right: 12px; font-weight: 700; flex-shrink: 0; }
 
+        /* メッセージ用ヘルパークラス */
         .msg-lead { font-size: 15px; text-align: center; font-weight: bold; margin-bottom: 10px; color: #444; line-height: 1.5; }
         .msg-body { margin: 10px auto; max-width: 96%; color: #444; font-size: 14px; line-height: 1.6; text-align: left; }
 
@@ -166,10 +170,12 @@
             background-color: #fdfcfb; border: 1px solid #eaddd3; border-radius: 12px;
             padding: 15px; margin-top: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.01);
         }
-        /* スプレッドシート風リンクボタン */
+
+        /* 検索結果ボタン */
         .class-btn-container { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
         .class-btn { background: #87ceeb; color: #fff; padding: 4px 10px; border-radius: 15px; text-decoration: none; font-size: 12px; font-weight: bold; }
         .result-item { background: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #eee; }
+        .search-box { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; box-sizing: border-box; }
 
         footer { text-align: center; margin-top: 70px; font-size: 12px; color: #999; }
     </style>
@@ -223,20 +229,33 @@
         </div>
     </section>
 
-    <div id="section_50th" class="section-header">
-        <button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title-v50 oval-toggle-btn">卒業50周年記念同期会 動画アーカイブ <span class="neon-new">New!</span></button>
-    </div>
-    <div id="v50_parent_pane" class="v50-parent-pane">
-        <div class="v50-group-box" id="v50_pane_main"><ul class="video-list"><li class="video-item"><div class="video-thumb"><img src="sam01.jpg"></div><div class="video-no">01</div><div class="video-info"><strong>ダイジェスト版</strong></div><a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a></li></ul><button onclick="switchV50InnerView('archive')" class="switch-view-btn">🌸 360°の詳細はこちら</button></div>
-        <div class="v50-group-box" id="v50_pane_archive" style="display:none;"><button onclick="switchV50InnerView('main')" class="switch-view-btn">← メインへ</button><ul class="video-list" id="v50_list_container"></ul></div>
-    </div>
+    <!-- 各アーカイブ -->
+    <div id="section_50th" class="section-header"><button onclick="togglePane('v50_parent_pane', 'section_50th')" class="oval-title-v50 oval-toggle-btn">卒業50周年記念同期会 動画アーカイブ <span class="neon-new">New!</span></button></div>
+    <div id="v50_parent_pane" class="pane"><div class="v50-group-box"><div id="v50_pane_main"><ul class="video-list"><li class="video-item"><div class="video-thumb"><img src="sam01.jpg"></div><div class="video-no">01</div><div class="video-info"><strong>ダイジェスト版</strong></div><a href="https://youtu.be/FvHFUDS4O70" class="play-btn" target="_blank">再生</a></li></ul><button onclick="switchV50InnerView('archive')" class="switch-view-btn">🌸 360°の各場面の詳細はこちら</button></div><div id="v50_pane_archive" style="display:none;"><button onclick="switchV50InnerView('main')" class="switch-view-btn">← メインへ</button><ul class="video-list" id="v50_list_container"></ul></div></div></div>
 
+    <div id="section_vol8_photo" class="section-header"><button onclick="togglePane('v8_photo_pane', 'section_vol8_photo')" class="oval-toggle-btn">第8回 同期会 写真集（2023年9月23日）</button></div>
+    <div id="v8_photo_pane" class="pane"><div class="v50-group-box"><ul class="video-list" id="v8_photo_container"></ul></div></div>
+
+    <div id="section_vol8_360" class="section-header"><button onclick="togglePane('v8_archive_pane', 'section_vol8_360')" class="oval-toggle-btn">第8回 同期会 360°動画アーカイブ</button></div>
+    <div id="v8_archive_pane" class="pane"><div class="v50-group-box"><ul class="video-list" id="v8_list_container"></ul></div></div>
+
+    <div id="section_vol7" class="section-header"><button onclick="togglePane('v7_archive_pane', 'section_vol7')" class="oval-toggle-btn">第7回 同期会 還暦記念</button></div>
+    <div id="v7_archive_pane" class="pane"><div class="v50-group-box"><ul class="video-list" id="v7_list_container"></ul></div></div>
+
+    <div id="section_vol1" class="section-header"><button onclick="togglePane('v1_archive_pane', 'section_vol1')" class="oval-toggle-btn">第1回 同期会 卒業20周年</button></div>
+    <div id="v1_archive_pane" class="pane"><div class="v50-group-box"><ul class="video-list" id="v1_list_container"></ul></div></div>
+
+    <div id="section_archive" class="section-header"><button onclick="togglePane('archive_main_pane', 'section_archive')" class="oval-toggle-btn">特別付録：資料アーカイブ</button></div>
+    <div id="archive_main_pane" class="pane"><div class="v50-group-box"><ul class="video-list" id="archive_list_container"></ul></div></div>
+
+    <!-- 検索 -->
     <div class="search-area" style="margin-top: 50px;">
         <h3>🔍 同期生クラス・写真検索</h3>
         <input type="text" id="searchInput" class="search-box" placeholder="名前やフリガナを入力...">
         <div id="searchResult" style="margin-top:15px;"></div>
     </div>
 
+    <!-- 楽しみ方 -->
     <div class="howto-box">
         <h2>📱 360°動画の楽しみ方</h2>
         <div class="howto-step"><div class="step-num">1</div><div>再生ボタンを押す</div></div>
@@ -249,10 +268,10 @@
 <script src="member_data.js"></script>
 <script>
     function toggleMusic(type) { const audios = { okamachi: document.getElementById('audio_okamachi'), kouka: document.getElementById('audio_kouka') }; if (!audios[type].paused) { audios[type].pause(); } else { audios[type].play(); } }
-    function togglePane(paneId) { document.getElementById(paneId).classList.toggle('active'); }
+    function togglePane(paneId, anchorId) { document.getElementById(paneId).classList.toggle('active'); if(anchorId) document.getElementById(anchorId).scrollIntoView({ behavior: 'smooth' }); }
     function switchV50InnerView(view) { document.getElementById('v50_pane_main').style.display = view === 'main' ? 'block' : 'none'; document.getElementById('v50_pane_archive').style.display = view === 'archive' ? 'block' : 'none'; }
 
-    // スプレッドシート形式のリンク表示（1年・2年・3年ボタン）
+    // 検索機能：クラスごとのリンクボタンを生成
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const q = e.target.value.replace(/\s+/g, '');
         const res = document.getElementById('searchResult');
