@@ -463,16 +463,23 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+        // fetchMemberData が定義されていることを確認してから実行
         if (typeof fetchMemberData === 'function') {
             fetchMemberData().then(() => {
-                document.getElementById('classSelect').addEventListener('change', performSearch);
-                document.getElementById('searchInput').addEventListener('input', performSearch);
+                // データ読み込みが終わってからイベントを設定
+                const classSelect = document.getElementById('classSelect');
+                const searchInput = document.getElementById('searchInput');
+                if (classSelect) classSelect.addEventListener('change', performSearch);
+                if (searchInput) searchInput.addEventListener('input', performSearch);
             });
         }
+        
+        // 既存の装飾処理
         resetToTop(); 
         setTimeout(() => { resetToTop(); document.body.style.opacity = "1"; }, 50); 
     });
+    
     window.onbeforeunload = function() { resetToTop(); };
 </script>
 </body>
