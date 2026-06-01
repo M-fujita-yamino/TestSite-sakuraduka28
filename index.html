@@ -55,23 +55,37 @@
 
         @media (max-width: 800px) { .side-img, .bg-credit { display: none; } }
 
-        /* ヘッダー */
-        header { 
-            text-align: center; padding: 25px 15px 20px 15px; margin: -20px -20px 30px -20px;
-            background-color: #a51d4d; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-        }
-        .header-title { color: #ffffff; font-size: 2.0em; margin: 0; font-weight: 700; letter-spacing: 0.08em; }
+/* ヘッダー：高さを約2/3に圧縮 */
+header { 
+    text-align: center; 
+    padding: 16px 15px 14px 15px; /* 上下のパディングを減らす */
+    margin: -20px -20px 30px -20px; 
+    background-color: #a51d4d; 
+    border-bottom-left-radius: 15px; 
+    border-bottom-right-radius: 15px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 8px; /* 要素間の隙間を詰める */
+}
 
-        .music-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .music-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .music-btn {
-            background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; color: #fff;
-            padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 700;
-            transition: all 0.3s; display: flex; align-items: center; gap: 5px;
-        }
-        .music-btn.playing { background: #ff8da1; border-color: #ff8da1; box-shadow: 0 0 10px rgba(255,141,161,0.5); }
-        .music-guide { color: #fff; font-size: 11px; opacity: 0.9; }
+/* タイトルフォントを少し小さく */
+.header-title { color: #ffffff; font-size: 1.6em; margin: 0; font-weight: 700; letter-spacing: 0.05em; }
+
+/* ボタンと説明文の調整 */
+.music-controls { display: flex; align-items: center; gap: 10px; }
+.music-btns { display: flex; gap: 8px; }
+.music-btn {
+    background: rgba(255, 255, 255, 0.2); 
+    border: 1.5px solid #fff; 
+    color: #fff;
+    padding: 4px 12px; /* ボタンの高さを抑える */
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-size: 11px; /* 文字を小さく */
+    font-weight: 700;
+}
+.music-guide { color: #fff; font-size: 10px; opacity: 0.9; }
 
         /* ご挨拶案内枠 */
         .info-box {
