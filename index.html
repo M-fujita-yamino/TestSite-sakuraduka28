@@ -423,31 +423,18 @@
         else { targetPane.classList.add('active'); if(targetHeader) targetHeader.scrollIntoView({ behavior: 'smooth' }); }
     }
 
-    // 検索機能：データ読み込み後に有効化
     function performSearch() {
         const classSelect = document.getElementById('classSelect');
         const searchInput = document.getElementById('searchInput');
         const searchResult = document.getElementById('searchResult');
-        
         const selectedClass = classSelect.value;
         const query = searchInput.value.replace(/\s+/g, '');
         searchResult.innerHTML = '';
-        
-        if (!selectedClass && !query) { 
-            searchResult.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>'; 
-            return; 
-        }
-        
-        if (typeof memberData === 'undefined' || memberData.length === 0) { 
-            searchResult.innerHTML = '<div style="color:red; padding:10px;">データ未読み込み、またはエラーです</div>'; 
-            return; 
-        }
-
+        if (!selectedClass && !query) { searchResult.innerHTML = '<div style="color:#999; padding:10px;">クラスを選択するか、名前を入力してください</div>'; return; }
+        if (typeof memberData === 'undefined' || memberData.length === 0) { searchResult.innerHTML = '<div style="color:red; padding:10px;">データ未読み込みです</div>'; return; }
         const filtered = memberData.filter(m => {
             let classMatch = true;
-            if (selectedClass) {
-                classMatch = (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass);
-            }
+            if (selectedClass) { classMatch = (m.c1 === selectedClass || m.c2 === selectedClass || m.c3 === selectedClass); }
             let nameMatch = true;
             if (query) {
                 const cleanName = m.name ? m.name.replace(/\s+/g, '') : '';
@@ -456,59 +443,36 @@
             }
             return classMatch && nameMatch;
         });
-
-        if (filtered.length === 0) { 
-            searchResult.innerHTML = '<div style="color:#999; padding:10px;">該当する方は見つかりませんでした</div>'; 
-        } else {
+        if (filtered.length === 0) { searchResult.innerHTML = '<div style="color:#999; padding:10px;">該当なし</div>'; } 
+        else {
             const countDiv = document.createElement('div');
             countDiv.style.cssText = "font-size:12px; color:#d65f82; margin-bottom:10px; font-weight:bold;";
             countDiv.textContent = `該当: ${filtered.length}名`;
             searchResult.appendChild(countDiv);
-　　　　　　　filtered.forEach(m => {
+            filtered.forEach(m => {
                 const div = document.createElement('div');
                 div.className = 'result-item';
-                
-                // ボタンのHTMLを生成
                 let buttonsHtml = '<div class="class-btn-container">';
-                
-                // 1年・2年・3年のボタンをそれぞれ生成（リンクがある場合のみ表示）
-                if(m.link1 && m.link1.startsWith('http')) 
-                    buttonsHtml += `<a href="${m.link1}" class="class-btn" target="_blank">1年 ${m.c1}</a>`;
-                if(m.link2 && m.link2.startsWith('http')) 
-                    buttonsHtml += `<a href="${m.link2}" class="class-btn" target="_blank">2年 ${m.c2}</a>`;
-                if(m.link3 && m.link3.startsWith('http')) 
-                    buttonsHtml += `<a href="${m.link3}" class="class-btn" target="_blank">3年 ${m.c3}</a>`;
-                
+                if(m.link1 && m.link1.startsWith('http')) buttonsHtml += `<a href="${m.link1.trim()}" class="class-btn" target="_blank">1年 ${m.c1 || ''}</a>`;
+                if(m.link2 && m.link2.startsWith('http')) buttonsHtml += `<a href="${m.link2.trim()}" class="class-btn" target="_blank">2年 ${m.c2 || ''}</a>`;
+                if(m.link3 && m.link3.startsWith('http')) buttonsHtml += `<a href="${m.link3.trim()}" class="class-btn" target="_blank">3年 ${m.c3 || ''}</a>`;
                 buttonsHtml += '</div>';
-                
-                // 名前とボタンを組み合わせて表示
-                div.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:5px;">
-                        <span class="result-name">${m.name}</span>
-                    </div>
-                    ${buttonsHtml}
-                `;
+                div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span class="result-name">${m.name}</span></div>${buttonsHtml}`;
                 searchResult.appendChild(div);
             });
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
-        // スプレッドシート読み込みを待ってから検索機能を有効化
         if (typeof fetchMemberData === 'function') {
             fetchMemberData().then(() => {
-                const classSelect = document.getElementById('classSelect');
-                const searchInput = document.getElementById('searchInput');
-                if (classSelect) classSelect.addEventListener('change', performSearch);
-                if (searchInput) searchInput.addEventListener('input', performSearch);
+                document.getElementById('classSelect').addEventListener('change', performSearch);
+                document.getElementById('searchInput').addEventListener('input', performSearch);
             });
         }
-        
         resetToTop(); 
-        setTimeout(() => { 
-            resetToTop(); 
-            document.body.style.opacity = "1"; 
-        }, 50); 
+        setTimeout(() => { resetToTop(); document.body.style.opacity = "1"; }, 50); 
     });
-
     window.onbeforeunload = function() { resetToTop(); };
 </script>
 </body>
