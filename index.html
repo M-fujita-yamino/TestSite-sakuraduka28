@@ -249,19 +249,12 @@
                     <a href="https://drive.google.com/drive/folders/1OfTcMNplbKNSwT6kLMkpLXZhlItxAHqK?usp=drive_link" class="switch-view-btn" style="background-color: #ff8da1; color: #fff; border: none; margin-bottom: 15px;" target="_blank">Googleドライブ 写真フォルダを開く</a>
                     <div style="text-align: left; background: #fff; padding: 10px; border-radius: 8px; font-size: 12px; color: #666;">
                         <strong>【操作手順】</strong><br>
-                        1. 上のボタンでドライブを開く。<br>
-                        2. ログイン後、右上「＋」から「ファイルアップロード」を選択。<br>
+                        1. 上のボタンをクリックしてGoogleドライブを開きます<br>
+                        2. ログイン画面が出た場合は、ご自身のGoogleアカウントでログイン後、右上「＋」から「ファイルアップロード」を選択。<br>
                         3. 写真の閲覧はそのままサムネイルをクリック。
                     </div>
                 </div>
             </div> ```
-
-### 手順の確認
-1.  お手元のエディタで **245行目〜258行目** を選択して削除してください（画像で重複している2つのボタンと、その後のdivが含まれる箇所です）。
-2.  代わりに、上記の「修正後のコード」を貼り付けてください。
-3.  これで、`v50_pane_main` が正しく閉じられ、その下の `v50_pane_archive`（260行目付近）との繋がりが正常に戻ります。
-
-これで「360°動画詳細」ボタンの重複が消え、正しく機能するはずです。お手数ですが、保存してブラウザを更新してみてください。
             <div id="v50_pane_archive" style="display: none;">
                 <button onclick="switchV50InnerView('main')" class="switch-view-btn" style="color:#555; background-color: #f7f7f7; margin-bottom: 15px;">← メインメニューに戻る</button>
                 <ul class="video-list" style="margin-bottom: 0;">
